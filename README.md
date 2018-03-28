@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
+| 08 | [180328](week_02/180328.md) | Break Week | 레이아웃 실습, 웹카페, 패스크캠퍼스 헤더 작업 |
 | 07 | [180327](week_02/180327.md) | HTML, CSS | 구조설계, inline, position, 링크영역 작업, 폼에서 flex, border-radius, 속성선택자, 폰트사이즈 단위, Grid |
 | 06 | [180326](week_02/180326.md) | HTML, CSS | Reset CSS, 폰트, 웹폰트, 상속, 숨김콘텐츠, 마진(음수 마진, 마진 병합), float과 clearfix, 기타 웹 표준, 웹접근성 관련 내용 |
 | 05 | [180323](week_01/180323.md) | HTML, CSS | CSS3, flexible Model, 실습 헤더 구조 작업 |
