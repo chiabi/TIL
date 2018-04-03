@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
+| 12 | [180403](week_03/180403.md) | HTML, CSS | 폼관련 요소, jQuery와 DOM, script 비동기 속성, 게시판작업, calc(), 말줄임 표현, 트위터 작업 |
 | 11 | [180402](week_03/180402.md) | HTML, CSS | 폼관련 요소, 폼 실습, 임베디드 콘텐츠 중 비디오 태그, time태그, 스프라이트 이미지, fontello |
 | 10 | [180329](week_02/180330.md) | HTML, CSS | background-attachment를 사용한 패럴렉스, 그리드 가이드 작업, Grid-template-areas, 메인 콘텐츠 구조 설계(추천 서적), 한국형 웹 콘텐츠 접근성 지침 소개 |
 | 09 | [180329](week_02/180329.md) | HTML, CSS | 아웃라인, 포커싱, tabindex, 백그라운드, 그래디언트, em & rem, line-height, text-shadow, transform(2차원), transition, animation |
