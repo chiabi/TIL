@@ -2,7 +2,7 @@
 
 > #반복문, #재귀함수, #문자열의 반복, #배열
 
-date: 00.00.00
+date: 18.04.01
 
 * [관련링크](https://programmers.co.kr/learn/challenge_codes/113)
 
