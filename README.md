@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
+| 14 | [180405](week_03/180405.md) | HTML, CSS | 반응형 웹 디자인, 애니메이션 성능 |
 | 13 | [180404](week_03/180404.md) | HTML, CSS | 이미지 콘텐츠 처리방법, target 속성, counter사용법(순서형 목록 스타일링 방법론), 인용문, IR기법, 푸터작업, WAI-ARIA |
 | 12 | [180403](week_03/180403.md) | HTML, CSS | 폼관련 요소, jQuery와 DOM, script 비동기 속성, 게시판작업, calc(), 말줄임 표현, 트위터 작업 |
 | 11 | [180402](week_03/180402.md) | HTML, CSS | 폼관련 요소, 폼 실습, 임베디드 콘텐츠 중 비디오 태그, time태그, 스프라이트 이미지, fontello |
