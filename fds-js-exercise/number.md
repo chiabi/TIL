@@ -718,6 +718,21 @@ function sort(x, y, z) {
   smaller1 > smaller2 ? console.log(smaller1 + '\n' + smaller2) : console.log(smaller2 + '\n' + smaller1) 
 }
 ```
+```js
+// 선택 정렬
+function sort(x, y, z) {
+  // 셋 중에 제일 큰 놈을 따로 빼기
+  let larger = x > y ? x : y;
+  let smaller1 = x > y ? y : x;
+  let max = larger > z ? larger : z;
+  let smaller2 = larger > z ? z : larger;
+  let min = smaller1 > smaller2 ? smaller2 : smaller1;
+  let mid = smaller1 > smaller2 ? smaller1 : smaller2;
+  console.log(max);
+  console.log(mid);
+  console.log(min);
+}
+```
 
 컴퓨터가 두 수를 비교해서 앞의 것이 작을 경우 앞의 수를 뒤로 보낸다고 생각해볼 수도 있다.  
 작은 수를 계속 뒤로 보내면 큰수부터 정렬이된다. (버블정렬)
