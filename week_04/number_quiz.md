@@ -686,8 +686,9 @@ function sort(x, y, z) {
 
 #### 강사님과 풀이
 
-제일 단순한 방법. 숫자가 3개만 있으니까
+제일 단순한 방법. 숫자가 3개만 있으니까   
 ```js
+// 선택정렬
 function sort(x, y, z) {
   // 셋 중에 제일 큰 놈을 따로 빼기
   let larger = x > y ? x : y;
@@ -706,6 +707,7 @@ function sort(x, y, z) {
 ```
 삼항연산자로만 고칠경우
 ```js
+// 선택정렬
 function sort(x, y, z) {
   // 셋 중에 제일 큰 놈을 따로 빼기
   let larger = x > y ? x : y;
@@ -716,6 +718,34 @@ function sort(x, y, z) {
   smaller1 > smaller2 ? console.log(smaller1 + '\n' + smaller2) : console.log(smaller2 + '\n' + smaller1) 
 }
 ```
+
+컴퓨터가 두 수를 비교해서 앞의 것이 작을 경우 앞의 수를 뒤로 보낸다고 생각해볼 수도 있다.  
+작은 수를 계속 뒤로 보내면 큰수부터 정렬이된다. (버블정렬)
+```js
+// 버블정렬
+function sort(x, y, z) {
+  if (x > y) {
+    const temp = x;
+    x = y;
+    y = temp;
+  }
+  if (y > z) {
+    const temp = y;
+    y = z;
+    z = temp;
+  }
+  if (x > y) {
+    const temp = x;
+    x = y;
+    y = temp;
+  }
+  console.log(z);
+  console.log(y);
+  console.log(x);
+}
+```
+
+정렬 알고리즘을 공부해보면 컴퓨터가 어떤식으로 생각하는지 알 수 있다.
 
 ### 문제 13
 
