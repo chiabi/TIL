@@ -644,6 +644,55 @@ function diamond(n) {
 
 두 수를 입력받아서, 두 수의 최대공약수를 반환하는 함수를 작성하세요. ([유클리드 호제법](https://ko.wikipedia.org/wiki/%EC%9C%A0%ED%81%B4%EB%A6%AC%EB%93%9C_%ED%98%B8%EC%A0%9C%EB%B2%95)을 참고하세요.)
 
+#### 풀이
+
+유클리드 호제법 뭐야... 일단 모르니 생각나는 방법으로 풀기...
+```js
+function divisor(x) {
+  var arr = [];
+  for (let i = 1; i <= x; i++) {
+    if (x % i === 0) arr.push(i);
+  }
+  return arr;
+}
+function greatestCommonDivisor(x, y) {
+  let xDivisor = divisor(x);
+  let yDivisor = divisor(y);
+  
+  return xDivisor.filter(function(el, i){
+            return yDivisor.includes(el);
+          }).sort(function(a, b){
+            return b - a;
+          })[0];
+} 
+
+greatestCommonDivisor(1071, 1029) // 21
+```
+
+유클리드 호제법이란 걸 보고 풀어본 식(위키 참고)
+```js
+function greatestCommonDivisor(x, y) {
+  // 먼저 x는 무조건 y보다 큰 값이 되도록 수정하고
+  if (x < y) {
+    const max = x;
+    x = y;
+    y = max;
+  } 
+  if(x % y === 0) {
+    // 만약 나누어 떨어진다면 y는 x의 최대공약수이므로 바로 반환.
+    return y;
+  } else {
+    // 나누어 떨어지지 않는다면 작은 값 y와 x에서 y를 나눈 나머지로 다시 계산
+    return greatestCommonDivisor(y, x % y);
+  }
+}
+
+greatestCommonDivisor(1071, 1029) // 21
+```
+
+※ `const`쓰는 것에 주의!! 함수범위스코프를 가지는 `var`와 달리 블록범위스코프이기 때문에 해당 풀이에서 `max`는 if문 밖에서 쓸 수 없다.  
+처음에 이걸 까먹고 `const max = x; const min = y`이렇게 할당하고 밖에서 쓰려다 undefined 에러 봄
+
 ### 문제 12
 
 세 수를 입력받아 큰 것부터 차례대로 출력하는 함수를 작성하세요.
@@ -765,3 +814,30 @@ function sort(x, y, z) {
 ### 문제 13
 
 자연수 `n`을 입력받아, `n`번째 피보나치 수를 반환하는 함수를 작성하세요.
+
+#### 풀이
+
+[피보나치 수](https://ko.wikipedia.org/wiki/%ED%94%BC%EB%B3%B4%EB%82%98%EC%B9%98_%EC%88%98)는 또 기억이 안나죠... 수포자는 웁니다.
+
+0과 1로 시작하며, 다음 피보나치 수는 바로 앞의 두 피보나치 수의 합이 된다
+
+예) 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765, 10946...
+그러니까 n의 값이 5면 3이 나오면 되는 건가...
+
+```js
+// n번째까지 수열을 구해서 n번째 되는 수를 반환
+function fibonacci(n) {
+  let arr = [0, 1];
+  // arr[0] = 0;
+  // arr[1] = 1;
+  // arr[2] = arr[0] + arr[1];
+  // arr[3] = arr[1] + arr[2];
+  // arr[4] = arr[2] + arr[3];
+  // arr[n] = arr[n - 2] + arr[n - 1];
+  for (let i = 2; i < n; i++) {
+    arr[i] = arr[i - 2] + arr[i - 1]; 
+  }
+  return arr[n - 1];
+}
+```
+으... 다른 방법은 생각이 안난다... 나중에 다시 보기로
