@@ -531,7 +531,14 @@ function stair(n) {
 }
 ```
 이런 중첩 반복문은 한줄을 어떻게 출력할지 먼저 생각해보는 식으로 접근하자
-
+```js
+function stair(n) {
+  for (let i = 0; i < n; i++) {
+    const str = '* '.repeat(i + 1);
+    console.lot(str);
+  }
+}
+```
 ### 문제 10
 
 양의 정수를 입력받아, 다음과 같은 패턴의 출력을 하는 함수를 작성하세요.
@@ -561,6 +568,76 @@ function stair(n) {
   * * *
    * *
     *
+```
+
+#### 풀이
+
+```js
+function diamond(n) {
+  for (let i = 0; i < n; i++) {
+    const result = ' '.repeat(n - (i + 1)) +  '* '.repeat(i + 1);
+    console.log(result);
+  }
+  for (let i = n - 1; i > 0; i--) {
+    const result = ' '.repeat(n - i) +  '* '.repeat(i);
+    console.log(result);
+  }
+}
+```
+
+#### 강사님과 풀이
+
+```js
+const n = 3;
+const i = 1;
+
+' '.repeat(n - (i + 1)) +  '* '.repeat(i + 1);
+```
+피라미드 위쪽(별이 증가하는)단계 완료하고 다시 거꾸로 가는(별이 감소) 단계로 나누어 생각
+```js
+function diamond(n) {
+  for (let i = 0; i < n; i++) {
+    const result = ' '.repeat(n - i - 1) +  '* '.repeat(i + 1);
+    console.log(result);
+  }
+  for (let i = n - 2; i >= 0; i--) {
+    const result = ' '.repeat(n - i - 1) +  '* '.repeat(i + 1);
+    console.log(result);
+  }
+}
+```
+코드의 뭉치를 재사용, 중복된 부분을 함수로 만들어 준다.  
+중복이 없어지고, 라인이라는 의미의 함수가 생겨서 어떤 실행인지 더 알기 쉬워짐.  
+유지보수에 더 좋다.
+```js
+function line(n, i) {
+  const result = ' '.repeat(n - i - 1) +  '* '.repeat(i + 1);
+  console.log(result);
+}
+function diamond(n) {
+  for (let i = 0; i < n; i++) {
+    line(n, i);
+  }
+  for (let i = n - 2; i >= 0; i--) {
+    line(n, i);
+  }
+}
+```
+
+아래와 같은 변형도 같은 결과가 나온다.
+```js
+function line(n, i) {
+  const result = ' '.repeat(n - i - 1) +  '* '.repeat(i + 1);
+  console.log(result);
+}
+function diamond(n) {
+  for (let i = 0; i < n; i++) {
+    line(n, i);
+  }
+  for (let i = 0; i < n - 1; i++) { // ++로 해도 같은 답이나온다.
+    line(n, n - i - 2);
+  }
+}
 ```
 
 ### 문제 11
@@ -595,6 +672,50 @@ function descendingOrder(x, y, z) {
 }
 ```
 이렇게 하면 차례대로 나오기는 하는데
+```js
+function sort(x, y, z) {
+  let arr = [x, y, z];
+  arr.sort(function(a, b){
+    return b - a;
+  });
+  for(let i = 0; i < 3; i++) {
+    console.log(arr[i]);
+  }
+}
+```
+
+#### 강사님과 풀이
+
+제일 단순한 방법. 숫자가 3개만 있으니까
+```js
+function sort(x, y, z) {
+  // 셋 중에 제일 큰 놈을 따로 빼기
+  let larger = x > y ? x : y;
+  let smaller1 = x > y ? y : x;
+  let max = larger > z ? larger : z;
+  let smaller2 = larger > z ? z : larger;
+  console.log(max);
+  if (smaller1 > smaller2) {
+    console.log(smaller1);
+    console.log(smaller2);
+  } else {
+    console.log(smaller2);
+    console.log(smaller1);
+  }
+}
+```
+삼항연산자로만 고칠경우
+```js
+function sort(x, y, z) {
+  // 셋 중에 제일 큰 놈을 따로 빼기
+  let larger = x > y ? x : y;
+  let smaller1 = x > y ? y : x;
+  let max = larger > z ? larger : z;
+  let smaller2 = larger > z ? z : larger;
+  console.log(max);
+  smaller1 > smaller2 ? console.log(smaller1 + '\n' + smaller2) : console.log(smaller2 + '\n' + smaller1) 
+}
+```
 
 ### 문제 13
 
