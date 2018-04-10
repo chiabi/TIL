@@ -151,6 +151,7 @@ function countVowel(str) {
 countChar('tomato'); -> {t: 2, o: 2, m: 1, a: 1}
 ```
 
+객체 접근법 관련: 점 표기법, 대괄호 표기법
 ```javascript
 const obj = {a: 1, b: 2}
 // undefined
