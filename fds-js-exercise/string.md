@@ -346,12 +346,22 @@ isPalindrome('never odd or even');
 
 ```js
 function isPalindrome(str) {
-  for (let i = 0; i < Math.floor(str.length / 2); i++) {
-    if(str[i] !== str[str.length - i - 1]) {
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] !== str[str.length - i - 1]) {
       return false;
     }
   }
-  return false;
+  return true;
+}
+```
+```js
+function isPalindrome(str) {
+  for (let i = 0; i < Math.floor(str.length / 2); i++) {
+    if (str[i] !== str[str.length - i - 1]) {
+      return false;
+    }
+  }
+  return true;
 }
 ```
 음... 공백 포함한 문자열이 대상은 아니었나 부다....
@@ -360,9 +370,18 @@ function isPalindrome(str) {
   return [...str].reverse().join('') === str;
 }
 
-isPalindrome('neveroddoreven');
+isPalindrome('neveroddoreven'); // true
 ```
-와 짱이다... 그러고보니 나눌 필요없이 그냥 뒤집은거나 원래 문자열이나 같겠구나...  
+와 짱이다... 그러고보니 나눌 필요없이 그냥 뒤집은거나 원래 문자열이나 같겠구나... 
+
+MDN [Reversing a String using split()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/split#Reversing_a_String_using_split()) 이 문서에서 Bonus로 split().reverse().join()을 기존 문자열과 비교하면 펠린드롬인지 알수있다는 팁이...
+
+```js
+function isPalindrome(str) {
+  return str.split('').reverse.join('') === str;
+}
+isPalindrome('tomato'); // true
+```
 
 ### 문제 6
 
@@ -917,6 +936,8 @@ slice('javascript', 3);
 
 Camel case의 문자열을 입력받아, snake case로 바꾼 새 문자열을 반환하는 함수를 작성하세요.
 
+#### 풀이
+
 ```js
 function snakeCase(str) {
   for (let i = 0; i < str.length; i++) {
@@ -948,6 +969,47 @@ snakeCase('camelCaseCase'); // camel_case_case;
 
 Snake case의 문자열을 입력받아, camel case로 바꾼 새 문자열을 반환하는 함수를 작성하세요.
 
+#### 풀이
+
+```js
+function camelCase(str) {
+  let newStr = '';
+  for (let i = 0; i < str.length; i++) {
+    if( str[i] === '_') {
+      newStr += str[i + 1].toUpperCase();
+      i++;
+    } else {
+      newStr += str[i];
+    }
+  }
+  return newStr;
+}
+
+camelCase('camel_case_case'); // camelCaseCase
+```
+
+```js
+function camelCase(str) {
+  const arr = str.split('_');
+  for (let i = 1; i < arr.length; i++) {
+    arr[i] = arr[i].replace(arr[i][0], arr[i][0].toUpperCase());
+  }
+  return arr.join('');
+}
+camelCase('camel_case_case'); // camelCaseCase
+```
+
+```js
+function camelCase(str) {
+  const arr = str.split('_');
+  for (let i = 1; i < arr.length; i++) {
+    arr[i] = arr[i][0].toUpperCase() + arr[i].slice(1, arr[i].length);
+  }
+  return arr.join('');
+}
+camelCase('camel_case_case'); // camelCaseCase
+```
+
 ### 문제 15
 
 `String.prototype.split`과 똑같이 동작하는 함수를 작성하세요.
@@ -959,6 +1021,45 @@ split('Hello World', ' '); -> ['Hello', 'World']
 split('let,const,var', ',') -> ['let', 'const', 'var']
 ```
 
+#### 풀이
+
+```js
+function split(str, separator) {
+  const arr = [];
+  if (separator == null) {
+    arr.push(str);
+  } else {
+    let newStr = '';
+    for(let i = 0; i < str.length; i++) {
+      if (str[i] === separator) {
+        arr.push(newStr);
+        newStr = '';
+      } else if (separator === '' || i === str.length - 1) {
+        newStr += str[i]
+        arr.push(newStr);
+        newStr = '';
+      } else {
+        newStr += str[i];
+      }
+    }
+  }
+  return arr;
+}
+split('chiabi@gmail', '@'); // [ 'chiabi', 'gmail' ]
+split('hello world', ' '); // [ 'hello', 'world' ]
+split('javascript'); // [ 'javascript' ]
+split('javascript', ''); // [ 'j', 'a', 'v', 'a', 's', 'c', 'r', 'i', 'p', 't' ]
+split('hello world! hello javascript!', ' '); // [ 'hello', 'world!', 'hello', 'javascript!' ]
+```
+
+```js
+// 제일 간단한 건 이거지(아마도)
+function split(str, separator) {
+  const arr = separator == null ? str.split() : str.split(separator);
+  return arr;
+}
+```
+
 ### 문제 16
 
 2진수를 표현하는 문자열을 입력받아, 그 문자열이 나타내는 수 타입의 값을 반환하는 함수를 작성하세요. (`parseInt`를 사용하지 말고 작성해보세요.)
@@ -968,6 +1069,75 @@ split('let,const,var', ',') -> ['let', 'const', 'var']
 convertBinary('1101'); -> 13
 ```
 
+#### 풀이
+
+```js
+// 만약 parseInt를 사용했다면
+function convertBinary(numStr) {
+  return parseInt(numStr, 2);
+}
+```
+
+```js
+function convertBinary(numStr) {
+  // numStr
+  let count = 0;
+  for(let i = 0, l = numStr.length - 1; i <= l; i++) {
+    count += numStr[i] === '1' ? 2 ** (l - i): 0;
+    // console.log(numStr[i], 2 ** (l - i));
+  }
+  return count;
+}
+convertBinary('1101'); // 13
+convertBinary('11001'); // 25
+```
+8진수 -> 10진수 변환 함수 만들다 생각해보니 굳이 1인지 아닌지 확인하지 말고 위 식이 아래랑 같지 않나;;
+```js
+function convertBinary(numStr) {
+  // numStr
+  let count = 0;
+  for(let i = 0, l = numStr.length - 1; i <= l; i++) {
+    count += (2 ** (l - i)) * numStr[i];
+    // console.log(numStr[i], (2 ** (l - i)) * numStr[i]);
+  }
+  return count;
+}
+convertBinary('1101');
+```
+
+8진수, 2진수, 16진수 잘 이해못해서... 그냥 내 스스로 이해하는 용으로 만드는 함수
+```js
+// 8진수 -> 10진수 변환
+function convertOctal(numStr) {
+  let count = 0;
+  for(let i = 0, l = numStr.length - 1; i <= l; i++) {
+    count += (8 ** (l - i)) * numStr[i];
+    // console.log(numStr[i], (8 ** (l - i)) * numStr[i]);
+  }
+  return count;
+}
+convertOctal('32'); // 32
+```
+```js
+// 16진수 -> 10진수 변환
+function convertHex(numStr) {
+  let count = 0;
+  const hex =  {
+    a: 10,
+    b: 11,
+    c: 12,
+    d: 13,
+    e: 14,
+    f: 15,
+  }
+  for (let i = 0, l = numStr.length - 1; i <= l; i++) {
+    count += (16 ** (l - i)) * (/[0-9]/.test(numStr[i]) ? numStr[i] : hex[numStr[i]]);
+    // console.log(numStr[i], 16 ** (l - i) * (/[0-9]/.test(numStr[i]) ? numStr[i] : hex[numStr[i]]));
+  }
+  return count;
+}
+convertHex('ff'); // 255
+```
 ### 문제 17
 
 숫자로만 이루어진 문자열을 입력받아, 연속된 두 짝수 사이에 하이픈(-)을 끼워넣은 문자열을 반환하는 함수를 작성하세요.
@@ -976,3 +1146,27 @@ convertBinary('1101'); -> 13
 ```
 insertHyphen('437027423'); -> '4370-274-23'
 ```
+
+#### 풀이
+
+```js
+function insertHyphen(numStr) {
+  let newStr = '';
+  for(let i = 0; i < numStr.length; i++) {
+    newStr += numStr[i] % 2 === 0 && numStr[i + 1] % 2 === 0 ? numStr[i]+'-' : numStr[i]
+  }
+  return newStr;
+}
+insertHyphen('437027423'); // '4370-274-23'
+```
+
+[str.replace()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)로는 매개변수로 정규식과 함수를 받아 이런 기능도 가능한 것 같아서 만들어봤다.
+```js
+function insertHyphen(numStr) {
+  return numStr.replace(/[0|2|4|6|8]/g, (match, idx, str) => {
+    return (str[idx - 1] % 2 === 0 ? '-': '') + match;
+  });
+}
+insertHyphen('437027423'); // '4370-274-23'
+```
+for문을 쓰지 않고도 결과는 원하는대로 나왔다.

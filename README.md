@@ -26,7 +26,10 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
-| 16 | [180406](week_04/180409.md) | Javascript 기초 | 기본문법, 자바스크립트 소개, 값 다루기(표현식, 리터럴, 변수, 식별자, 타입), Number 타입(정수, 실수, 연산자, 부동소수점, NaN, -0, Infinity, parseInt, parseFloat, 다른 타입과 연산, Math 객체) |
+| 19 | 180412 | Javascript 문제풀이 | [string 12번 - 17번](fds-js-exercise/string.md), [arry 1번 - 7번](fds-js-exercise/array.md) 문제풀이) |
+| 18 | [180411](week_04/180411.md) | Javascript 기초 | 함수, 제어구문, [string](fds-js-exercise/string.md) 문제풀이) |
+| 17 | [180410](week_04/180410.md) | Javascript 기초 | String 타입, boolean 타입, null과 undefined, ([string 5번 - 11번](fds-js-exercise/string.md) 문제풀이) |
+| 16 | [180409](week_04/180409.md) | Javascript 기초 | 기본문법, 자바스크립트 소개, 값 다루기(표현식, 리터럴, 변수, 식별자, 타입), Number 타입(정수, 실수, 연산자, 부동소수점, NaN, -0, Infinity, parseInt, parseFloat, 다른 타입과 연산, Math 객체) ([number](fds-js-exercise/number.md) 문제풀이 ) |
 | 15 | [180406](week_03/180406.md) | HTML, CSS | 반응형 이미지 이슈, table |
 | 14 | [180405](week_03/180405.md) | HTML, CSS | 반응형 웹 디자인, 애니메이션 성능 |
 | 13 | [180404](week_03/180404.md) | HTML, CSS | 이미지 콘텐츠 처리방법, target 속성, counter사용법(순서형 목록 스타일링 방법론), 인용문, IR기법, 푸터작업, WAI-ARIA |
