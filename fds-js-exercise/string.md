@@ -931,6 +931,32 @@ slice('javascript', 3);
 ```
 문제를 제대로 이해한 게 맞겠지...? 이거 맞나??
 
+for 루프로 풀어보라고 하셔서
+```js
+function firstStr(s, n) {
+  let newStr = '';
+  for(let i = 0; i < n; i++) {
+    newStr += s[i];
+  }
+  return newStr;
+}
+
+firstStr('javascript', 4); // 'java'
+```
+
+filter랑 join으로도 풀 수 있을거라고 하셔서
+```js
+function firstStr(s, n) {
+  return s.split('').filter((item, index, arr) => index < n).join('');
+}
+firstStr('javascript', 4); // 'java'
+```
+
+#### 강사님과 풀이
+
+결과가 아래처럼 나오는 함수
+> firstStr('hello', 3); // 'hel'
+> firstStr('javascript', 4); // 'java'
 
 ### 문제 13
 
@@ -963,6 +989,22 @@ function snakeCase(str) {
 }
 
 snakeCase('camelCaseCase'); // camel_case_case;
+```
+
+```js
+function camelToSnake(str) {
+  let newStr = '';
+  for(const i of str) {
+    newStr += i.toUpperCase() === i ? `_${i.toLowerCase()}` : i;
+  }
+  return newStr;
+}
+camelToSnake('javaScript'); // java_script;
+```
+
+#### 강사님과 풀이
+
+```js
 ```
 
 ### 문제 14
@@ -1057,6 +1099,49 @@ split('hello world! hello javascript!', ' '); // [ 'hello', 'world!', 'hello', '
 function split(str, separator) {
   const arr = separator == null ? str.split() : str.split(separator);
   return arr;
+}
+```
+
+slice랑 indexOf로도 풀 수 있을거라고 하셔서
+```js
+function split(str, separator) {
+  const newArr = [];
+  // console.log(str.indexOf(separator));
+  for(let i = 0; i < str.length ; i++) {
+    const index = str.indexOf(separator, i);
+    if(index !== -1) {
+      newArr.push(str.slice(i, index));
+      i = index; 
+    } else {
+      newArr.push(str.slice(i, str.length));
+      return newArr;
+    }
+  }
+}
+```
+
+매니저님께 for문을 안돌리고 indexOf를 사용하는 방법이 있을지 문의 드렸는데 
+반복문을 돌릴 수 밖에 없을 것 같다고 답변주시면서 코드를 짜주셨다.  
+```js
+function split2(str, sep) {
+  let newArr = [];
+  
+  if (sep === undefined) {
+    newArr.push(str);
+    return newArr;
+  }
+  
+  let indexArr = [-1]; // 분리 조건 문자의 위치들을 저장하는 배열. 기본값으로 -1을 넣어두었음. 
+  let i = -1;
+  while ((i = str.indexOf(sep, i + 1)) >= 0) {
+    indexArr.push(i);
+  }
+
+  for (let i = 0; i < indexArr.length; i++) {
+    newArr.push(str.slice(indexArr[i] + 1, indexArr[i + 1])); // .slice로 문자열을 잘라서 배열에 넣기
+  }
+
+  return newArr;
 }
 ```
 
@@ -1163,9 +1248,7 @@ insertHyphen('437027423'); // '4370-274-23'
 [str.replace()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)로는 매개변수로 정규식과 함수를 받아 이런 기능도 가능한 것 같아서 만들어봤다.
 ```js
 function insertHyphen(numStr) {
-  return numStr.replace(/[0|2|4|6|8]/g, (match, idx, str) => {
-    return (str[idx - 1] % 2 === 0 ? '-': '') + match;
-  });
+  return numStr.replace(/[0|2|4|6|8]/g, (match, idx, str) => (str[idx - 1] % 2 === 0 ? '-': '') + match);
 }
 insertHyphen('437027423'); // '4370-274-23'
 ```

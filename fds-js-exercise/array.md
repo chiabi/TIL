@@ -20,6 +20,24 @@ function range(x, y) {
 range(3, 6);
 ```
 
+#### 강사님과 풀이
+
+```js
+function range(start, end) {
+  const arr = [];
+  for(i = start; i <= end; i++) {
+    arr.push(i);
+  }
+  return arr;
+}
+range(3, 6); // [3, 4, 5, 6]
+```
+map으로 푸는 방법
+```js
+function range(start, end) {
+  return new Array(end - start + 1).fill(start).map((item, index) => item + index);
+}
+```
 ### 문제 2
 
 수 타입의 값으로만 이루어진 배열을 입력받아, 그 값들의 합을 구하는 함수를 작성하세요.
@@ -35,13 +53,45 @@ callback 함수는 4개의 인수를 가질 수 있다.
 - **array**: reduce가 호출된 배열
 ```js
 function total(arr){
-  return arr.reduce(function(a, b){
-    return a + b;
-  });
+  return arr.reduce((a, b) => a + b);
 }
-total
-([12, 15, 20]) // 47
+total([12, 15, 20]) // 47
 ```
+
+#### 강사님과 풀이
+
+for 루프로 풀 경우
+```js
+function sum(arr) {
+  let num = 0;
+  for (let i = 0; i < arr.length; i++) {
+    num += arr[i];
+  }
+  return num;
+}
+sum([1, 2, 3]); // 6
+```
+forEach 메소드
+```js
+function sum(arr) {
+  let num = 0;
+  arr.forEach(item => {
+    num += item
+  });
+  return num
+}
+```
+for...of 구문
+```js
+function sum(arr) {
+  let num = 0;
+  for(const item of arr) {
+    num += item;
+  }
+  return num;
+}
+```
+reduce는 for 루프 없이 합계나 평균 같은 계산을 하기쉽다.
 
 ### 문제 3
 
@@ -108,7 +158,7 @@ function removeOverlap(arr) {
 removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 ```
 
-findIndex로 다음과 같은 방법도 가능하다.
+findIndex로 다음과 같은 방법도 가능하다. 성능비교 테스트를 해봤더니 가장 빨랐다.
 ```js
 function removeOverlap(arr) {
   return arr.filter((el, idx) => {
@@ -128,7 +178,8 @@ function removeOverlap(arr) {
 removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 ```
 
-Set으로 너무 먼길을 돌아가는 것 아닐까 찾아보니 Set으로 이렇게 쓸 수도 있다.
+Set으로 너무 먼길을 돌아가는 것 아닐까 찾아보니 Set으로 이렇게 쓸 수도 있다.  
+다만, 의외로 성능비교 해보니 가장 느린 방법이었다;;
 ```js
 function removeOverlap(arr) {
   return [...new Set(arr)];
@@ -216,6 +267,24 @@ function combination(arr) {
 }
 combination([1, 2, 3]); // [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
 ```
+for문을 하나만 써보자해서 만든거 근데 반복을 더 도는 것 같다;;
+
+```js
+function combination(arr) {
+  const newArray = [];
+  let j = 1;
+  for (let i = 0; i < arr.length; ) {
+    if(arr[j] != null) {
+      newArray.push([arr[i], arr[j]]);
+      j++;
+    } else {
+      i++;
+      j = i + 1;
+    }
+  }
+  return newArray;
+}
+```
 
 ### 문제 7
 
@@ -234,6 +303,28 @@ coins(263, [100, 50, 10, 5, 1]);
 1
 ```
 
+#### 풀이
+
+```js
+function coins(num, arr) {
+  let newNum = num;
+  for(let i = 0; i < arr.length; ) {
+    if (newNum - arr[i] > 0) {
+      newNum -= arr[i];
+      console.log(arr[i]);
+    } else{
+      i++;
+    } 
+  }
+}
+// coins(263, [100, 50, 10, 5, 1]) // 100 50 10 1 1
+coins(263, [50, 10, 5, 1]) // (50 * 5) 10 1 1
+```
+으으 다른 방법이 딱히 떠오르지 않아
+
 ### 문제 8
 
 수 타입의 값만 들어있는 배열을 입력받아, 해당 배열을 오름차순 정렬하는 함수를 작성하세요. (`Array.prototype.sort`를 사용하지 않고 작성해보세요. [선택 정렬](https://ko.wikipedia.org/wiki/%EC%84%A0%ED%83%9D_%EC%A0%95%EB%A0%AC)을 참고하세요.)
+
+#### 풀이
+

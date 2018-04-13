@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
+| 20 | [180413](week_04/180413.md) | Javascript 기초 | 객체, 배열, [string](fds-js-exercise/string.md) 문제풀이, [array 1, 2번](fds-js-exercise/array.md) 문제풀이 |
 | 19 | 180412 | Javascript 문제풀이 | [string 12번 - 17번](fds-js-exercise/string.md), [arry 1번 - 7번](fds-js-exercise/array.md) 문제풀이) |
 | 18 | [180411](week_04/180411.md) | Javascript 기초 | 함수, 제어구문, [string](fds-js-exercise/string.md) 문제풀이) |
 | 17 | [180410](week_04/180410.md) | Javascript 기초 | String 타입, boolean 타입, null과 undefined, ([string 5번 - 11번](fds-js-exercise/string.md) 문제풀이) |
