@@ -103,14 +103,33 @@ callback 함수:
 - 배열의 각 요소를 테스트하는 함수. 
 - 인수 (element, index, array) 와 함께 호출
 - 요소를 (새 배열에) 계속 두기 위해 true를 반환, 그렇지 않으면 false.
+
+filter랑 이중부정
 ```js
 function removeFalsy(arr) {
-  return arr.filter(function(el){
-    return !!el;
-  });
+  return arr.filter(el => !!el);
 }
 removeFalsy([false, true, 1, 'string', 0, undefined, null, [], {}]);
 ```
+filter랑 Boolean 함수 🌟
+```js
+function removeFalsy(arr) {
+  return arr.filter(el => Boolean(el));
+}
+removeFalsy([false, true, 1, 'string', 0, undefined, null, [], {}]);
+```
+for of랑 새로운 배열에 push
+```js
+function removeFalsy(arr) {
+  const newArr = [];
+  for(const i of arr) {
+    if (!!i) newArr.push(i);
+  }
+  return newArr;
+}
+removeFalsy([false, true, 1, 'string', 0, undefined, null, [], {}]);
+```
+[성능비교](http://jsben.ch/dwj25)에서 filter로 새로운 배열을 만드는게 더 빨랐고, 그 중 Boolean함수가 가장 빨랐다.
 
 ### 문제 4
 
@@ -118,17 +137,29 @@ removeFalsy([false, true, 1, 'string', 0, undefined, null, [], {}]);
 
 #### 풀이
 
+for...of, includes로 새로운 배열에 있던 요소인지 확인하고 추가함
 ```js
 function removeOverlap(arr) {
   const newArr = [];
-  arr.forEach(function(el, idx){
-    if (!newArr.includes(el)) newArr.push(el);
- });
- return newArr;
+  for( const i of arr) {
+    if (!newArr.includes(i)) newArr.push(i);
+  }
+  return newArr;
 }
 removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 ```
-
+forEach, includes로 새로운 배열에 있던 요소인지 확인하고 추가함
+```js
+function removeOverlap(arr) {
+  const newArr = [];
+  arr.forEach((el, idx) => {
+    if (!newArr.includes(el)) newArr.push(el);
+  });
+  return newArr;
+}
+removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
+```
+new Set으로 유니크 데이터 걸러내고 하나씩 새로운 배열에 담는 거
 ```js
 function removeOverlap(arr) {
   const newArr = [];
@@ -139,36 +170,33 @@ function removeOverlap(arr) {
 }
 removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 ```
-
-filter 메소드 써볼 순 없을까해서 만들었는데 더 길어졌다;;
+filter 메소드 써볼 순 없을까해서 만들었는데 더 길어졌다;;  
+(※ 바로 return해주면 되는데 불필요한 부분이 있어서 수정)
 ```js
 function removeOverlap(arr) {
   const newArr = [];
-  return arr.filter(function(el){
-    let result;
+  return arr.filter(el => {
     if(!newArr.includes(el)) {
       newArr.push(el);
-      result = true;
+      return true;
     } else {
-      result= false;
+      return false;
     }
-    return result;
   });
 }
 removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 ```
-
-findIndex로 다음과 같은 방법도 가능하다. 성능비교 테스트를 해봤더니 가장 빨랐다.
+filter와 findIndex 사용. 성능비교시 제일 빨랐던 방법 🌟
 ```js
 function removeOverlap(arr) {
   return arr.filter((el, idx) => {
-    // console.log(el, arr.findIndex(t => el === t), idx);
-    return arr.findIndex(t => el === t) === idx;
+    // console.log(el, arr.findIndex(item => el === item), idx);
+    return arr.findIndex(item => el === item) === idx;
   });
 }
 removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 ```
-
+filter와 indexOf 사용
 ```js
 function removeOverlap(arr) {
   return arr.filter((el, idx) => {
@@ -177,9 +205,8 @@ function removeOverlap(arr) {
 }
 removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 ```
-
 Set으로 너무 먼길을 돌아가는 것 아닐까 찾아보니 Set으로 이렇게 쓸 수도 있다.  
-다만, 의외로 성능비교 해보니 가장 느린 방법이었다;;
+(그런데 성능비교 결과는 제일 느렸다.;;)
 ```js
 function removeOverlap(arr) {
   return [...new Set(arr)];
@@ -191,7 +218,7 @@ removeOverlap(['a', 'b', 'ab', 'a', 'c', 'b']); // ['a', 'b', 'ab', 'c']
 
 수 타입의 값으로만 이루어진 두 배열을 입력받아, 다음과 같이 동작하는 함수를 작성하세요.
 - 두 배열의 같은 자리에 있는 요소를 더한 결과가 새 배열의 요소가 됩니다.
-- 만약 입력받은 두 배열의 길이가 갖지 않다면, 긴 배열에 있는 요소를 새 배열의 같은 위치에 포함시키세요.
+- 만약 입력받은 두 배열의 길이가 같지 않다면, 긴 배열에 있는 요소를 새 배열의 같은 위치에 포함시키세요.
 
 예:
 ```
@@ -200,6 +227,7 @@ addArray([1, 2, 3], [4, 5, 6, 7]) -> [5, 7, 9, 7]
 
 #### 풀이
 
+긴 배열, 짧은 배열을 먼저 구하고, 긴 배열 length만큼 for loop로 돌려서 짧은 배열의 요소가 없을때부터는 긴배열의 값만 새로운 배열에 추가하는 방법
 ```js
 // 1. 먼저 긴 배열을 기준으로 반복문을 돌릴 수 있도록 arr2가 긴배열이도록 한다.
 // 2. 배열의 인덱스의 요소가 arr1에 있으면 둘을 더하고 
@@ -218,7 +246,7 @@ function addArray(arr1, arr2) {
 }
 addArray([1, 2, 3, 5, 6], [4, 5, 6, 7]);
 ```
-
+같은 방법인데 긴배열을 for Each로 돌린 방법
 ```js
 function addArray(arr1, arr2) {
   const newArray = [];
@@ -232,9 +260,11 @@ function addArray(arr1, arr2) {
   });
   return newArray;
 }
+addArray([1, 2, 3, 5, 6], [4, 5, 6, 7]);
 ```
-
 [arr.map](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Array/map) : 배열의 각 요소에 함수를 적용해서, 그 반환값을 요소로 갖는 새로운 배열을 만든다. 
+
+이것도 비슷한 방법인데, 긴 배열 기준으로 map으로 반복처리한 방법 🌟
 ```js
 function addArray(arr1, arr2) {
   if (arr1.length > arr2.length) {
@@ -244,6 +274,15 @@ function addArray(arr1, arr2) {
   }
   return arr2.map((el, idx) => arr1[idx] != null ? el + arr1[idx] : el);
 }
+addArray([1, 2, 3, 5, 6], [4, 5, 6, 7]);
+```
+긴배열 구하는 부분을 sort 메소드로 바꾼 방법
+```js
+function addArray(arr1, arr2) {
+  const arr = [arr1, arr2].sort((a, b) => b.length - a.length);
+  return arr[0].map((el, idx) => arr[1][idx] != null ? el + arr[1][idx] : el);
+}
+addArray([1, 2, 3, 5, 6], [4, 5, 6, 7]);
 ```
 
 ### 문제 6
@@ -267,8 +306,8 @@ function combination(arr) {
 }
 combination([1, 2, 3]); // [ [ 1, 2 ], [ 1, 3 ], [ 2, 3 ] ]
 ```
-for문을 하나만 써보자해서 만든거 근데 반복을 더 도는 것 같다;;
-
+for문을 하나만 써보자해서 만든거 근데 반복을 더 도는 것 같다...  
+성능비교해서도 위에꺼보다 느렸다.
 ```js
 function combination(arr) {
   const newArray = [];
@@ -305,22 +344,50 @@ coins(263, [100, 50, 10, 5, 1]);
 
 #### 풀이
 
+배열 수만큼 for loop도는데 계산된 금액(이전 동전금액을 뺀)이 음수가 나오면 갱신되도록 함
 ```js
-function coins(num, arr) {
-  let newNum = num;
+function coins(sum, arr) {
+  let newSum = sum;
   for(let i = 0; i < arr.length; ) {
-    if (newNum - arr[i] > 0) {
-      newNum -= arr[i];
+    if (newSum - arr[i] >= 0) {
+      newSum -= arr[i];
       console.log(arr[i]);
     } else{
       i++;
     } 
   }
 }
-// coins(263, [100, 50, 10, 5, 1]) // 100 50 10 1 1
-coins(263, [50, 10, 5, 1]) // (50 * 5) 10 1 1
+coins(263, [100, 50, 10, 5, 1]);
 ```
-으으 다른 방법이 딱히 떠오르지 않아
+map으로 요소마다 반복하는데 while문에 음수가 되면 종료되도록해서 출력하는 방법
+```js
+function coins(sum, arr) {
+  let newSum = sum;
+  arr.map(item => {
+    while(newSum - item >= 0) {
+      newSum -= item;
+      console.log(item);
+    }
+  });
+}
+coins(263, [100, 50, 10, 5, 1]);
+```
+금액이 0보다 클때까지 while문으로 돌리면서 내부에서 인덱스를 더해줘서 다음 동전 배열 요소에 접근하게 하는 방법 🌟
+```js
+function coins(sum, arr) {
+  let newSum = sum;
+  let i = 0;
+  while(newSum > 0) {
+    if (newSum - arr[i] >= 0) {
+      newSum -= arr[i];
+      console.log(arr[i]);
+    } else{
+      i++;
+    }
+  }
+}
+```
+두번째 방법을 생각하면서 while문을 써도 좋겠구나해서 세번째도 작성했는데 3가지 방법중 성능비교시 가장 빨랐다.
 
 ### 문제 8
 

@@ -911,26 +911,27 @@ maxLength('hello javascript world css html hellooooooooooooo'); // 17
 
 #### 풀이
 
+slice메소드 사용
 ```js
-function slice(s, n) {
+function firstStr(s, n) {
   return s.slice(0, n);
 }
-slice('javascript', 3);
+firstStr('javascript', 4);
 ```
+substring 메소드 사용
 ```js
-function slice(s, n) {
+function firstStr(s, n) {
   return s.substring(0, n);
 }
-slice('javascript', 3);
+firstStr('javascript', 4);
 ```
+subStr 메소드 사용
 ```js
-function slice(s, n) {
+function firstStr(s, n) {
   return s.substr(0, n);
 }
-slice('javascript', 3);
+firstStr('javascript', 4);
 ```
-문제를 제대로 이해한 게 맞겠지...? 이거 맞나??
-
 for 루프로 풀어보라고 하셔서
 ```js
 function firstStr(s, n) {
@@ -943,7 +944,6 @@ function firstStr(s, n) {
 
 firstStr('javascript', 4); // 'java'
 ```
-
 filter랑 join으로도 풀 수 있을거라고 하셔서
 ```js
 function firstStr(s, n) {
@@ -951,6 +951,8 @@ function firstStr(s, n) {
 }
 firstStr('javascript', 4); // 'java'
 ```
+
+[성능비교](https://jsperf.com/n-length-new-string/1) :  substr메소드가 제일 빠르고 filter랑 join 메소드를 쓴 방법이 for loop보다도 느렸다.(제일 느리다.)
 
 #### 강사님과 풀이
 
@@ -964,7 +966,7 @@ Camel case의 문자열을 입력받아, snake case로 바꾼 새 문자열을 �
 
 #### 풀이
 
-```js
+<!-- ```js
 function snakeCase(str) {
   for (let i = 0; i < str.length; i++) {
     if(str[i] === str[i].toUpperCase()){ 
@@ -976,21 +978,21 @@ function snakeCase(str) {
 
 snakeCase('camelCase');
 ```
-그러나 위의 경우는 카멜케이스가 3단어 이상으로 이어지면 원하는 대로 나오지 않음
+그러나 위의 경우는 카멜케이스가 3단어 이상으로 이어지면 원하는 대로 나오지 않음 
 
-수정
+수정-->
+for loop 풀이
 ```js
-function snakeCase(str) {
+function camelToSnake(str) {
   let newStr = '';
-  for (let i = 0; i < str.length; i++) {
-    newStr += str[i] === str[i].toUpperCase() ? '_' + str[i].toLowerCase() : str[i];
+  for(let i = 0; i < str.length; i++) {
+    newStr += str[i].toUpperCase() === str[i] ? `_${str[i].toLowerCase()}` : str[i];
   }
   return newStr;
 }
-
-snakeCase('camelCaseCase'); // camel_case_case;
+camelToSnake('javaScript'); // java_script;
 ```
-
+문자열이 iterable이니까 for...of 풀이
 ```js
 function camelToSnake(str) {
   let newStr = '';
@@ -1001,11 +1003,36 @@ function camelToSnake(str) {
 }
 camelToSnake('javaScript'); // java_script;
 ```
-
-#### 강사님과 풀이
-
+유니코드 코드 포인트 비교로 대문자인지 검증하기
 ```js
+function camelToSnake(str) {
+  let newStr = '';
+  for (const i of str) {
+    // console.log(i, i.toLowerCase(), i < i.toLowerCase());
+    newStr += i < i.toLowerCase() ? `_${i.toLowerCase()}` : i;
+  }
+  return newStr;
+}
+camelToSnake('javaScript');
 ```
+정규식으로 검증하는 방법
+```js
+function camelToSnake(str) {
+  let newStr = '';
+  for(const i of str) {
+    newStr += /[A-Z]/.test(i) ? `_${i.toLowerCase()}` : i;
+  }
+  return newStr;
+}
+```
+replace 메소드랑 정규식을 이용하는 방법
+```js
+function camelToSnake(str) {
+  return str.replace(/[A-Z]/g, match => `_${match.toLowerCase()}`); 
+}
+```
+
+[성능비교](https://jsperf.com/camel-to-snake/1) : 크롬이랑 파이어폭스랑 다른 결과가 나온다. 크롬에서 유니코드 코드 포인트 비교는 꽤 빠른 편이고 파이어폭스에서는 테스트 결과가 가장 느린 코드였다. replace와 regexp는 가장 빠른 편이고 파이어폭스에서는 for loop방법이 가장 빠르다고 나올 때도 있었다. 
 
 ### 문제 14
 
@@ -1013,44 +1040,79 @@ Snake case의 문자열을 입력받아, camel case로 바꾼 새 문자열을 �
 
 #### 풀이
 
+for loop로 문자가 '_'일 경우 그 다음 문자를 대문자로 만들어 추가하고 다음 문자를 건너뛰고 반복하는 방법
 ```js
-function camelCase(str) {
+function snakeToCamel(str) {
   let newStr = '';
-  for (let i = 0; i < str.length; i++) {
-    if( str[i] === '_') {
+  for (let i = 0, l = str.length; i < l; i++) {
+    if (str[i] !== '_') {
+      newStr += str[i];
+    } else {
       newStr += str[i + 1].toUpperCase();
       i++;
-    } else {
-      newStr += str[i];
     }
   }
   return newStr;
 }
-
-camelCase('camel_case_case'); // camelCaseCase
+snakeToCamel('hello_world_hello_javascript'); // helloWorldHelloJavascript
 ```
-
+split로 '_'를 구분자로 넣어 배열에 각 단어들을 요소로 넣고 0번째 단어를 제외한 나머지 단어들은 replace 메소드를 통해 첫번째 문자를 대문자로 만든뒤 join 메소드를 이용해 문자열로 결합하는 방법 
 ```js
-function camelCase(str) {
+function snakeToCamel(str) {
   const arr = str.split('_');
-  for (let i = 1; i < arr.length; i++) {
+  for (let i = 1, l = arr.length; i < l; i++) {
     arr[i] = arr[i].replace(arr[i][0], arr[i][0].toUpperCase());
   }
   return arr.join('');
 }
-camelCase('camel_case_case'); // camelCaseCase
+snakeToCamel('hello_world_hello_javascript'); // helloWorldHelloJavascript
 ```
-
+같은 방법인데 forEach로 한 방법
 ```js
-function camelCase(str) {
+function snakeToCamel(str) {
+  const arr = str.split('_');
+  const newArr = [];
+  arr.forEach((item, index) => {
+    // console.log(i, i[0]);
+    newArr.push(index === 0  ? item : item.replace(item[0], item[0].toUpperCase()));
+  });
+  return newArr.join('');
+}
+snakeToCamel('hello_world_hello_javascript'); // helloWorldHelloJavascript
+```
+같은 방법인데 for of로 한 방법
+```js
+function snakeToCamel(str) {
+  const arr = str.split('_');
+  const newArr = [];
+  for (const i of arr) {
+    newArr.push(i === arr[0] ? i : i.replace(i[0], i[0].toUpperCase()));
+  }
+  return newArr.join('');
+}
+snakeToCamel('hello_world_hello_javascript'); // helloWorldHelloJavascript
+```
+문자열 결합하는 방법 부분은 대문자로 만든뒤 slice로 나머지 문자열을 잘라내어 결합하는 걸로 수정함
+```js
+function snakeToCamel(str) {
   const arr = str.split('_');
   for (let i = 1; i < arr.length; i++) {
     arr[i] = arr[i][0].toUpperCase() + arr[i].slice(1, arr[i].length);
   }
   return arr.join('');
 }
-camelCase('camel_case_case'); // camelCaseCase
+snakeToCamel('hello_world_hello_javascript'); // helloWorldHelloJavascript
 ```
+정규식과 replace 메소드를 사용한 방법 🌟
+```js
+function snakeToCamel(str) {
+  return str.replace(/\_[a-z]/g, (match, index) => str[index + 1].toUpperCase());
+}
+snakeToCamel('hello_world_hello_javascript'); // helloWorldHelloJavascript
+```
+
++ [jsperf 성능비교](https://jsperf.com/snake-to-camelcase)
++ [jsbench 성능비교](http://jsben.ch/8xda3)
 
 ### 문제 15
 
@@ -1065,55 +1127,67 @@ split('let,const,var', ',') -> ['let', 'const', 'var']
 
 #### 풀이
 
+split 처럼 구분자 없거나 빈문자이거나 스페이스이거나 혹은 구분자가 마지막에 있을 경우 결과 모두 고려해서 짠 코드
+(※ 구분자 없을 경우 바로 문자열 리턴해서 종료되도록 수정. 구분자가 문자열 마지막에 있을때 결과가 split 메소드랑 똑같이 나오도록 수정)
 ```js
 function split(str, separator) {
-  const arr = [];
   if (separator == null) {
-    arr.push(str);
-  } else {
-    let newStr = '';
-    for(let i = 0; i < str.length; i++) {
-      if (str[i] === separator) {
-        arr.push(newStr);
-        newStr = '';
-      } else if (separator === '' || i === str.length - 1) {
-        newStr += str[i]
-        arr.push(newStr);
-        newStr = '';
-      } else {
-        newStr += str[i];
-      }
+    return str;
+  }
+  const newArr = [];
+  let newStr = '';
+  for (let i = 0, l = str.length; i < l; i++) {
+    if (separator === '') {
+      newStr += str[i];
+      newArr.push(newStr);
+      newStr = '';
+    } else if (i === l - 1) {
+      str[i] === separator ? newArr.push(newStr, '') : newArr.push(newStr);
+    } else if (str[i] === separator) {
+      newArr.push(newStr);
+      newStr = '';
+    } else {
+      newStr += str[i];
     }
   }
-  return arr;
+  return newArr;
 }
 split('chiabi@gmail', '@'); // [ 'chiabi', 'gmail' ]
 split('hello world', ' '); // [ 'hello', 'world' ]
 split('javascript'); // [ 'javascript' ]
 split('javascript', ''); // [ 'j', 'a', 'v', 'a', 's', 'c', 'r', 'i', 'p', 't' ]
 split('hello world! hello javascript!', ' '); // [ 'hello', 'world!', 'hello', 'javascript!' ]
+split('Hello World ', ' '); // [ 'Hello', 'World', '' ]
 ```
 
-```js
-// 제일 간단한 건 이거지(아마도)
-function split(str, separator) {
-  const arr = separator == null ? str.split() : str.split(separator);
-  return arr;
-}
-```
-
-slice랑 indexOf로도 풀 수 있을거라고 하셔서
+slice랑 indexOf로도 풀 수 있을거라고 하셔서  
+(※ 구분자가 마지막에 올때는 split 메소드처럼 동작하지 않는 부분 수정함)
 ```js
 function split(str, separator) {
+  if (separator == null) {
+    return str;
+  }
   const newArr = [];
-  // console.log(str.indexOf(separator));
-  for(let i = 0; i < str.length ; i++) {
+  let i = 0;
+  const l = str.length;
+  // 구분자가 빈문자이면 문자별로 쪼개서 반환
+  if(separator === '') {
+    for(; i < l; i++) {
+      newArr.push(str[i]);
+    }
+    return newArr;
+  } 
+  // 구분자가 빈문자외에 지정되어있으면
+  for(; i <= l; i++) {
     const index = str.indexOf(separator, i);
-    if(index !== -1) {
+    if (index === l) {
+      newArr.push(str.slice(i, l), '');
+      return newArr;
+    } else if (index !== -1) {
       newArr.push(str.slice(i, index));
       i = index; 
     } else {
-      newArr.push(str.slice(i, str.length));
+      newArr.push(str.slice(i, l));
       return newArr;
     }
   }
@@ -1156,16 +1230,15 @@ convertBinary('1101'); -> 13
 
 #### 풀이
 
-```js
+<!-- ```js
 // 만약 parseInt를 사용했다면
 function convertBinary(numStr) {
   return parseInt(numStr, 2);
 }
-```
-
+``` -->
+거듭제곱 연산자
 ```js
 function convertBinary(numStr) {
-  // numStr
   let count = 0;
   for(let i = 0, l = numStr.length - 1; i <= l; i++) {
     count += numStr[i] === '1' ? 2 ** (l - i): 0;
@@ -1176,10 +1249,9 @@ function convertBinary(numStr) {
 convertBinary('1101'); // 13
 convertBinary('11001'); // 25
 ```
-8진수 -> 10진수 변환 함수 만들다 생각해보니 굳이 1인지 아닌지 확인하지 말고 위 식이 아래랑 같지 않나;;
+굳이 1인지 아닌지 확인하지 말고 아래처럼 해도 될 듯
 ```js
 function convertBinary(numStr) {
-  // numStr
   let count = 0;
   for(let i = 0, l = numStr.length - 1; i <= l; i++) {
     count += (2 ** (l - i)) * numStr[i];
@@ -1189,6 +1261,57 @@ function convertBinary(numStr) {
 }
 convertBinary('1101');
 ```
+`Math.pow()` 메서드
+```js
+function convertBinary(numStr) {
+  let count = 0;
+  for(let i = 0, l = numStr.length - 1; i <= l; i++) {
+    count += Math.pow(2, (l - i)) * numStr[i];
+  }
+  return count;
+}
+```
+메소드 많이 쓴만큼 느릴것 같았고 실제로 성능비교해서 제일 느렸던...
+```js
+function convertBinary(numStr) {
+  return numStr.split('').map((item, index) => (2 ** (numStr.length - index - 1)) * item).reduce((a, b) => a + b);
+}
+```
+
+성능비교결과가 별로 일관되지 않은 거보니 그냥저냥 비슷한가보다
+
+### 문제 17
+
+숫자로만 이루어진 문자열을 입력받아, 연속된 두 짝수 사이에 하이픈(-)을 끼워넣은 문자열을 반환하는 함수를 작성하세요.
+
+예:
+```
+insertHyphen('437027423'); -> '4370-274-23'
+```
+
+#### 풀이
+
+```js
+function insertHyphen(numStr) {
+  let newStr = '';
+  for(let i = 0; i < numStr.length; i++) {
+    newStr += numStr[i] % 2 === 0 && numStr[i + 1] % 2 === 0 ? numStr[i]+'-' : numStr[i]
+  }
+  return newStr;
+}
+insertHyphen('437027423'); // '4370-274-23'
+```
+
+[str.replace()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)로는 매개변수로 정규식과 함수를 받아 이런 기능도 가능한 것 같아서 만들어봤다.
+```js
+function insertHyphen(numStr) {
+  return numStr.replace(/[0|2|4|6|8]/g, (match, idx, str) => (str[idx - 1] % 2 === 0 ? '-': '') + match);
+}
+insertHyphen('437027423'); // '4370-274-23'
+```
+그런데 성능비교하면 위 코드보다는 느리다...
+
+---
 
 8진수, 2진수, 16진수 잘 이해못해서... 그냥 내 스스로 이해하는 용으로 만드는 함수
 ```js
@@ -1223,33 +1346,3 @@ function convertHex(numStr) {
 }
 convertHex('ff'); // 255
 ```
-### 문제 17
-
-숫자로만 이루어진 문자열을 입력받아, 연속된 두 짝수 사이에 하이픈(-)을 끼워넣은 문자열을 반환하는 함수를 작성하세요.
-
-예:
-```
-insertHyphen('437027423'); -> '4370-274-23'
-```
-
-#### 풀이
-
-```js
-function insertHyphen(numStr) {
-  let newStr = '';
-  for(let i = 0; i < numStr.length; i++) {
-    newStr += numStr[i] % 2 === 0 && numStr[i + 1] % 2 === 0 ? numStr[i]+'-' : numStr[i]
-  }
-  return newStr;
-}
-insertHyphen('437027423'); // '4370-274-23'
-```
-
-[str.replace()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/replace)로는 매개변수로 정규식과 함수를 받아 이런 기능도 가능한 것 같아서 만들어봤다.
-```js
-function insertHyphen(numStr) {
-  return numStr.replace(/[0|2|4|6|8]/g, (match, idx, str) => (str[idx - 1] % 2 === 0 ? '-': '') + match);
-}
-insertHyphen('437027423'); // '4370-274-23'
-```
-for문을 쓰지 않고도 결과는 원하는대로 나왔다.
