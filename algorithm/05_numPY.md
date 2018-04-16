@@ -67,7 +67,7 @@ input | 원본 문자열 | The Quick Brown Fox Jumps Over The Lazy Dog |
 
 iterable, spread 연산자, 화살표함수
 
-(아래는 `마냐`라는 분의 풀이다.)
+작성자: `마냐`
 
 ```javascript
 function numPY(s) {

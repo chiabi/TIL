@@ -131,6 +131,27 @@ removeFalsy([false, true, 1, 'string', 0, undefined, null, [], {}]);
 ```
 [성능비교](http://jsben.ch/dwj25)에서 filter로 새로운 배열을 만드는게 더 빨랐고, 그 중 Boolean함수가 가장 빨랐다.
 
+#### 강사님과 풀이 
+
+※ 굳이 이중부정이나 Boolean 안쓰고 이렇게 해도 상관없음
+```js
+function removeFalsy(arr) {
+  let noFalsy = [];
+  for (i = 0; i < arr.length; i++) {
+    if (arr[i]) { // truthy, flasy를 이용한다.
+      noFalsy.push(arr[i]);
+    }
+  }
+  return noFalsy;
+}
+```
+```js
+function removeFalsy(arr) {
+  return arr.filter(el => el); // 자바스크립트 엔진이 알아서 해주니까 이렇게 써도 상관없다.
+}
+```
+매개변수명은 나중에 읽기 좋게 관련된 이름으로 작성하자
+
 ### 문제 4
 
 배열을 입력받아, 중복된 요소가 제거된 새 배열을 반환하는 함수를 작성하세요.
@@ -335,6 +356,7 @@ function combination(arr) {
 coins(263, [100, 50, 10, 5, 1]);
 // 출력
 100
+100
 50
 10
 1
@@ -388,6 +410,25 @@ function coins(sum, arr) {
 }
 ```
 두번째 방법을 생각하면서 while문을 써도 좋겠구나해서 세번째도 작성했는데 3가지 방법중 성능비교시 가장 빨랐다.
+
+#### 강사님과 풀이
+
+```js
+function coins(money, coinTypes) {
+  let currentMoney = money;
+  let coinIndex = 0;
+  while (currentMoney > 0) {
+    if (currentMoney - coinTypes[coinIndex] >= 0) {
+      console.log(coinTypes[coinIndex]);
+      currentMoney -= coinTypes[coinIndex];
+    } else {
+      coinIndex++;
+    }
+  }
+}
+coins(263, [100, 50, 10, 5, 1]);
+```
+어떤 조건을 만족하는 한 계속 실행시키고 싶을 때 while을 쓴다.
 
 ### 문제 8
 

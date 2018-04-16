@@ -46,7 +46,7 @@ function printReversedTriangle(num) {
 
 ### 2-1. 재귀함수
 
-(아래는 이진이라는 분의 풀이다.)
+작성자: 이진
 
 ```javascript
 function printReversedTriangle(n) {
@@ -86,7 +86,7 @@ condition1 ? (condition2 ? "Full pie": "Half pie") : (condition2 ? "Half pie" : 
 
 ### 2-2. Arr.join([separator])
 
-(아래는 Seungjae Baek이라는 분의 풀이다.)
+작성자: Seungjae Baek
 
 ```javascript
 function printReversedTriangle(num) {

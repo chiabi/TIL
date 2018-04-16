@@ -25,7 +25,7 @@ function evenOrOdd(num) {
 
 ### 2-1. falsy
 
-(아래는 atom이라는 분의 풀이다.)
+작성자: atom
 
 ```javascript
 function evenOrOdd(num) {

@@ -26,7 +26,8 @@ console.log("n이 4인 경우: "+ waterMelon(4)) // '수박수박'
 
 ### 2-1. Str.repeat(), Str.substring()
 
-(아래는 도원이라는 분의 풀이다.)
+작성자: 도원
+
 ```javascript
 function waterMelon(n){
   var result = "수박";
@@ -48,7 +49,7 @@ n의 값이 4라면 '수박'이 3번 반복하고('수박수박수박') 그 값�
 
 ### 2-2. Str.repeat(), 삼항연산
 
-(아래는 kyu라는 분의 풀이다.)
+작성자: kyu라는 분의 풀이다.)
 ```javascript
 function waterMelon(n){
   // n을 2로나눈 몫 만큼 곱하고 나머지가 있으면 '수' 더해라.
@@ -83,7 +84,8 @@ count로 들어올 수 없는 값은 음수이거나 무한이다. 이 값들이
 
 ### 2-3. for 반복문, 삼항연산
 
-(아래는 이석곤이라는 분의 풀이다.)
+작성자: 이석곤
+
 ```javascript
 function waterMelon(n){
   let result = "";

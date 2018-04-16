@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
+| 23 | [180416](week_05/180416.md) | Javascript 심화 | 객체 상속(프로토타입, 생성자), 배열 reduce 메서드 |
 | 22 | 180415 | Javascript | [자바스크립트 자료형, 불변 관련 정리](javascript/01_data-type.md), [array 선택정렬 문제풀이](fds-js-exercise/array.md), [math 문제 1, 4, 6번 문제 풀이](fds-js-exercise/math.md) |
 | 21 | [180414](week_04/180414.md) | Javascript 기초 | 객체, 배열, [string 리팩토링](fds-js-exercise/string.md), [array 리팩토링](fds-js-exercise/array.md) |
 | 20 | [180413](week_04/180413.md) | Javascript 기초 | 객체, 배열, [string](fds-js-exercise/string.md) 문제풀이, [array 1, 2번](fds-js-exercise/array.md) 문제풀이 |

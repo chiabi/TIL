@@ -934,9 +934,10 @@ firstStr('javascript', 4);
 ```
 for 루프로 풀어보라고 하셔서
 ```js
+// (※ 180416 찾는 문자열 수가 입력된 문자열 수를 초과했을 때 부분 추가)
 function firstStr(s, n) {
   let newStr = '';
-  for(let i = 0; i < n; i++) {
+  for(let i = 0; i < n && i < s.length; i++) {
     newStr += s[i];
   }
   return newStr;
@@ -960,6 +961,49 @@ firstStr('javascript', 4); // 'java'
 > firstStr('hello', 3); // 'hel'
 > firstStr('javascript', 4); // 'java'
 
+```js
+function firstStr(s, n) {
+  let newStr = '';
+  for (let i  = 0; i < n; i++) {
+    newStr += s[i];
+  }
+  return newStr;
+}
+
+firstStr('hello', 8); // 'helloundefinedundefinedundefined'
+```
+이 경우는 n이 문자열 수보다 더 많으면 문제가 생길 수 있다.
+```js
+function firstStr(s, n) {
+  let newStr = '';
+  // for루트 안의 조건식을 이렇게 쓸 수도 있다.
+  for (let i  = 0; i < s.length && i < n; i++) { 
+    newStr += s[i];
+  }
+  return newStr;
+}
+
+firstStr('hello', 3); 
+firstStr('hello', 8); 
+```
+문자열을 배열로 만드는 방법
+- str.split()
+- Array.from(str)
+- [...str]
+
+```js
+function firstStr(s, n) {
+  return Array
+    .form(s)
+    .filter((item, index) => index < n)
+    .join();
+}
+firstStr('hello', 3); 
+firstStr('hello', 8); 
+```
+
+(!!!!!!!!) 매개변수에 다른 값을 대입해주는 것은 좋은 습관이 아님 주의!!
+
 ### 문제 13
 
 Camel case의 문자열을 입력받아, snake case로 바꾼 새 문자열을 반환하는 함수를 작성하세요.
@@ -981,27 +1025,29 @@ snakeCase('camelCase');
 그러나 위의 경우는 카멜케이스가 3단어 이상으로 이어지면 원하는 대로 나오지 않음 
 
 수정-->
+(※ 20180416 첫문자가 대문자일 경우 고려해서 코드 수정)
 for loop 풀이
 ```js
 function camelToSnake(str) {
   let newStr = '';
   for(let i = 0; i < str.length; i++) {
-    newStr += str[i].toUpperCase() === str[i] ? `_${str[i].toLowerCase()}` : str[i];
+    newStr += str[i].toUpperCase() === str[i] && i !== 0 ? `_${str[i].toLowerCase()}` : str[i];
   }
   return newStr;
 }
-camelToSnake('javaScript'); // java_script;
+
+camelToSnake('JavaScript');
 ```
 문자열이 iterable이니까 for...of 풀이
 ```js
 function camelToSnake(str) {
   let newStr = '';
   for(const i of str) {
-    newStr += i.toUpperCase() === i ? `_${i.toLowerCase()}` : i;
+    newStr += i.toUpperCase() === i && i !== str[0]? `_${i.toLowerCase()}` : i;
   }
   return newStr;
 }
-camelToSnake('javaScript'); // java_script;
+camelToSnake('JavaScript');
 ```
 유니코드 코드 포인트 비교로 대문자인지 검증하기
 ```js
@@ -1009,30 +1055,79 @@ function camelToSnake(str) {
   let newStr = '';
   for (const i of str) {
     // console.log(i, i.toLowerCase(), i < i.toLowerCase());
-    newStr += i < i.toLowerCase() ? `_${i.toLowerCase()}` : i;
+    newStr += i < i.toLowerCase() && i !== str[0] ? `_${i.toLowerCase()}` : i;
   }
   return newStr;
 }
-camelToSnake('javaScript');
+camelToSnake('JavaScript');
 ```
 정규식으로 검증하는 방법
 ```js
+// function camelToSnake(str) {
+//   let newStr = '';
+//   for(const i of str) {
+//     newStr += /[A-Z]/.test(i) ? `_${i.toLowerCase()}` : i;
+//   }
+//   return newStr;
+// }
+
+// 첫문자가 대문자일경우 고려해서 수정
 function camelToSnake(str) {
   let newStr = '';
   for(const i of str) {
-    newStr += /[A-Z]/.test(i) ? `_${i.toLowerCase()}` : i;
+    newStr += /([A-Z])/.test(i) && i !== str[0] ? `_${i.toLowerCase()}` : i;
   }
   return newStr;
 }
 ```
 replace 메소드랑 정규식을 이용하는 방법
 ```js
+// function camelToSnake(str) {
+//   return str.replace(/[A-Z]/g, match => `_${match.toLowerCase()}`); 
+// }
+
+// 첫문자가 대문자일경우 고려해서 수정
 function camelToSnake(str) {
-  return str.replace(/[A-Z]/g, match => `_${match.toLowerCase()}`); 
+  return str.replace(/([a-z][A-Z])/g, match => `${match[0]}_${match[1].toLowerCase()}`); 
 }
+camelToSnake('JavaScript'); // Java_Script;
 ```
 
 [성능비교](https://jsperf.com/camel-to-snake/1) : 크롬이랑 파이어폭스랑 다른 결과가 나온다. 크롬에서 유니코드 코드 포인트 비교는 꽤 빠른 편이고 파이어폭스에서는 테스트 결과가 가장 느린 코드였다. replace와 regexp는 가장 빠른 편이고 파이어폭스에서는 for loop방법이 가장 빠르다고 나올 때도 있었다. 
+
+#### 강사님과 풀이
+
+```js
+function camelToSnake(str) {
+  let newStr = '';
+  for (let i = 0; i < str.length; i++) {
+    // 만약 대문자라면 앞에 밑줄 추가
+    if (str[i] === str[i].toUpperCase()) {
+      newStr += '_' + str[i].toLowerCase();
+    } else {
+      newStr += str[i];
+    }
+  }
+  return newStr;
+}
+camelToSnake('HelloWorldJavaScript'); // '_hello_world_java_script'
+```
+맨앞이 대문자일 경우도 고려해야한다...;;(미처 생각못한...ㅠㅠ)
+```js
+function camelToSnake(str) {
+  let newStr = '';
+  for (let i = 0; i < str.length; i++) {
+    // 맨 앞글자가 대문자일 경우도 고려해서 '&& i != 0'으로 조건을 추가한다.
+    if (str[i] === str[i].toUpperCase() && i !== 0) {
+      newStr += '_' + str[i].toLowerCase();
+    } else {
+      newStr += str[i];
+    }
+  }
+  return newStr;
+}
+camelToSnake('HelloWorldJavaScript');
+```
 
 ### 문제 14
 
@@ -1113,6 +1208,7 @@ snakeToCamel('hello_world_hello_javascript'); // helloWorldHelloJavascript
 
 + [jsperf 성능비교](https://jsperf.com/snake-to-camelcase)
 + [jsbench 성능비교](http://jsben.ch/8xda3)
+
 
 ### 문제 15
 
@@ -1219,6 +1315,27 @@ function split2(str, sep) {
 }
 ```
 
+#### 강사님과 풀이
+
+```js
+function split(str, sep) {
+  const arr = [];
+  let currentWord = '';
+  for (let i = 0; i < str.length; i++) {
+    if (str[i] === sep) {
+      arr.push(currentWord);
+      currentWord = '';
+    } else {
+      currentWord += str[i];
+    }
+  }
+  arr.push(currentWord);
+  return arr;
+}
+split('hello world', ' ');
+```
+프로그래밍할때 경계값을 고려하자!! for 루프를 돌때 맨 마지막을 고려하자
+
 ### 문제 16
 
 2진수를 표현하는 문자열을 입력받아, 그 문자열이 나타내는 수 타입의 값을 반환하는 함수를 작성하세요. (`parseInt`를 사용하지 말고 작성해보세요.)
@@ -1279,6 +1396,21 @@ function convertBinary(numStr) {
 ```
 
 성능비교결과가 별로 일관되지 않은 거보니 그냥저냥 비슷한가보다
+
+#### 강사님과 풀이
+
+```js
+function convertBinary(str) {
+  let num = 0;
+  for (let i = 0; i < str.length; i++) {
+    if(str[str.length - i - 1] === '1') {
+      num += 2 ** i;
+    }
+  }
+  return num;
+}
+convertBinary('1101');
+```
 
 ### 문제 17
 

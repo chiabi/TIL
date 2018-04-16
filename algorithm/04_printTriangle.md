@@ -43,7 +43,8 @@ function printTriangle(num) {
 ## 2. 다른 사람 풀이
 
 ### 2-1. 재귀함수
-(아래는 `마상길`이라는 분의 풀이다.)
+
+작성자: `마상길`
 
 ```javascript
 function printTriangle(num) {
