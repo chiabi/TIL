@@ -26,7 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
-| 22 | 180415 | Javascript | [자바스크립트 자료형, 불변 관련 정리](javascript/01_immutability.md), [array 선택정렬 문제풀이](fds-js-exercise/array.md), [math 문제 1, 4, 6번 문제 풀이](fds-js-exercise/math.md) |
+| 22 | 180415 | Javascript | [자바스크립트 자료형, 불변 관련 정리](javascript/01_data-type.md), [array 선택정렬 문제풀이](fds-js-exercise/array.md), [math 문제 1, 4, 6번 문제 풀이](fds-js-exercise/math.md) |
 | 21 | [180414](week_04/180414.md) | Javascript 기초 | 객체, 배열, [string 리팩토링](fds-js-exercise/string.md), [array 리팩토링](fds-js-exercise/array.md) |
 | 20 | [180413](week_04/180413.md) | Javascript 기초 | 객체, 배열, [string](fds-js-exercise/string.md) 문제풀이, [array 1, 2번](fds-js-exercise/array.md) 문제풀이 |
 | 19 | 180412 | Javascript 문제풀이 | [string 12번 - 17번](fds-js-exercise/string.md), [arry 1번 - 7번](fds-js-exercise/array.md) 문제풀이) |
