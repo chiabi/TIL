@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|---|---|
+| 25 | [180418](week_05/180418.md) | Javascript 심화 | 함수 더 알아보기(객체로서 함수, this, 엄격모드, arguments와 나머지 매개변수, 화살표 함수, 매개변수 기본값) |
 | 24 | [180417](week_05/180417.md) | Javascript 심화 | 배열(배열인지 판별, 다차원 배열), 값 더 알아보기(let, const, var, 참조, 불변성) |
 | 23 | [180416](week_05/180416.md) | Javascript 심화 | 객체 상속(프로토타입, 생성자), 배열 reduce 메서드 |
 | 22 | 180415 | Javascript | [자바스크립트 자료형, 불변 관련 정리](javascript/01_data-type.md), [array 선택정렬 문제풀이](fds-js-exercise/array.md), [math 문제 1, 4, 6번 문제 풀이](fds-js-exercise/math.md) |
