@@ -26,7 +26,7 @@ console.log('여기에 풀이');
 
 ### 2-1. 핵심이라고 생각하는 부분을 헤딩으로
 
-작성자: `홍길동`
+작성자: 홍길동
 
 ```javascript
 console.log('여기에 풀이');
@@ -48,6 +48,9 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 10 | 180419 | [피보나치 수](10_fibonacci.md) | #재귀함수 |
+| 09 | 180419 | [문자열 다루기 기본](09_alpha_string46.md) | #정규표현식, #isNaN() |
+| 08 | 180419 | [괄호 확인하기](08_is_pair.md) | #arr.push, #arr.every, #str.match(RegExp), #str.replace, #정규표현식 |
 | 07 | 180416 | [두 정수 사이의 합](07_adder.md) | #매개변수의기본값, #Math.min(), #Math.max(), #Math.abs()문 |
 | 06 | 180408 | [약수의 합](06_sumDivisor.md) | #반복문, #조건문 |
 | 05 | 180407 | [문자열 내 p와 y의 개수](05_numPY.md) | #정규표현식, #ES6. #iterable, #spread 연산자, #화살표함수 |

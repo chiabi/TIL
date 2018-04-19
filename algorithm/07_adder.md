@@ -47,7 +47,7 @@ adder(3, 5) // 12
 
 ### 2-1. 매개변수의 기본값(default parameter)
 
-작성자: `김병찬`
+작성자: 김병찬
 
 ```javascript
 function adder(a, b, s = 0){
@@ -64,7 +64,7 @@ ES2015에 추가된 매개변수 기본값을 사용해 함수 내부에 따로 
 
 ### 2-1. Math.abs
 
-작성자: `Heejune Wang`
+작성자: Heejune Wang
 
 ```js
 function adder(a, b){

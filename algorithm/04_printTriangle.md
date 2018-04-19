@@ -44,7 +44,7 @@ function printTriangle(num) {
 
 ### 2-1. 재귀함수
 
-작성자: `마상길`
+작성자: 마상길
 
 ```javascript
 function printTriangle(num) {
