@@ -45,6 +45,11 @@ function fibonacci(num) {
   }
   return fibonacci(num - 1) + fibonacci(num - 2);
 }
+
+// 더 줄이면 이렇게 쓸 수 있다.
+function fibonacci(num) {
+  return num < 2 ? num : fibonacci(num - 1) + fibonacci(num - 2);
+}
 ```
 
 재귀함수....  

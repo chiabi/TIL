@@ -16,7 +16,7 @@ date: 00.00.00
 
 ## 1. 풀이
 
-```javascript
+```js
 console.log('여기에 풀이');
 ```
 
@@ -28,7 +28,7 @@ console.log('여기에 풀이');
 
 작성자: 홍길동
 
-```javascript
+```js
 console.log('여기에 풀이');
 ```
 
@@ -48,6 +48,7 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 11 | 180421 | [핸드폰번호 가리기](11_hide_numbers.md) | # |
 | 10 | 180419 | [피보나치 수](10_fibonacci.md) | #재귀함수 |
 | 09 | 180419 | [문자열 다루기 기본](09_alpha_string46.md) | #정규표현식, #isNaN() |
 | 08 | 180419 | [괄호 확인하기](08_is_pair.md) | #arr.push, #arr.every, #str.match(RegExp), #str.replace, #정규표현식 |
