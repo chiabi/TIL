@@ -1,6 +1,6 @@
 # 야근 지수
 
-> #관련키워드
+> #spread연산자, #arr.map(), #arr.reduce(), #arr.sort(), #Math.max(), #Math.pow()
 
 date: 18.04.21
 
@@ -29,17 +29,27 @@ function noOvertime(no, works) {
   }
   while(n > 0) {
     newWorks = newWorks.map(maxMinus);
-    console.log(newWorks);
+    // console.log(newWorks);
   }
 	return newWorks.reduce((acc, item) => acc + Math.pow(item, 2), 0);
 }
 noOvertime(4, [4, 3, 3]); // 12
 noOvertime(25,[16,20,18,13,18,20]) // 1068
+// [ 16, 19, 18, 13, 18, 19 ]
+// [ 16, 18, 18, 13, 18, 18 ]
+// [ 16, 17, 17, 13, 17, 17 ]
+// [ 16, 16, 16, 13, 16, 16 ]
+// [ 15, 15, 15, 13, 15, 15 ]
+// [ 14, 14, 14, 13, 14, 14 ]
+// [ 13, 13, 13, 13, 14, 14 ]
 ```
+새로운 배열에서 가장 큰 수를 구해 그 수보다 작으면 그냥 배열에 담고 (크거나)같은 수는 요소에 1을 마이너스 한 것을 새로운 배열에 담는다.  
+이때 요소에 1을 마이너스 한 경우는 n의 수도 1마이너스 해 n이 0이 될때까지 새로운 배열을 만드는 과정을 반복한다(while 문)  
+최종 새로운 배열은 reduce를 이용해 각 요소의 제곱을 모두 더한 값을 반환하도록 한다.
 
 ```js
 function noOvertime(no, works) {
-  let newWorks = works.sort((a, b) => b - a);
+  let newWorks = works;
   for (let i = 0, n = no; n > 0; ) {
     newWorks = newWorks.sort((a, b) => b - a);
     if(newWorks[i] >= newWorks[i + 1]) {
@@ -48,6 +58,7 @@ function noOvertime(no, works) {
     } else {
       i++;
     }
+    // console.log(newWorks);
   }
   return newWorks.reduce((acc, item) => {
 	  return acc + Math.pow(item, 2);
@@ -55,4 +66,55 @@ function noOvertime(no, works) {
 }
 noOvertime(4, [4, 3, 3]); // 12
 noOvertime(25,[16,20,18,13,18,20]) // 1068
+// [ 19, 20, 18, 18, 16, 13 ]
+// [ 19, 19, 18, 18, 16, 13 ]
+// [ 18, 19, 18, 18, 16, 13 ]
+// [ 18, 18, 18, 18, 16, 13 ]
+// [ 17, 18, 18, 18, 16, 13 ]
+// [ 17, 18, 18, 17, 16, 13 ]
+// [ 17, 18, 17, 17, 16, 13 ]
+// [ 17, 17, 17, 17, 16, 13 ]
+// [ 16, 17, 17, 17, 16, 13 ]
+// [ 16, 17, 17, 16, 16, 13 ]
+// [ 16, 17, 16, 16, 16, 13 ]
+// [ 16, 16, 16, 16, 16, 13 ]
+// [ 15, 16, 16, 16, 16, 13 ]
+// [ 15, 16, 16, 16, 15, 13 ]
+// [ 15, 16, 16, 15, 15, 13 ]
+// [ 15, 16, 15, 15, 15, 13 ]
+// [ 15, 15, 15, 15, 15, 13 ]
+// [ 14, 15, 15, 15, 15, 13 ]
+// [ 14, 15, 15, 15, 14, 13 ]
+// [ 14, 15, 15, 14, 14, 13 ]
+// [ 14, 15, 14, 14, 14, 13 ]
+// [ 14, 14, 14, 14, 14, 13 ]
+// [ 13, 14, 14, 14, 14, 13 ]
+// [ 13, 14, 14, 14, 13, 13 ]
+// [ 13, 14, 14, 13, 13, 13 ]
 ```
+배열을 내림차순으로 정렬해서 앞의 수가 다음 인덱스의 수보다 크거나 같으면 수를 뺀다. n의 수 역시 같이 뺀다. 이를 반복하고 더이상 앞의 인덱스의 수가 다음 인덱스의 수보다 크거나 같지 않다면 다음 인덱스로 넘어간다. 
+
+## 2. 다른 사람 풀이
+
+### 2-1. arr.sort()
+
+작성자: 김대완
+
+```js
+function noOvertime(no, works) {
+    var result = 0;
+    // 야근 지수를 최소화 하였을 때의 야근 지수는 몇일까요?
+    var sort = works.sort((a, b)=> b - a);
+    for(let i=0;i<no;i++){
+        sort = works.sort((a, b)=> b - a);
+        sort[0]--;
+    }
+    sort.forEach(element => {
+        result = result + Math.pow(element,2)
+    });
+    return result
+}
+```
+
+계속 내림차순 정렬을 통해 큰 수(0인덱스에 올)에서 i가 no만큼 될때까지 빼는 식으로 진행하는 방법  
+훨씬 간격함 나는 reduce를 이용했는데 그 부분을 forEach로 계산한 방법.
