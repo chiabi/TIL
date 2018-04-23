@@ -26,19 +26,21 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|-------|---|
+| 30 | [180423](week_06/180423.md) | JavaScript 심화 | 연산자 더 알아보기, 브라우저 측 자바스크립트(DOM API) |
+| 29 | [180422](week_05/180422.md) | 주말자습 | 복습, 뱀게임 수정 |
 | 28 | [180421](week_05/180421.md) | 주말자습 | 프로토타입, 객체, 참조, 클로저 그림. [함수형 프로그래밍](../JavaScript/02_Functional_programming.md) |
-| 27 | [180420](week_05/180420.md) | Javascript 심화 | 함수형 프로그래밍, 객체 더 알아보기 |
+| 27 | [180420](week_05/180420.md) | JavaScript 심화 | 함수형 프로그래밍, 객체 더 알아보기 |
 | 26 | [180419](week_05/180419.md) | 과제실습 | 알고리즘 문제풀이, math 문제 풀이 |
-| 25 | [180418](week_05/180418.md) | Javascript 심화 | 함수 더 알아보기(객체로서 함수, this, 엄격모드, arguments와 나머지 매개변수, 화살표 함수, 매개변수 기본값) |
-| 24 | [180417](week_05/180417.md) | Javascript 심화 | 배열(배열인지 판별, 다차원 배열), 값 더 알아보기(let, const, var, 참조, 불변성) |
-| 23 | [180416](week_05/180416.md) | Javascript 심화 | 객체 상속(프로토타입, 생성자), 배열 reduce 메서드 |
-| 22 | 180415 | Javascript | [자바스크립트 자료형, 불변 관련 정리](javascript/01_data-type.md), [array 선택정렬 문제풀이](fds-js-exercise/array.md), [math 문제 1, 4, 6번 문제 풀이](fds-js-exercise/math.md) |
-| 21 | [180414](week_04/180414.md) | Javascript 기초 | 객체, 배열, [string 리팩토링](fds-js-exercise/string.md), [array 리팩토링](fds-js-exercise/array.md) |
-| 20 | [180413](week_04/180413.md) | Javascript 기초 | 객체, 배열, [string](fds-js-exercise/string.md) 문제풀이, [array 1, 2번](fds-js-exercise/array.md) 문제풀이 |
+| 25 | [180418](week_05/180418.md) | JavaScript 심화 | 함수 더 알아보기(객체로서 함수, this, 엄격모드, arguments와 나머지 매개변수, 화살표 함수, 매개변수 기본값) |
+| 24 | [180417](week_05/180417.md) | JavaScript 심화 | 배열(배열인지 판별, 다차원 배열), 값 더 알아보기(let, const, var, 참조, 불변성) |
+| 23 | [180416](week_05/180416.md) | JavaScript 심화 | 객체 상속(프로토타입, 생성자), 배열 reduce 메서드 |
+| 22 | 180415 | JavaScript | [자바스크립트 자료형, 불변 관련 정리](javascript/01_data-type.md), [array 선택정렬 문제풀이](fds-js-exercise/array.md), [math 문제 1, 4, 6번 문제 풀이](fds-js-exercise/math.md) |
+| 21 | [180414](week_04/180414.md) | JavaScript 기초 | 객체, 배열, [string 리팩토링](fds-js-exercise/string.md), [array 리팩토링](fds-js-exercise/array.md) |
+| 20 | [180413](week_04/180413.md) | JavaScript 기초 | 객체, 배열, [string](fds-js-exercise/string.md) 문제풀이, [array 1, 2번](fds-js-exercise/array.md) 문제풀이 |
 | 19 | 180412 | 과제실습 | [string 12번 - 17번](fds-js-exercise/string.md), [arry 1번 - 7번](fds-js-exercise/array.md) 문제풀이) |
-| 18 | [180411](week_04/180411.md) | Javascript 기초 | 함수, 제어구문, [string](fds-js-exercise/string.md) 문제풀이) |
-| 17 | [180410](week_04/180410.md) | Javascript 기초 | String 타입, boolean 타입, null과 undefined, ([string 5번 - 11번](fds-js-exercise/string.md) 문제풀이) |
-| 16 | [180409](week_04/180409.md) | Javascript 기초 | 기본문법, 자바스크립트 소개, 값 다루기(표현식, 리터럴, 변수, 식별자, 타입), Number 타입(정수, 실수, 연산자, 부동소수점, NaN, -0, Infinity, parseInt, parseFloat, 다른 타입과 연산, Math 객체) ([number](fds-js-exercise/number.md) 문제풀이 ) |
+| 18 | [180411](week_04/180411.md) | JavaScript 기초 | 함수, 제어구문, [string](fds-js-exercise/string.md) 문제풀이) |
+| 17 | [180410](week_04/180410.md) | JavaScript 기초 | String 타입, boolean 타입, null과 undefined, ([string 5번 - 11번](fds-js-exercise/string.md) 문제풀이) |
+| 16 | [180409](week_04/180409.md) | JavaScript 기초 | 기본문법, 자바스크립트 소개, 값 다루기(표현식, 리터럴, 변수, 식별자, 타입), Number 타입(정수, 실수, 연산자, 부동소수점, NaN, -0, Infinity, parseInt, parseFloat, 다른 타입과 연산, Math 객체) ([number](fds-js-exercise/number.md) 문제풀이 ) |
 | 15 | [180406](week_03/180406.md) | HTML, CSS | 반응형 이미지 이슈, table |
 | 14 | [180405](week_03/180405.md) | HTML, CSS | 반응형 웹 디자인, 애니메이션 성능 |
 | 13 | [180404](week_03/180404.md) | HTML, CSS | 이미지 콘텐츠 처리방법, target 속성, counter사용법(순서형 목록 스타일링 방법론), 인용문, IR기법, 푸터작업, WAI-ARIA |
