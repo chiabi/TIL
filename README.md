@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|-------|---|
+| 31 | [180424](week_06/180424.md) | JavaScript 심화 | 내장 객체 및 생성자, Iterable, 클래스, RGB 챌린지 |
 | 30 | [180423](week_06/180423.md) | JavaScript 심화 | 연산자 더 알아보기, 브라우저 측 자바스크립트(DOM API) |
 | 29 | [180422](week_05/180422.md) | 주말자습 | 복습, 뱀게임 수정 |
 | 28 | [180421](week_05/180421.md) | 주말자습 | 프로토타입, 객체, 참조, 클로저 그림. [함수형 프로그래밍](../JavaScript/02_Functional_programming.md) |
