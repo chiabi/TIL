@@ -72,7 +72,16 @@ function adder(a, b){
 }
 adder(3, 5) // 12
 ```
-(이야 이거는 정말 모르겠다^^. 수학인가부다)
+```
+1, 3
+(1 + 3) * ((2) + 1) / 2
+6
+
+
+3, 5
+(3 + 5) * ((2) + 1) / 2
+12
+```
 
 [Math.abs()](https://developer.mozilla.org/ko/docs/Web/JavaScript/Reference/Global_Objects/Math/abs) : 주어진 숫자의 절대값을 반환한다.
 
