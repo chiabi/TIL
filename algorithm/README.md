@@ -48,7 +48,8 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
-| 13 | 180425 | [최대공약수와 최소공배수](14_gcdlcm.md) | #재귀함수, #유클리드호제법, #Math.abs(), #for loop |
+| 15 | 180430 | [가장 긴 팰린드롬](15_longest_palindrom.md) | #while문, #for loop, #재귀함수, #arr.reverse(), #정규표현식 |
+| 14 | 180425 | [최대공약수와 최소공배수](14_gcdlcm.md) | #재귀함수, #유클리드호제법, #Math.abs(), #for loop |
 | 13 | 180422 | [하샤드 수](13_Harshad.md) | #숫자->문자열, #문자열->숫자, #arr.reduce() |
 | 12 | 180421 | [야근 지수](12_noOvertime.md) | #spread연산자, #arr.map(), #arr.reduce(), #arr.sort(), #Math.max(), #Math.pow() |
 | 11 | 180421 | [핸드폰번호 가리기](11_hide_numbers.md) | #정규식, #str.substr(), #str.slice() |
