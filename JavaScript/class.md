@@ -35,3 +35,8 @@ class Square extends Polygon {
   }
 }
 ```
+
+
+---
+
++ [[ES6]객체지향 Javascript Class](https://github.com/FEDevelopers/tech.description/wiki/%5BES6%5D%EA%B0%9D%EC%B2%B4%EC%A7%80%ED%96%A5-Javascript---Class)
