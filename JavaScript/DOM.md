@@ -269,7 +269,7 @@ ulEl.queryselectorall('li');
 ### 3.3. 추가된 메소드
 
 + [`el.closets(selector)`](https://devdocs.io/dom/element/closest): 셀렉터가 일치하는 엘리먼트 객체의 가장 가까운 조상 노드를 반환한다. 
-+ [`element.matches(selector)`](https://devdocs.io/dom/element/matches): 엘리턴트 객체가 주어진 셀렉터 문자열로 선택이 가능하면 `true`를 반환하는데, 아니면 `false`를 반환한다.
++ [`el.matches(selector)`](https://devdocs.io/dom/element/matches): 엘리턴트 객체가 주어진 셀렉터 문자열로 선택이 가능하면 `true`를 반환하는데, 아니면 `false`를 반환한다.
 
 ## 4. 텍스트에 접근/변경
 
@@ -318,10 +318,34 @@ const html = '<script>// 악성코드...</script>';
 const mainEl = document.querySelector('.main');
 mainEl.innerHTML = html;
 ```
-사용자로부터 입력받은 텍스트를 innerHTML로 대입하는 것은 자살행위이다.
+사용자로부터 입력받은 텍스트(콘텐츠)를 innerHTML로 대입하는 것은 자살행위이다.  
 (※ 사용자로부터 입력받은 텍스트를 넣는 경우는 반드시 `el.textContent`를 사용하자.)
 
 #### 5.1.1. [Cross-site Scripting(XSS)](https://www.estsecurity.com/securityCenter/commonSense/view/27)
+
+> 취약한 동적 웹페이지에 악의적인 코드를 게시하여 다른 사용자의 PC에서 악성코드가 실행되게 하는 공격 수법을 크로스 사이트 스크립팅(XSS: Cross Site Scripting)이라고 한다.
+
+웹사이트는 사용자로부터 다양한 콘텐츠를 제공받는다. 이때 제공받는 완전히 통제할 수 없는 데이터들(신뢰할 수 없는 데이터(untructed data))을 다룰 때는 최대한 주의를 기울여야한다.
+
++ 여러 사람이 게시판에 글을 올릴 수 있다.
++ 페이스북, 트위터, 뉴스 알림이나 기타 다른 피드 등 서드파티 서비스를 통해 데이터가 전달될 수 있다.
++ 이미지, 비디오 같은 파일의 업로드가 가능하다.
+
+##### 발생할 수 있는 공격
+
++ DOM트리, 폼 데이터에 접근
++ 웹사이트의 쿠키에 접근
++ 사이트에 로그인시 사용자를 식별하기 위해 만들어지는 세션 토큰에 접근
+
+이러한 접근을 통해 악의적인 글을 게시하거나, 개인 정보를 빼돌리거나, 의도치 않은 사이트로 리다이렉트 시키거나, 사용자 권한을 탈취한다든지, 악성 코드를 퍼뜨리는 등의 일을 할 수 있다.
+
+##### XXS 방지하기
+
++ 서버로 전달되는 모든 입력 데이터에 대한 유효성 검사(Validation)를 실시한다. 이때 유효성 검사는 반드시 브라우저 내에서 뿐만이 아니라 서버측에서도 실행되어야 한다.(사용자가 자바스크립트를 비활성화 할 수도 있기 때문)
++ 사용자 입력을 필터링 한다. (<,>,&,괄호)등의 불필요한 문자가 필요없는 곳은 입력하지 못하게 한다. 
++ 신뢰할 수 없는 곳에서 생성된 콘텐츠는 이스케이프 처리하여 코드가 아닌 문자로 표시되도록 한다.
+
+> CMS(Content Management System, 콘텐츠 관리 시스템)들은 HTML 편집기를 통해 제한적으로 코드의 사용을 허용하며, 악의적으로 보이는 마크업은 자동으로 수정하기도 한다.
 
 ### 5.2 DOM 조작하기
 
@@ -329,16 +353,146 @@ DOM 노드를 생성한 뒤 DOM 트리에 추가하거나 제거할 요소를 �
 
 #### 5.2.1. DOM 노드 생성하기
 
-+ `document.createElement()`
-+ `document.createTextNode()`
-+ `el.cloneNode()`
++ `document.createElement()`: 새로운 요소 노드를 생성한다.
++ `document.createTextNode()`: 새로운 텍스트 노드를 생성한다.
++ `el.cloneNode()`: 메소드를 호출한 요소의 복제된 노드를 반환한다.
+  - 선택적으로 인수로 deep 여부를 boolean 값으로 넣을 수 있다. true를 넣으면 해당 노드의 children 까지 복제한다. (기본값은 true이다.)
+
+만약 복제하거나 해당 메소드들로 새로 생성한 요소가 아니라 DOM 접근 메소드를 이용해 참조한 요소라면 DOM 트리 조작 메소드를 사용시 해당 요소가 추가되는 것이 아니라 위치가 이동한다.
 
 #### 5.2.2. DOM 트리 조작하기
 
-+ `el.appendChild()`
-+ `el.insertBefore()`
-+ `el.replaceChild()`
-+ `el.removeChild()`
++ `el.appendChild()`: 특정 부모 노드의 자식 노드 리스트 중 마지막 자식으로 추가한다.
+  - `parentNode.appendChild(newNode)`
+  -  만약 주어진 노드가 이미 문서에 존재하는 노드를 참조하고 있다면, 노드를 현재 위치에서 새로운 위치로 이동시킨다.
++ `el.insertBefore()`: 지정된 부모 노드의 자식 노드로 참조 노드 앞에 노드를 추가한다. 
+  - `parentNode.insertBefore(newNode, referenceNode)`
+  - 만약 참조노드가 null인 경우 새로운 노드는 자식 노드 리스트의 끝에 추가된다.
++ `el.replaceChild()`: 지정된 노드의 하나의 자식노드를 다른 노드와 바꾼다.
+  - `parentNode.replaceChild(newChild, oldChild)`
+  - 반환되는 노드는 replacedNode. 즉 oldChild이다.
++ `el.removeChild()`: DOM에서 해당 자식 노드를 제거하고 제거된 노드를 반환한다.
+  - `node.removeChild(child)` 
+  - 변수에 저장하면 제거된 노드에 대한 참조를 보유할 수 있다.
+
+## 6. 엘리먼트 어트리뷰트 조작하기
+
++ `el.hasAttribute(name)`
++ `el.getAttribute(name)`
++ `el.setAttribute(name, value)`
++ `el.removeAttribute(name)`
+
+## 7. 엘리먼트 클래스 조작하기
+
++ `el.classList`: 요소의 클래스 속성에 대한 라이브 [DOMTokenList](https://developer.mozilla.org/en-US/docs/Web/API/DOMTokenList) 컬렉션을 반환하며, read-only이다.
++ `el.classList.add(String[, String ...])`: 지정된 클래스 값을 추가한다. 이미 요소의 속성에 존재한다면 무시된다.
++ `el.classList.remove(String[, String ...])`: 지정된 클래스 값을 제거한다.
++ `el.toggle(String)`: 
+  - 인수가 하나뿐일 때: 클래스 값을 토글하여 제거하면 false, 없으면 false반환 후 추가한 다음 true반환
+  - 두번째 인수가 있을 때: 두번째 인수가 true로 평가되면 지정된 클래스 값을 추가, false로 평가되면 제거한다.
++ `el.classList.contains(String)`: 요소의 클래스 속성에 지정된 클래스 값이 있는지 확인한다.
++ `el.replace(oldClass, newClass)`
+
+## 8. 인라인 스타일 조작하기
+
++ `el.style`
+
+```js
+const divEl = document.querySelector('div');
+
+// style이라는 특별한 객체가 있고 
+// 이 객체의 color 속성에 컬러를 대입하는 것으로 
+// 스타일을 수정할 수 있다.
+divEl.style.color = 'red';
+// ※ style 객체의 속성은 하이픈이 아닌 카멜케이스로 써야한다.
+divEl.style.backgroundColor = 'blue';
+
+// 이렇게 작성할 수도 있다.
+divEl.setAttribute('style', 'color: red; background-color: blue');
+```
+```html
+<div style="color:red; background-color: blue">Hello World</div>
+```
+단, 스타일 관련 코드가 자바스크립트에 있는 것은 썩 좋은 방법이 아님, 스타일은 CSS에 있는 것이 좋다.
+보통 이렇게 하기 보단 클래스 추가/제거하는 식으로 코딩한다.
+
+## 9. 이벤트 리스너
+
++ `EventTarget.addEventListener(type, listener[, options | useCapture])`: 특정 사용자의 행동, 브라우저 동작 시에 함수를 실행하게 할 수 있다.
+이벤트가 발생할 때 특정 함수(이벤트 리스너)를 실행하게 한다.
++ `EventTarget.removeEventListener(type, listener[, options | useCapture])`: 등록한 이벤트를 해제할 때 사용한다.
+(해제할 일은 잘 없다, 간혹 쓰이긴 한다.)
+
+```js
+const divEl = document.querySelector('div');
+
+function listener() {
+  alert('마우스가 클릭되었습니다.');
+}
+
+// 등록 버튼을 누르면 이벤트를 등록하고
+document.querySelector('.register').addEventListener('click', ()=> {
+  divEl.addEventListener('click', listener);
+});
+
+// 해제 버튼을 누르면 이벤트를 해제한다.
+document.querySelector('.unregister').addEventListener('click', () => {
+  divEl.removeEventListener('click', listener);
+});
+```
+
+## 10. dataset
+
++ `el.dataset`: HTML이나 DOM 요소의 커스텀 데이터 속성(data-*)에 대한 읽기와 쓰기 접근을 허용한다. dataset 속성은 읽을 수는 있지만 직접 쓸 수는 없다.
+
+```
+string = element.dataset.camelCasedName;
+element.dataset.camelCasedName = string;
+
+string = element.dataset[camelCasedName];
+element.dataset[camelCasedName] = string;
+```
+```html
+<div data-index="0" data-name="chichi" name="chichi"></div>
+<!-- 데이터를 저장해놓고 쓰고 싶을때 -->
+```
+```js
+const divEl = document.querySelector('div');
+
+divEl.dataset.index; // 0
+divEl.dataset.name; // chichi
+divEl.getAttribute('data-name'); // chichi
+```
+
+name같은 속성은 특별한 기능이 있는데, data-*속성은 이런 html의 원래 기능은 우회하면서 데이터를 저장하고 싶을 때 사용한다. 라이브러리 만들 때 잘 사용한다.
+
+## 11. 엘리먼트 크기 및 위치
+
++ [`el.getBoundingClientRect()`](https://devdocs.io/dom/element/getboundingclientrect): 어떤 엘리먼트의 크기, 포지션(화면에 대한 상대적인)을 반환한다.
++ `el.offsetHeight` / `el.offsetWidth`: 패딩, 보더를 포함한 높이, 넓이
++ `el.clientHeight` / `el.clientWidth`: 패딩 포함(보더 x)한 높이, 넓이
++ `el.scrollHeight` / `el.scrollWidth`: 스크롤 되는 전체 콘텐츠 크기
++ `el.offsetTop` / `el.offsetLeft`: 읽기 전용 속성. offsetParent 노드로부터 상대적인 거리를 반환
++ `el.scrollTop` / `el.scrollLeft`: 가져오거나 지정하는 속성. 스크롤된 콘텐츠의 픽셀 값(얼마나 스크롤 되었는지)을 반환
++ `el.clientTop` / `el.clientLeft`
+
+```js
+const aEl = document.querySelector('a[data-pjax="#js-repo-pjax-container"]')
+
+aEl.getBoundingClientRect();
+// DOMRect {x: 87.5625, y: 77, width: 101.75, height: 24, top: 77, …}
+
+// bottom: 101
+// height: 24
+// left: 87.5625
+// right: 189.3125
+// top: 77
+// width: 101.75
+// x: 87.5625 
+// y: 77
+// x, y는 왼쪽 위 꼭지점 좌표임
+```
+※ 문서(document) 기준이 아니라 화면(view) 기준이기 때문에 스크롤될 경우 바뀌는 값이 생긴다.
 
 ---
 
