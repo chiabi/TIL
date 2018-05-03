@@ -48,6 +48,8 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 18 | 180503 | [2016년](18_getDayName.md) | #Date객체와 메소드 |
+| 17 | 180503 | [멀리뛰기](17_jumpCase.md) | #피보나치수, #재귀함수 |
 | 16 | 180501 | [시저암호](16_caesar.md) | #str.charCodeAt(), #str.formCharCode() |
 | 15 | 180430 | [가장 긴 팰린드롬](15_longest_palindrom.md) | #while문, #for loop, #재귀함수, #arr.reverse(), #정규표현식 |
 | 14 | 180425 | [최대공약수와 최소공배수](14_gcdlcm.md) | #재귀함수, #유클리드호제법, #Math.abs(), #for loop |
