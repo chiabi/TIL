@@ -4,7 +4,7 @@
 
 date: 18.05.01
 
-* [관련링크](https://programmers.co.kr/learn/challenge_codes/24)
+* [문제링크](https://programmers.co.kr/learn/challenge_codes/24)
 
 > 어떤 문장의 각 알파벳을 일정한 거리만큼 밀어서 다른 알파벳으로 바꾸는 암호화 방식을 시저 암호라고 합니다.
 A를 3만큼 밀면 D가 되고 z를 1만큼 밀면 a가 됩니다. 공백은 수정하지 않습니다.

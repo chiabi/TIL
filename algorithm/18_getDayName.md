@@ -4,7 +4,7 @@
 
 date: 18.05.03
 
-* [관련링크](https://programmers.co.kr/learn/challenge_codes/178)
+* [문제링크](https://programmers.co.kr/learn/challenge_codes/178)
 
 > 2016년 1월 1일은 금요일입니다. 2016년 A월 B일은 무슨 요일일까요? 두 수 A,B를 입력받아 A월 B일이 무슨 요일인지 출력하는 getDayName 함수를 완성하세요. 요일의 이름은 일요일부터 토요일까지 각각
 >

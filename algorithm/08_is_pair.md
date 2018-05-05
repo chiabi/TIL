@@ -4,7 +4,7 @@
 
 date: 18.04.19
 
-* [관련링크](https://programmers.co.kr/learn/challenge_codes/87)
+* [문제링크](https://programmers.co.kr/learn/challenge_codes/87)
 
 > is_pair함수는 문자열 s를 매개변수로 입력받습니다.
 s에 괄호가 알맞게 짝지어져 있으면 True를 아니면 False를 리턴하는 함수를 완성하세요.

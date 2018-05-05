@@ -4,7 +4,7 @@
 
 date: 18.04.16
 
-* [관련링크](https://programmers.co.kr/learn/challenge_codes/92)
+* [문제링크](https://programmers.co.kr/learn/challenge_codes/92)
 
 > adder함수는 정수 a, b를 매개변수로 입력받습니다.
 두 수와 두 수 사이에 있는 모든 정수를 더해서 리턴하도록 함수를 완성하세요. a와 b가 같은 경우는 둘 중 아무 수나 리턴하세요.

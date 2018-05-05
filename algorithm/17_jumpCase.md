@@ -4,7 +4,7 @@
 
 date: 18.05.03
 
-* [관련링크](https://programmers.co.kr/learn/challenge_codes/33)
+* [문제링크](https://programmers.co.kr/learn/challenge_codes/33)
 
 > 효진이는 멀리 뛰기를 연습하고 있습니다. 효진이는 한번에 1칸, 또는 2칸을 뛸 수 있습니다. 칸이 총 4개 있을 때, 효진이는
 (1칸, 1칸, 1칸, 1칸)

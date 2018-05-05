@@ -4,7 +4,7 @@
 
 date: 18.04.19
 
-* [관련링크](https://programmers.co.kr/learn/challenge_codes/99)
+* [문제링크](https://programmers.co.kr/learn/challenge_codes/99)
 
 > alpha_string46함수는 문자열 s를 매개변수로 입력받습니다.
 s의 길이가 4혹은 6이고, 숫자로만 구성되있는지 확인해주는 함수를 완성하세요.
