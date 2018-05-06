@@ -48,6 +48,7 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 23 | 180506 | [N개의 최소공배수](23_nlcm.md) | #재귀함수,  #유클리드호제법, #arr.reduce(), #Math.abs() |
 | 22 | 180505 | [다음 큰 숫자](22_nextBigNumber.md) | #arr.filter(), #Number.toString(), #for loop |
 | 21 | 180505 | [최솟값 만들기](21_getMinSum.md) | #arr.reduce(), #arr.sort() |
 | 20 | 180505 | [행렬의 곱셈](20_productMatrix.md) | #for loop |
