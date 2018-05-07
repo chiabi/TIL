@@ -10,7 +10,7 @@
 
 date: 00.00.00
 
-* [관련링크](/)
+* [문제링크](/)
 
 > 문제 내용
 
@@ -48,6 +48,7 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 24 | 180507 | [숫자의 표현](24_expression.md) | #for loop, #while |
 | 23 | 180506 | [N개의 최소공배수](23_nlcm.md) | #재귀함수,  #유클리드호제법, #arr.reduce(), #Math.abs() |
 | 22 | 180505 | [다음 큰 숫자](22_nextBigNumber.md) | #arr.filter(), #Number.toString(), #for loop |
 | 21 | 180505 | [최솟값 만들기](21_getMinSum.md) | #arr.reduce(), #arr.sort() |
