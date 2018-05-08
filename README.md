@@ -26,7 +26,8 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|-------|---|
-| 33 | [180427](week_06/180427.md) | JavaScript 심화 | 클래스, DOM API, 이벤트 |
+| 34 | [180508](week_08/180508.md) | JavaScript 심화 | 이벤트(마우스, 키보드, 스크롤), BEM, Sass |
+| 33 | [180427](week_06/180427.md) | JavaScript 심화 | 클래스, DOM API, 이벤트(폼이벤트) |
 | 32 | [180425](week_06/180425.md) | 자습 | 중간테스트 대비 HTML, CSS 복습 |
 | 31 | [180424](week_06/180424.md) | JavaScript 심화 | 내장 객체 및 생성자, Iterable, 클래스, RGB 챌린지 |
 | 30 | [180423](week_06/180423.md) | JavaScript 심화 | 연산자 더 알아보기, 브라우저 측 자바스크립트(DOM API) |
