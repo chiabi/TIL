@@ -48,6 +48,7 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 25 | 180508 | [최고의 집합](25_bestSet.md) | #for loop, #while, #arr.sort(), #Math.floor(), #new Array(), #arr.fill() |
 | 24 | 180507 | [숫자의 표현](24_expression.md) | #for loop, #while |
 | 23 | 180506 | [N개의 최소공배수](23_nlcm.md) | #재귀함수,  #유클리드호제법, #arr.reduce(), #Math.abs() |
 | 22 | 180505 | [다음 큰 숫자](22_nextBigNumber.md) | #arr.filter(), #Number.toString(), #for loop |
