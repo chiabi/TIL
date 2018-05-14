@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 |---|---|-------|---|
+| 38 | [180515](week_09/180514.md) | 브라우저 측 JavaScript 심화 + REST API | 큐/스택/트리, 비동기 프로그래밍, 타이머 API, Promise, 비동기 함수, REST API실습, Node.js, HTTP |
 | 37 | [180511](week_08/180511.md) | 해커톤🚀 | 해커톤 결과물: [15퍼즐게임](https://fifteen-puzzleee.netlify.com/) |
 | 36 | [180510](week_08/180510.md) | 해커톤🚀 | [해커톤](https://github.com/fds-9-2/fds-hackathon-template) |
 | 35 | [180509](week_08/180509.md) | 해커톤🚀 | Sass(`@import`,`@mixin`,`@content`, operator), 해커톤!! |
