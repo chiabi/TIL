@@ -25,7 +25,9 @@
 # Index
 
 |  | DATE | CATEGORY | DESCRIPTION |
-|---|---|-------|---|
+| --- | --- | ------- | --- |
+| 41 | [180517](week_09/180517.md) | 자습, 문제풀이 | 문제풀이 스터디(9주차 학습내용), [HTTP정리](https://github.com/chiabi/TIL/blob/master/Node.js-http/HTTP.md) |
+| 40 | [180516](week_09/180516.md) | 브라우저 측 JavaScript 심화 + REST API | web form, url shortener 실습  |
 | 39 | [180515](week_09/180515.md) | 브라우저 측 JavaScript 심화 + REST API | HTTP, Express, Template Language(EJS) |
 | 38 | [180514](week_09/180514.md) | 브라우저 측 JavaScript 심화 + REST API | 큐/스택/트리, 비동기 프로그래밍, 타이머 API, Promise, 비동기 함수, REST API실습, Node.js, HTTP |
 | 37 | [180511](week_08/180511.md) | 해커톤🚀 | 해커톤 결과물: [15퍼즐게임](https://fifteen-puzzleee.netlify.com/) |

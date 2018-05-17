@@ -186,6 +186,7 @@ https://www.example.com:3000/path/resource?id=123#section-id
 + `#section-id`: Fragement Identifier, Hash. HTML 본문안의 특정 위치
 
 ※ IP(Internet Protocol)는 인터넷 커뮤니케이션에서 사용하는 프로토콜 중 하나의 형태이며, 계층 구조로 이루어진 숫자들의 묶음으로 된 컴퓨터의 고유한 주소이다.
+
 ※ DNS(Domain Name System)은 IP와 대응되어 인터넷 주소를 연결해 준다. (도메인 네임은 절대적인 주소가 아니다.)
 
 > + [IP 주소와 DNS](https://ko.khanacademy.org/computing/computer-science/internet-intro/internet-works-intro/v/the-internet-ip-addresses-and-dns)
