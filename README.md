@@ -26,6 +26,7 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 | --- | --- | ------- | --- |
+| 42 | [180518](week_09/180518.md) | 브라우저 측 JavaScript 심화 + REST API | 미들웨어, 쿠키, Ajax (Axios, json-server) |
 | 41 | [180517](week_09/180517.md) | 자습, 문제풀이 | 문제풀이 스터디(9주차 학습내용), [HTTP정리](https://github.com/chiabi/TIL/blob/master/Node.js-http/HTTP.md) |
 | 40 | [180516](week_09/180516.md) | 브라우저 측 JavaScript 심화 + REST API | web form, url shortener 실습  |
 | 39 | [180515](week_09/180515.md) | 브라우저 측 JavaScript 심화 + REST API | HTTP, Express, Template Language(EJS) |
