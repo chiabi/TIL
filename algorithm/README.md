@@ -48,6 +48,7 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 30 | 180519 | [줄 서는 방법](30_setAlign.md) | #재귀함수 |
 | 29 | 180517 | [124나라의 숫자](29_change124.md) | #재귀함수 |
 | 28 | 180517 | [하노이의 탑](28_hanoi.md) | #재귀함수 |
 | 27 | 180516 | [가장 큰 정사각형 찾기](27_findLargestSquare.md) | #for loop, #Math.min() |
