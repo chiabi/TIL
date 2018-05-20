@@ -237,13 +237,19 @@ https://www.example.com:3000/path/resource?id=123#section-id
     * 브라우저가 이전에 받아놓은 자료를 저장해(캐시) 사용함
 + 4xx: 실패 - 클라이언트 책임
   - 400 Bad Request: 요청의 형태가 잘못되어 응답할 수 없음. REST API에서 많이 사용된다. 약속과 틀린 정보를 제공해 응답을 줄 수 없는경우 
-  - 403 Forbidden: 요청한 자료에 접근할 권한이 없음
+  - 401 Unauthorized: 당신이 누구인지 모르겠다. (정확한 의미는 Unauthentication이 알맞다.)
+  - 403 Forbidden: 당신이 누구인지는 알지만, 요청한 자료에 접근할 권한이 없음
   - 404 Not Found: 요청한 자료가 없음, 이상한 주소, 경로로 접속했을때
 + 5xx: 실패 - 서버 책임
   - 500 Internal Server Error: 요청을 처리하던 중 예상치 못한 오류가 발생
   - 503 Service Unavailable: 서버가 일시적으로 응답을 할 수 없음(트래픽이 몰린다든지)
 
 > + [HTTP Status Codes](https://httpstatuses.com/)
+
+※ 
++ Authentication(인증): 내가 누구인지를 밝히는 절차
++ Authorization(권한부여)
+[인증(Authentication), 권한부여(Authorization), 접근제어(Access Control)](https://httpd.apache.org/docs/2.2/ko/howto/auth.html)
 
 ※ **리디렉션 순환오류**  
 > _'이 웹페이지에 리디렉션 순환 오류가 있습니다.'_ 또는 _'ERR_TOO_MANY_REDIRECTS'_
