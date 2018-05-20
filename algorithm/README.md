@@ -48,6 +48,7 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 31 | 180520 | [2 x n 타일링](31_titling.md) | #재귀함수, #피보나치수열 |
 | 30 | 180519 | [줄 서는 방법](30_setAlign.md) | #재귀함수 |
 | 29 | 180517 | [124나라의 숫자](29_change124.md) | #재귀함수 |
 | 28 | 180517 | [하노이의 탑](28_hanoi.md) | #재귀함수 |
@@ -61,7 +62,7 @@ console.log('여기에 풀이');
 | 20 | 180505 | [행렬의 곱셈](20_productMatrix.md) | #for loop |
 | 19 | 180505 | [행렬의 덧셈](19_sumMatrix.md) | #arr.map() |
 | 18 | 180503 | [2016년](18_getDayName.md) | #Date객체와 메소드 |
-| 17 | 180503 | [멀리뛰기](17_jumpCase.md) | #피보나치수, #재귀함수 |
+| 17 | 180503 | [멀리뛰기](17_jumpCase.md) | #피보나치수열, #재귀함수 |
 | 16 | 180501 | [시저암호](16_caesar.md) | #str.charCodeAt(), #str.formCharCode() |
 | 15 | 180430 | [가장 긴 팰린드롬](15_longest_palindrom.md) | #while문, #for loop, #재귀함수, #arr.reverse(), #정규표현식 |
 | 14 | 180425 | [최대공약수와 최소공배수](14_gcdlcm.md) | #재귀함수, #유클리드호제법, #Math.abs(), #for loop |
