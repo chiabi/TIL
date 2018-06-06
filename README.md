@@ -26,6 +26,9 @@
 
 |  | DATE | CATEGORY | DESCRIPTION |
 | --- | --- | ------- | --- |
+| 50 | [180606](week_12/180606.md) | 자습, 문제풀이 | 12주차 리액트 문제풀이 |
+| 49 | [180605](week_12/180605.md) | React | JSX 소개, 요소렌더링, 컴포넌트와 Props, State와 라이프사이클, 이벤트 제어하기, 조건부 렌더링 |
+| 48 | [180525](week_10/180525.md) | 브라우저 측 JavaScript 심화 + REST API | DocumentFragment, For문과 분해대입, loading 인디케이터, Promise, HTML Boolean 어트리뷰트 자바스크립트로 추가하기, 디버깅, BULMA |
 | 47 | [180524](week_10/180524.md) | 브라우저 측 JavaScript 심화 + REST API | 실습 - 게시판, todo list |
 | 46 | [180523](week_10/180523.md) | 브라우저 측 JavaScript 심화 + REST API | 실습 - 게시판 |
 | 45 | [180522](week_10/180522.md) | 자습 | [hello toto list로 비동기, 통신 연습](https://github.com/chiabi/hello-todo-list) |
