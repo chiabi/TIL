@@ -48,6 +48,8 @@ console.log('여기에 풀이');
 
 |  | DATE | TITLE | RMKS |
 |---|---|---|---|
+| 33 | 180607 | [level 1 나머지 문제](33_level1.md) |  |
+| 32 | 180521 | [땅따먹기](32_hopscotch.md) | #for loop |
 | 32 | 180521 | [땅따먹기](32_hopscotch.md) | #for loop |
 | 31 | 180520 | [2 x n 타일링](31_titling.md) | #재귀함수, #피보나치수열 |
 | 30 | 180519 | [줄 서는 방법](30_setAlign.md) | #재귀함수 |
