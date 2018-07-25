@@ -11,12 +11,13 @@
 // 계산만 가능하다
 
 import { combineReducers } from 'redux'
+
 import {
   ADD_TODO,
   TOGGLE_TODO,
   SET_VISIBILITY_FILTER,
   VisibilityFilters
-} from './actions'
+} from '../actions/actions'
 
 const { SHOW_ALL } = VisibilityFilters
 // const initialState = {
@@ -44,19 +45,17 @@ function todos(state = [], action) {
       return [
         ...state,
         {
+          id: action.id,
           text: action.text,
           completed: false
         }
       ]
     case TOGGLE_TODO:
-      return state.map((todo, index) => {
-        if (index === action.index) {
-          return Object.assign({}, todo, {
-            completed: !todo.completed
-          })
-        }
-        return todo
-      })
+      return state.map(todo => 
+        (todo.id === action.id) 
+          ? {...todo, completed : !todo.completed}
+          : todo
+      )
     default: 
       return state
   }
@@ -103,9 +102,7 @@ function visiblityFilter(state = SHOW_ALL, action) {
 
 
 // 리덕스가 제공하는 combineReducers() 유틸리티 메소드를 사용하면, 다음과 같이 todoApp을 재작성할 수 있다.
-const todoApp = combineReducers({
+export default combineReducers({
   visiblityFilter,
   todos
 })
-
-export default todoApp
