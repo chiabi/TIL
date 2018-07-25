@@ -18,9 +18,9 @@ import {
   VisibilityFilters
 } from './actions'
 
-const { SHOW_ALL } = VisiblityFilters
+const { SHOW_ALL } = VisibilityFilters
 // const initialState = {
-//   visibilityFilter: VisiblityFilters.SHOW_ALL,
+//   visibilityFilter: VisibilityFilters.SHOW_ALL,
 //   todos: []
 // }
 
