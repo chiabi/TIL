@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sass": "node-sass src/sass/ -o src/css/ -w --output-style expanded --source-map true"
   },
   "keywords": [],
   "author": "",

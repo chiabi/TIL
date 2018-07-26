@@ -44,7 +44,7 @@ Sass가 Dart로 전환되면서 이식성이 향상되어 Sass 설치가 매우 
   - `pub global activate sass`
 
 
-이 방법 외에 node-sass를 설치해보자
+이 방법 외에 Node.js를 사용하고 싶다면, [node-sass](https://github.com/sass/node-sass)를 설치해보자
 ```sh
 $ npm install node-sass
 $ node-sass -v
@@ -52,9 +52,9 @@ node-sass       4.5.0   (Wrapper)       [JavaScript]
 libsass         3.5.0.beta.2    (Sass Compiler) [C/C++]
 ```
 
-### 설치 오류
+#### ※ 설치 오류 참고
 
-다음과 같은 설치 에러가...  
+다음과 같은 설치 에러가 나타난다면,  
 
 ["Node Sass does not yet support your current environment: Windows 64-bit with Unsupported runtime (57)" #134](https://github.com/Microsoft/PartsUnlimited/issues/134)
 ```
@@ -66,13 +66,13 @@ For more information on which environments are supported please see:
 https://github.com/sass/node-sass/releases/tag/v4.5.0
 ```
 
-나의 환경은 
+나의 환경은 아래와 같았는데, node-sass는 node 8버전에서는 안정적이지 않은 것 같다. 
 ```
 node v8.11.1
 npm v5.6.0
 node-sass ^4.9.2
 ```
-nvm을 통해 node 사용 버전을 6.10.0으로 다운하고 다시 node-sass를 설치했더니 작동된다. node 8버전과는 아직 호환되지 않나보다...;;
+nvm을 통해 node 사용 버전을 6.10.0으로 다운하고 다시 node-sass를 설치했더니 작동되었다.
 
 참고로 nvm으로 버전 이동은
 ```sh
@@ -84,4 +84,29 @@ $ nvm user 6.10.0
 Now using node v6.10.0 (64-bit)
 ```
 
-### Sass 명령어
+### Sass CLI
+
+- [node-sass : Command Line Interface](https://github.com/sass/node-sass#command-line-interface)
+
+`node-sass [options] <input> [output]`
+
+간단한 실습을 위해 다음과 같은 구조를 만들자.
+```
+/ 
+|- node_modules/
+|- package-lock.json
+|- package.json
+|- src/
+|   |- css/
+|   |- sass/
+|   |   |- style.scss
+|   |- index.html
+```
+
+package.json의 script에 다음과 같이 추가해보자.
+```JSON
+  "scripts": {
+    "sass": "node-sass src/sass/ -o src/css/ -w --output-style expanded --source-map true"
+  },
+```
+※ --source-map 옵션에 bool 값을 줘야한다.
