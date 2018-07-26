@@ -26,7 +26,9 @@ LibSass의 개발 속도를 계속해서 Ruby Sass와 맞출 수 있을지 확�
 ## Sass 사용하기
 
 CLI를 통한 설치와 명령어 사용이 고통스럽다면, VSCode 사용자는 익스텐션으로 [Live Sass Compiler](https://marketplace.visualstudio.com/items?itemName=ritwickdey.live-sass)를 설치하자.  
-VSCode 하단에 생기는 Watch Sass 버튼을 누르는 것만으로 실시간으로 브라우저 리로드하면서 Sass/SCSS 파일을 CSS 파일로 컴파일해준다. 또 다른 익스텐션인 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)와 같이 사용하기 좋고, Sass를 가볍게 써보기에 좋다.
+VSCode 하단에 생기는 Watch Sass 버튼을 누르는 것만으로 실시간으로 브라우저 리로드하면서 Sass/SCSS 파일을 CSS 파일로 컴파일해준다. 또 다른 익스텐션인 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)와 같이 사용하기 좋고, Sass를 가볍게 써보기에 좋다. 그리고 Autoprefix를 지원한다.
+
+- [Live Sass Compiler settings](https://github.com/ritwickdey/vscode-live-sass-compiler/blob/master/docs/settings.md)
 
 ### Sass install
 
@@ -46,7 +48,7 @@ Sass가 Dart로 전환되면서 이식성이 향상되어 Sass 설치가 매우 
 
 이 방법 외에 Node.js를 사용하고 싶다면, [node-sass](https://github.com/sass/node-sass)를 설치해보자
 ```sh
-$ npm install node-sass
+$ npm install --save-dev node-sass
 $ node-sass -v
 node-sass       4.5.0   (Wrapper)       [JavaScript]
 libsass         3.5.0.beta.2    (Sass Compiler) [C/C++]
