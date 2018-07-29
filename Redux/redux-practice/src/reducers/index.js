@@ -11,15 +11,9 @@
 // 계산만 가능하다
 
 import { combineReducers } from 'redux'
+import todos from './todos'
+import visibilityFilter from './visibilityFilter'
 
-import {
-  ADD_TODO,
-  TOGGLE_TODO,
-  SET_VISIBILITY_FILTER,
-  VisibilityFilters
-} from '../actions/actions'
-
-const { SHOW_ALL } = VisibilityFilters
 // const initialState = {
 //   visibilityFilter: VisibilityFilters.SHOW_ALL,
 //   todos: []
@@ -39,36 +33,36 @@ const { SHOW_ALL } = VisibilityFilters
 
 
 // 리덕스 앱을 만드는 기본 패턴: 리듀서 조합
-function todos(state = [], action) {
-  switch (action.type) {
-    case ADD_TODO: 
-      return [
-        ...state,
-        {
-          id: action.id,
-          text: action.text,
-          completed: false
-        }
-      ]
-    case TOGGLE_TODO:
-      return state.map(todo => 
-        (todo.id === action.id) 
-          ? {...todo, completed : !todo.completed}
-          : todo
-      )
-    default: 
-      return state
-  }
-}
+// function todos(state = [], action) {
+//   switch (action.type) {
+//     case ADD_TODO: 
+//       return [
+//         ...state,
+//         {
+//           id: action.id,
+//           text: action.text,
+//           completed: false
+//         }
+//       ]
+//     case TOGGLE_TODO:
+//       return state.map(todo => 
+//         (todo.id === action.id) 
+//           ? {...todo, completed : !todo.completed}
+//           : todo
+//       )
+//     default: 
+//       return state
+//   }
+// }
 
-function visiblityFilter(state = SHOW_ALL, action) {
-  switch (action.type) {
-    case SET_VISIBILITY_FILTER:
-      return action.filter
-    default: 
-      return state
-  }
-}
+// function visiblityFilter(state = SHOW_ALL, action) {
+//   switch (action.type) {
+//     case SET_VISIBILITY_FILTER:
+//       return action.filter
+//     default: 
+//       return state
+//   }
+// }
 
 // function todoApp(state = {}, action) {
 //   return {
@@ -103,6 +97,6 @@ function visiblityFilter(state = SHOW_ALL, action) {
 
 // 리덕스가 제공하는 combineReducers() 유틸리티 메소드를 사용하면, 다음과 같이 todoApp을 재작성할 수 있다.
 export default combineReducers({
-  visiblityFilter,
-  todos
+  todos,
+  visibilityFilter
 })

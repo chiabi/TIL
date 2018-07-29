@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Link = ({ active, children, onClick }) => {
-  return (
+const Link = ({ active, children, onClick }) => (
     <button
       onClick={onClick}
       disabled={active}
@@ -12,8 +11,7 @@ const Link = ({ active, children, onClick }) => {
     >
       {children}
     </button>
-  )
-}
+)
 
 Link.propTypes = {
   active: PropTypes.bool.isRequired,
