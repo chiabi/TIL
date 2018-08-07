@@ -8,14 +8,28 @@
   },
   "jest": {
     "verbose": true,
-    "testURL": "http://localhost/"
+    "testURL": "http://localhost/",
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "testRegex": "\\.test\\.ts$",
+    "moduleFileExtensions": [
+      "ts", "js"
+    ],
+    "globals": {
+      "ts-jest": {
+        "enableTsDiagnostics": true
+      }
+    }
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/jest": "^23.3.1",
     "babel-core": "^6.26.3",
-    "jest": "^23.4.2"
+    "jest": "^23.4.2",
+    "typescript": "^3.0.1"
   },
   "dependencies": {
     "babel-preset-env": "^1.7.0",
