@@ -32,7 +32,13 @@ export class LinkedList {
     }
 
     indexOf(value: string | number) {
-        // return 
+        let currentIndex: number = 0
+        let currentNode = this.firstNode;
+        while(currentNode) {
+            if(currentNode.value === value) return currentIndex 
+            currentNode = (<INode>currentNode).next;
+            currentIndex++
+        }
     }
 
     prepend(value: string | number) {
@@ -61,10 +67,44 @@ export class LinkedList {
     }
 
     insertAtIndex(index: number, value: string | number) {
-
+        if(this.listLength < index) {
+            return null
+        } else if(!this.firstNode || this.listLength === index) {
+            this.append(value)
+            return this
+        }
+        let currentIndex: number = 0
+        let currentNode: INode | null = this.firstNode
+        while(currentNode) {
+            if(index === currentIndex + 1) {
+                const nextNode: INode | null = currentNode.next
+                const newNode: INode = new LinkedListNode(value, nextNode)
+                currentNode.next = newNode
+                this.listLength++
+                return this
+            }
+            currentNode = (<INode>currentNode).next
+            currentIndex++
+        }
     }
 
     deleteAtIndex(index: number) {
-
+        if(!this.firstNode || this.listLength <= index) {
+            return null
+        }
+        let currentIndex: number = 0
+        let currentNode: INode | null = this.firstNode
+        while(currentNode) {
+            if(index === 0 || index === currentIndex + 1) {
+                const nextNode = currentNode.next
+                if(index === 0) this.firstNode = nextNode
+                if(index === this.listLength - 1) this.lastNode = currentNode
+                currentNode.next = nextNode ? nextNode.next : null
+                this.listLength--
+                return this
+            }
+            currentNode = (<INode>currentNode).next
+            currentIndex++
+        }
     }
 }
