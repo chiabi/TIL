@@ -1,4 +1,6 @@
-# 1. 타입
+# 타입
+
+> [You Don't Know JS: Types & Grammar](https://github.com/getify/You-Dont-Know-JS/blob/master/types%20%26%20grammar/ch1.md) 책과 원문을 보면서 정리한 내용입니다.
 
 자바스크립트의 내장 타입(Built-in types)
 - primitive value(원시 값)
