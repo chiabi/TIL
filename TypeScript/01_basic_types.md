@@ -59,7 +59,7 @@ I'll be ${age} years old.`;
 
 ## 배열(Array)
 
-`type[]` 형식과 `Array<elemType>`형식의 두 가지 방법 중 하나로 작성할 수 있다.
+`type[]` 타입과 `Array<elemType>` 타입(제네릭 배열 타입)의 두 가지 방법 중 하나로 작성할 수 있다.
 ```ts
 let list: number[] = [1, 2, 3];
 let list: Array<number> = [1, 2, 3];
@@ -168,7 +168,7 @@ let list: any[] = [1, true, "free"];
 list[1] = 100;
 ```
 
-그러나 any를 남용하면 타입스크립트를 사용하는 의의가 사라지므로 꼭 필요한 경우에만 사용하자
+그러나 `any`를 남용하면 타입스크립트를 사용하는 의의가 사라지므로 꼭 필요한 경우에만 사용하자
 
 ## Void
 
