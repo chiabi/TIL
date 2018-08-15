@@ -354,7 +354,7 @@ class AnalogClock implements ClockInterface {
 let digital = createClock(DigitalClock, 12, 17);
 let analog = createClock(AnalogClock, 12, 17);
 ```
-Because `createClock`의 첫번째 매개변수가 `ClockConstructor`타입이므로 `createClock(AnalogClock, 7, 32)`에서 `AnalogClock`이 올바른 생성자 시그니처(constructor signature)를 가지고 있는지 확인한다
+`createClock`의 첫번째 매개변수가 `ClockConstructor`타입이므로 `createClock(AnalogClock, 7, 32)`에서 `AnalogClock`이 올바른 생성자 시그니처(constructor signature)를 가지고 있는지 확인한다
 
 ## 인터페이스 확장(Extending Interfaces)
 
