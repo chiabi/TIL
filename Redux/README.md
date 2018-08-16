@@ -95,6 +95,7 @@
     return (next) => (action) => {
       console.log('will dispatch', action)
 
+      // 미들웨어 체인에서 다음 디스패치 메소드를 호출한다.
       let returnValue = next(action)
 
       console.log('state after dispatch', getStatae())
@@ -115,6 +116,9 @@
 
 Store
 - .getState()
+  - 애플리케이션의 현재 상태 트리를 반환. 스토어의 리듀서가 마지막으로 반환한 값과 같다.
 - .dispatch(action)
+  - 상태 변경을 일으키기 위한 유일한 방법.
 - .subscribe(listner)
+  - 변경 사항에 대한 리스너를 추가. 리스터는 액션이 보내져 상태 트리의 일부가 변경될 수 있을때마다 호출된다.
 - .replaceReducer(nextReducer)
