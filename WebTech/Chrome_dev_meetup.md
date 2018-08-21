@@ -68,9 +68,16 @@ app.starbucks.com이 pwa로 잘 만들어진 사이트
 
 ## 2. CSS Scroll Snap in 69
 
-카나리아를 깔아야 확인할 수 있음(엄청 최신 기술)
+[카나리아](https://www.google.com/intl/ko_ALL/chrome/canary/)를 깔아야 확인할 수 있음(엄청 최신 기술)
 
 overflow는 많은 변화를 겪으며 draft단계에 아직도 머물러 있음(새로운 스펙이 계속 생김, css의 더 다양한 이펙트가 생길때마다 이 영역을 overflow시킬지 말지를 결정해야해서 다시 draft에 던져짐)
 
-declaretive 언어 - 브라우저에서 구현해줄테니 선언해서 사용만하는 식  
+declarative 언어 - 브라우저에서 구현해줄테니 선언해서 사용만하는 식  
 웹개발은 선언형으로 바뀌고 있다. 
+
+- [CSS Scroll Snap Module Level 1](https://www.w3.org/TR/css-scroll-snap-1/)
+
+---
+
+발표내용 : 
+[Progressive Web Apps- 웹에서 새로운 사용자 경험을 제공하는 방법론](http://techhtml.github.io/blog/2018/pwa/)
