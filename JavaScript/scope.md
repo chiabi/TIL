@@ -86,7 +86,7 @@
 
 ### 스코프 이해
 
-어디서 어떻게 변수(확인자)를 찾는가를 결정하는 규칙의 집합  
+어디서 어떻게 변수(확인자: Indentifier name)를 찾는가를 결정하는 규칙의 집합  
 
 ```JS
 var a = 2;
@@ -122,3 +122,13 @@ foo(2);
 
 // ReferenceError: b is not defined
 ```
+
+## 렉시컬 스코프(lexical Scope)
+
++ 렉시컬 스코프(Lexical Scope): 일반적이고 다수의 프로그래밍 언어가 사용
++ 동적 스코프(Dynamic Scope): Baxh Scripting, Perl의 일부 모드와 같은 몇몇 언어에서 사용
+
+### 렉스타임
+
+렉시컬 스코프는 렉싱 타임(Lexing Time)에 정의되는 스코프  
+프로그래머가 코드를 짤 때 변수와 스코프 블록을 어디서 작성하는 가에 기초해 렉서(lexer)가 코드를 처리할 때 확정된다.
