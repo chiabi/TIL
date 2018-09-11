@@ -1,7 +1,3 @@
-<!-- 리액트 
-purecomponent
-리액트 생명주기 순서
--->
 # React Lifecycle Methods
 
 ## Mounting
