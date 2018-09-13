@@ -1,0 +1,15 @@
+{
+  "name": "nodebird",
+  "version": "0.0.1",
+  "description": "Node.js 교과서 예제 연습용",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^1.6.1",
+    "sequelize": "^4.38.1"
+  }
+}
