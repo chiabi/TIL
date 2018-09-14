@@ -206,3 +206,55 @@ mysql> SHOW TABLES;
 +------------------+
 2 rows in set (0.00 sec)
 ```
+
+
+## 3. CRUD 
+
+Creat, Read, Update, Delete. 데이터베이스에서 많이 하는 작업 네 가지
+
+### 3.1. Create(생성)
+
+데이터를 생성해 데이터베이스에 넣는 작업
+
+- `INSERT INTO [테이블명] ([컬럼1], [컬럼2], ...) VALUES ([값1], [값2], ...)`
+
+users 테이블에 데이터를 넣어보자, `id`는 `AUTO_INCREMENT`에 의해, `create_at`은 `DEFAULT` 값에 의해 자동으로 들어간다.
+```sh
+mysql> INSERT INTO nodejs.users (name, age, married, comment) VALUES ('chi', 28, 0, '자기소개1');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> INSERT INTO nodejs.users (name, age, married, comment) VALUES ('sseon', 34, 0, '자기소개2');
+Query OK, 1 row affected (0.03 sec)
+```
+comments 테이블에도 데이터를 넣어보자
+```sh
+mysql> INSERT INTO nodejs.comments (commenter, comment) VALUES (1, '안녕하세요. chi의 댓글입니다.');
+Query OK, 1 row affected (0.07 sec)
+```
+
+### 3.2. Read(조회)
+
+데이터베이스에 있는 데이터를 조회하는 작업
+
+- `SELECT * FROM [테이블명]`: 모든 데이터를 조회
+- `SELECT [컬럼1], [컬럼2] ... FROM [테이블명]`: 특정 컬럼만 조회
+
+users 테이블과 comments 테이블의 모든 데이터를 조회하자.
+```sh
+mysql> SELECT * FROM nodejs.users;
++----+-------+-----+---------+-----------+---------------------+
+| id | name  | age | married | comment   | created_at          |
++----+-------+-----+---------+-----------+---------------------+
+|  1 | chi   |  28 |       0 | 자기소개1 | 2018-09-14 23:01:06 |
+|  2 | sseon |  34 |       0 | 자기소개2 | 2018-09-14 23:01:29 |
++----+-------+-----+---------+-----------+---------------------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT * FROM nodejs.comments;
++----+-----------+-------------------------------+---------------------+
+| id | commenter | comment                       | created_at          |
++----+-----------+-------------------------------+---------------------+
+|  1 |         1 | 안녕하세요. chi의 댓글입니다. | 2018-09-14 23:06:50 |
++----+-----------+-------------------------------+---------------------+
+1 row in set (0.00 sec)
+```
