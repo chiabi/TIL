@@ -238,6 +238,14 @@ Query OK, 1 row affected (0.07 sec)
 
 - `SELECT * FROM [테이블명]`: 모든 데이터를 조회
 - `SELECT [컬럼1], [컬럼2] ... FROM [테이블명]`: 특정 컬럼만 조회
+- `SELECT [컬럼1], [컬럼2] ... FROM [테이블명] WHERE [조건1] AND [조건2]`
+  - `WHERE` 절:  특정 조건을 가진 데이터만 조회
+    - `AND`: 조건을 모두 만족하는 데이터를 찾는다.
+    - `OR`: 조건 중 어느 하나라도 만족하는 데이터를 찾는다.
+- `SELECT [컬럼1], [컬럼2] ... FROM [테이블명] ORDER BY [컬럼명] DESC LIMIT 1 OFFSET 1`
+  - `ORDER BY [컬럼명] [ASC|DESC]` 키워드: 오름차순(ASC), 내림차순(DESC) 정렬
+  - `LIMIT [숫자]` 키워드: 조회할 로우 개수를 설정 
+  - `OFFSET [건너뛸 숫자]`: 몇 개를 건너뛸지 설정 
 
 users 테이블과 comments 테이블의 모든 데이터를 조회하자.
 ```sh
@@ -256,5 +264,96 @@ mysql> SELECT * FROM nodejs.comments;
 +----+-----------+-------------------------------+---------------------+
 |  1 |         1 | 안녕하세요. chi의 댓글입니다. | 2018-09-14 23:06:50 |
 +----+-----------+-------------------------------+---------------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT name, married FROM nodejs.users;
++-------+---------+
+| name  | married |
++-------+---------+
+| chi   |       0 |
+| sseon |       0 |
++-------+---------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT name, age FROM nodejs.users WHERE married = 0 AND age > 30;
++-------+-----+
+| name  | age |
++-------+-----+
+| sseon |  34 |
++-------+-----+
+1 row in set (0.00 sec)
+
+mysql> SELECT id, name FROM nodejs.users WHERE married = 0 OR age > 30;
++----+-------+
+| id | name  |
++----+-------+
+|  1 | chi   |
+|  2 | sseon |
++----+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC;
++----+-------+
+| id | name  |
++----+-------+
+|  2 | sseon |
+|  1 | chi   |
++----+-------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1;
++----+-------+
+| id | name  |
++----+-------+
+|  2 | sseon |
++----+-------+
+1 row in set (0.00 sec)
+
+mysql> SELECT id, name FROM nodejs.users ORDER BY age DESC LIMIT 1 OFFSET 1;
++----+------+
+| id | name |
++----+------+
+|  1 | chi  |
++----+------+
+1 row in set (0.00 sec)
+```
+
+### 3.3. Update(수정)
+
+데이터베이스에 있는 데이터를 수정
+
+- `UPDATE [테이블명] SET [컬럼명=바꿀 값] WHERE [조건]`
+
+```sh
+mysql> UPDATE nodejs.users SET comment = '안녕하세요, 이 필드는 수정되었습니다' WHERE id = 2;
+Query OK, 1 row affected (0.17 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM nodejs.users;
++----+-------+-----+---------+--------------------------------------+---------------------+
+| id | name  | age | married | comment                              | created_at          |
++----+-------+-----+---------+--------------------------------------+---------------------+
+|  1 | chi   |  28 |       0 | 자기소개1                             | 2018-09-14 23:01:06 |
+|  2 | sseon |  34 |       0 | 안녕하세요, 이 필드는 수정되었습니다    | 2018-09-14 23:01:29 |
++----+-------+-----+---------+--------------------------------------+---------------------+
+2 rows in set (0.00 sec)
+```
+
+### 3.4. Delete(삭제)
+
+데이터베이스에 있는 데이터를 삭제
+
+- `DELETE FROM [테이블명] WHERE [조건]`
+
+```sh
+mysql> DELETE FROM nodejs.users WHERE id=2;
+Query OK, 1 row affected (0.12 sec)
+
+mysql> SELECT * FROM nodejs.users;
++----+------+-----+---------+-----------+---------------------+
+| id | name | age | married | comment   | created_at          |
++----+------+-----+---------+-----------+---------------------+
+|  1 | chi  |  28 |       0 | 자기소개1 | 2018-09-14 23:01:06 |
++----+------+-----+---------+-----------+---------------------+
 1 row in set (0.00 sec)
 ```
