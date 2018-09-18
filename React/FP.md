@@ -329,7 +329,356 @@ const Header = (props) => <h1>{props.title}</h1>
 
 한 유형의 데이터를 다른 유형으로 변형
 
-### 3.4. 고차 함수
+- `Array.prototype.filter()`는 술어(predicate)를 인자로 받는다. 
+  - 술어는 `true / false`값을 반환하는 함수
+  - 배열에 있는 모든 원소에 이 술어를 한번 씩 호출한다.
+  - 술어가 반환하는 값이 true이면 해당 원소를 새 배열에 넣는다.
+- `Array.prototype.map()`은 변환 함수를 인자로 받는다.
+  - 배열에 있는 모든 원소에 이 반환 함수를 적용해 반환 받은 값으로 이루어진 새 배열을 반환한다. 
+- `Array.prototype.reduce()`, `Array.prototype.reduceRight()`는 배열을 기본 타입의 값이나 다른 객체로 변환할 수 있다.
+  - 배열을 하나의 값으로 축약(reduce)한다.
+
+```js
+const flavors = [
+  'Lemon',
+  'Vanilla',
+  'Strawberry',
+  'Chocolate',
+  'Lime'
+]
+```
+`filter`를 사용해 싫어하는 맛을 제거한 맛 리스트를 반환하는 함수를 만들어보자
+```js
+const cutHateFlavors = (hates, list) => 
+  list.filter(flavor => 
+    Array.isArray(hates) ? 
+      !hates.includes(flavor) :
+      flavor !== hates
+    )
+
+console.log(cutHateFlavors(['Lemon', 'Lime'], flavors))
+console.log(cutHateFlavors('Lemon', flavors))
+console.log(flavors)
+// [ 'Vanilla', 'Strawberry', 'Chocolate' ]
+// [ 'Vanilla', 'Strawberry', 'Chocolate', 'Lime' ]
+// [ 'Lemon', 'Vanilla', 'Strawberry', 'Chocolate', 'Lime' ]
+```
+
+`map`을 사용해 아이스크림으로 만드는 함수를 만들어보자
+```js
+const makeIceCream = flavors => 
+  flavors.map(flavor => `${flavor} Ice Cream`)
+
+console.log(makeIceCream(flavors))
+console.log(flavors)
+// [ 'Lemon Ice Cream',
+//   'Vanilla Ice Cream',
+//   'Strawberry Ice Cream',
+//   'Chocolate Ice Cream',
+//   'Lime Ice Cream' ]
+// [ 'Lemon', 'Vanilla', 'Strawberry', 'Chocolate', 'Lime' ]
+```
+
+`map`을 사용해 `flavor` 키에 각 `falvors`의 배열의 문자열 값을 담은 객체를 포함한 배열 `iceCream`을 만들어 보자
+```js
+const iceCream = flavors.map(flavor => ({flavor}))
+console.log(iceCream);
+// [ { flavor: 'Lemon' },
+//   { flavor: 'Vanilla' },
+//   { flavor: 'Strawberry' },
+//   { flavor: 'Chocolate' },
+//   { flavor: 'Lime' } ]
+```
+
+`icecream`의 맛을 변경한 새로운 배열을 얻는 함수를 만들어보자
+```js
+const icecream = [ 
+  { flavor: 'Lemon' },
+  { flavor: 'Vanilla' },
+  { flavor: 'Strawberry' },
+  { flavor: 'Chocolate' },
+  { flavor: 'Lime' } 
+]
+
+const editFlavor = (oldFlavor, flavor, list) => 
+  list.map(item => item.flavor === oldFlavor ?
+    ({...item, flavor}) :
+    item
+  ) 
+
+const updateIcecream = editFlavor('Vanilla', 'Choco & Vanilla', icecream)
+console.log(updateIcecream);
+console.log(icecream[1]);
+// [ { flavor: 'Lemon' },
+//   { flavor: 'Choco & Vanilla' },
+//   { flavor: 'Strawberry' },
+//   { flavor: 'Chocolate' },
+//   { flavor: 'Lime' } ]
+// { flavor: 'Vanilla' }
+```
+
+`icecreams` 객체를 `flavor`, `likes` 프로퍼티를 가진 객체의 배열로 변환해보자
+```js
+const icecreams = {
+  'Lemon': 10,
+  'Vanilla': 2,
+  'Strawberry': 33
+}
+
+const icecreamsArray = Object.keys(icecreams).map(key => (
+  {
+    flavor: key,
+    likes: icecreams[key]
+  }
+))
+console.log(icecreamsArray);
+// [ { flavor: 'Lemon', likes: 10 },
+//   { flavor: 'Vanilla', likes: 2 },
+//   { flavor: 'Strawberry', likes: 33 } ]
+```
+
+`reduce`를 이용해 최댓값을 구해보자.
+```js
+const ages = [21, 18, 32, 40, 64, 63, 34]
+
+const maxAge = ages.reduce((max, value) => 
+  (value > max) ? value : max
+, 0)
+
+console.log(maxAge); // 64
+// 물론, `reduce`를 사용하는 대신, `Math.max(...ages)` 이렇게 구할 수도 있다.
+```
+
+`reduce`를 사용해 배열을 해시로 변환해보자
+```js
+const icecreams = [
+  {
+    id: 1,
+    flavor: '바닐라 맛',
+    likes: 3,
+  },
+  {
+    id: 2,
+    flavor: '딸기 맛',
+    likes: 10,
+  },
+  {
+    id: 3,
+    flavor: '초코 맛',
+    likes: 42,
+  },
+  {
+    id: 4,
+    flavor: '녹차 맛',
+    likes: 23,
+  },
+];
+
+const hashIcecream = icecreams.reduce((hash, {id, flavor, likes}) => {
+  hash[id] = {flavor, likes}
+  return hash
+}, {});
+
+console.log(hashIcecream)
+// { 1: { flavor: '바닐라 맛', likes: 3 },
+//   2: { flavor: '딸기 맛', likes: 10 },
+//   3: { flavor: '초코 맛', likes: 42 },
+//   4: { flavor: '녹차 맛', likes: 23 } }
+```
+
+`reduce`를 사용해 중복되는 값을 제거한 새로운 배열을 구해보자
+```js
+const flavors = [
+  'Lemon',
+  'Vanilla',
+  'Strawberry',
+  'Vanilla',
+  'Chocolate',
+  'Lemon',
+]
+
+const uniqueFlavors = flavors.reduce((uniques, flavor) => 
+  uniques.includes(flavor) ? uniques : [...uniques, flavor]
+, [])
+
+console.log(uniqueFlavors);
+// [ 'Lemon', 'Vanilla', 'Strawberry', 'Chocolate' ]
+```
+
+`reduceRight`는 reduce와 같은 방식으로 동작하는데, 다만 맨 마지막 원소부터 축약을 시작한다.
+```js
+const hello = '안녕하세요'
+
+const reverseText = (text) => 
+  text.split('').reduceRight((acc, item) => acc + item, '')
+
+reverseText(hello)
+// 요세하녕안
+```
+
+### 3.4. 고차 함수(High order function, HOF)
+
+다른 함수를 조작할 수 있는 함수  
+다른 함수를 인자로 받거나, 함수를 반환할 수 있는 함수  
+
+배열의 `map, reduce, filter` 메서드 역시 고차 함수이다.
+
+조건을 검사해서 조건이 참인 경우 fnTrue함수를 거짓인 경우 fnFalse 함수를 호출하는 `invokeIf`함수를 작성해보자.
+```js
+const invokeIf = (condition, fnTrue, fnFalse) => 
+  (condition) ? fnTrue() : fnFalse()
+
+const showWelcome = () => 
+  console.log('Welcome!!!')
+
+const showUnauthorized = () =>
+  console.log('Unauthorized!!!')
+
+invokeIf(true, showWelcome, showUnauthorized) // 'Welcome!!!'
+invokeIf(false, showWelcome, showUnauthorized) // 'Unauthorized!!!'
+```
+
+#### 커링(currying)
+
+고차 함수 사용법과 관련한 함수형 프로그래밍 기법  
+어떤 연산을 수행할 때 필요한 값 중 일부를 저장하고 나중에 나머지 값을 전달받는 기법  
+이를 위해 다른 함수를 반환하는 함수를 사용하며, 이를 커링된 함수라 부른다.
+
+```js
+const getFakeMembers = count => new Promise((resolves, rejects) => {
+  const api = `https://api.randomuser.me/?nat=US&results=${count}`
+  const request = new XMLHttpRequest()
+  request.open('GET', api)
+  request.onload = () => 
+    (request.status === 200) ?
+      resolves(JSON.parse(request.response).results) :
+      rejects(Error(request.statusText))
+    request.onerror = err => rejects(err)
+    request.send()
+})
+
+// userLogs는 고차함수이다.
+const userLogs = userName => message =>
+  console.log(`${userName} -> ${message}`)
+
+const log = userLogs('fake20')
+
+log('20명의 fake member를 로드하도록 시도해보자.')
+getFakeMembers(20).then(
+  members => log(`${members.length}명의 member를 로드하는데 성공했다.`),
+  error => log('member를 불러오는 중에 오류가 발생했다.')
+)
+// fake20 -> 20명의 fake member를 로드하도록 시도해보자.
+// fake20 -> 20명의 member를 로드하는데 성공했다.
+```
+`userLogs`를 호출해 만들어지는 `log`함수를 호출할 때마다 메시지 앞에 `fake20`이 덧붙여진다.
 
 ### 3.5. 재귀
 
+- 자기 자신을 호출하는 함수
+- 루프를 재귀로 바꿀 수 있다. 일부 루프는 재귀로 표현하는 쪽이 더 쉽다.
+  - 단, 자바스크립트 엔진은 재귀 깊이가 깊은 경우 제대로 최적화해주지 않는다.
+  - 컴파일러 최적화 - [꼬리재귀(tail recursion)](https://ko.wikipedia.org/wiki/%EA%BC%AC%EB%A6%AC_%EC%9E%AC%EA%B7%80)
+  - 컴파일러가 최적화를 제공하지 않을 경우 - 트램폴린(trampoline), 스트림(stream) 등의 기법을 통해 재귀를 수동으로 최적화
+- 비동기 프로세스에서도 잘 작동한다.(필요할 때 자기 자신을 다시 호출하게 한다.)
+- 데이터 구조를 검색할 때도 재귀가 유용하다.(하위 데이터를 뒤져가며 값을 찾을 때)
+
+10부터 0까지 거꾸로 출력하는 함수를 만들어보자.
+```js
+const countdown = (value, fn) => {
+  fn(value)
+  return value > 0 ? countdown(value - 1, fn) : value
+}
+
+countdown(10, value => console.log(value));
+// 10
+// 9
+// 8
+// 7
+// 6
+// 5
+// 4
+// 3
+// 2
+// 1
+// 0
+```
+
+`setTimeout`을 사용해 10부터 거꾸로 로그에 남기는 10초짜리 카운트 다운 함수를 만들자
+```js
+const countdown = (value, fn, delay = 1000) => {
+  fn(value)
+  return (value > 0) ? 
+    setTimeout(() => countdown(value - 1, fn), delay) : 
+    value
+}
+
+const log = value => console.log(value)
+countdown(10, log)
+```
+
+재귀로 객체에 내포된 값을 찾아내는 함수를 작성해보자
+```js
+const chiabi = {
+  type: 'person',
+  data: {
+    gender: 'female',
+    info: {
+      id: 28,
+      fullname: {
+        first: 'Chihye',
+        last: 'Park'
+      }
+    }
+  }
+}
+
+const deepPick = (fields, object = {}) => {
+  const [first, ...remaining] = fields.split('.')
+  // console.log(first)
+  // console.log(remaining)
+  return (remaining.length) ?
+    deepPick(remaining.join('.'), object[first]) :
+    object[first]
+}
+
+console.log(deepPick('type', chiabi)); // 'person'
+console.log(deepPick('data.info.fullname.first', chiabi)); // 'Chihye'
+```
+
+### 3.6. 합성
+
+각 함수를 서로 연쇄적으로 또는 병렬로 호출하거나 여러 작은 함수를 조합해 더 큰 함수로 만드는 과정  
+여러 가지 다른 구현과 패턴, 기법이 있다.
+
+함수를 연쇄 호출하는 **체이닝(chaining)**도 합성 방법 중 하나.
+```js
+const template = 'hh:mm:ss tt'
+const clockTime = template.replace('hh', '03')
+  .replace('mm', '33')
+  .replace('ss', '33')
+  .replace('tt', '33')
+```
+
+단순한 함수를 조합해 고차함수로 만드는 합성 방법도 있다.
+```js
+const both = date => appendAMPM(civilianHours(data));
+
+// 아래와 같이 compose라는 고차 함수를 이용해 합성할 수도 있다.
+const compose = (...fns) => 
+  arg => fns.reduce((composed, f) => f(composed), arg)
+
+const both = compose(
+  civilianHours,
+  appendAMPM
+)
+
+both(new Data())
+```
+
+### 3.7. 하나로 합치기
+
+함수형 프로그래밍을 위한 조건
+1. 데이터를 변경 불가능하게 유지한다.
+2. 함수를 순수 함수로 만든다. 인자는 적어도 하나 이상을 받게 한다. 데이터나 다른 함수를 반환해야 한다.
+3. 가능하면 루프보단 재귀를 사용한다.
