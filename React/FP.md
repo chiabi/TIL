@@ -165,8 +165,9 @@ render(
 ### 3.1. 불변성(immutable)
 
 함수형 프로그래밍에서는 데이터가 변할 수 없다.  
-이는 원본 데이터 구조를 변경하는 대신 그 데이터 구조의 복사본을 만들고 그중 일부를 변경하거나 필요한 작업을 진행하는 방식으로 해결한다.
+원본 데이터 구조를 변경하는 대신 그 데이터 구조의 복사본을 만들고 그중 일부를 변경하거나 필요한 작업을 진행하는 방식으로 해결한다.
 
+색을 표현하는 객체에 평점을 매기는 함수를 작성하자
 ```js
 let color_lawn = {
   title: "잔디",
@@ -174,3 +175,161 @@ let color_lawn = {
   rating: 0
 }
 ```
+- 원본 데이터가 변경되는 경우  
+  ```js
+  function rateColor(color, rating) {
+    color.rating = rating
+    return color
+  }
+
+  // 함수의 인자는 실제 데이터에 대한 참조다.
+  console.log(rateColor(color_lawn, 5).rating) // 5
+
+  // 원본 color_lawn 객체의 rating도 변경되었다.
+  console.log(color_lawn.rating) // 5
+  ```
+- 원본 데이터를 그대로 남긴 채 복사본의 rating 값을 rating 파라미터 값으로 변경하는 경우
+  ```js
+  const rateColor = (color, rating) => {
+    return Object.assign({}, color, {rating})
+  }
+
+  console.log(rateColor(color_lawn, 5).rating) // 5
+  console.log(color_lawn.rating) // 0
+  ```
+  ```js
+  // ES7의 스프레드 연산자를 사용해 다음과 같이 작성할 수도 있다.
+  const rateColor = (color, rating) => ({
+    ...color,
+    rating
+  })
+  ```
+
+색의 이름으로 이루어진 배열에 색의 이름을 추가하는 함수를 작성하자.
+```js
+let colorArray = [
+  { title: '오렌지 라이언'},
+  { title: '핑크 어피치'},
+  { title: '옐로우 무지'}
+]
+```
+- `Array.prototype.push()`는 불변성 함수가 아니므로 다음의 경우에 원본 배열이 변경된다.
+  ```js
+  const addColor = (title, colors) => {
+    colors.push({title});
+    return colors;
+  }
+
+  console.log(addColor('초록색 튜브', colorArray).length) // 4
+  console.log(colorArray.length) // 4
+  ```
+- `Array.prototype.concat()`을 사용해 원본 배열을 유지하고, 복사된 배열에 새로운 색 이름을 추가한다.
+  ```js
+  const addColor = (title, colors) => colors.concat({title})
+
+  console.log(addColor('초록색 튜브', colorArray).length) // 4
+  console.log(colorArray.length) // 3
+  ```
+  ```js
+  // ES6의 배열 스프레드 연산자를 사용해 다음과 같이 작성 할 수도 있다.
+  const addColor = (title, colors) => [...colors, {title}]
+  ```
+
+### 3.2. 순수 함수(pure function)
+
+- 파라미터에 의해서만 반환값이 결정되는 함수. 
+- 최소 하나 이상의 인자를 받는다.(인자를 받지 않는다면 항상 같으므로 상수와 같아진다.)
+- 인자가 같으면 항상 같은 값이나 함수를 반환한다.
+- 부수 효과(side effect)가 없다.
+  - 부수효과: 전역 변수를 설정하거나, 함수 내부나 애플리케이션에 있는 다른 상태를 변경하는 것
+- 인자를 변경 불가능한 데이터로 취급한다.
+
+다음은 순수하지 않은 함수이다.
+```js
+const chiabi = {
+  name: 'Chihye Park',
+  canRead: false,
+  canWrite: false,
+}
+
+const selfEducate = () => {
+  chiabi.canRead = true
+  chiabi.canWrite = true
+  return chiabi
+}
+
+selfEducate()
+console.log(chiabi) 
+
+// { name: 'Chihye Park', canRead: true, canWrite: true }
+```
+`selfEducate`함수는 호출에 따른 부수효과가 발생하므로 순수하지 않다.
+- 인자를 취하지 않았다.
+- 값을 반환하거나 함수를 반환하지 않는다.
+- 영역 밖의 `chiabi`라는 변수를 바꾸었다.
+
+다음은 전달받은 인자 `person`으로부터 새로운 값을 계산해 새로 만든 객체를 반환하는 순수 함수이다.
+```js
+const chiabi = {
+  name: 'Chihye Park',
+  canRead: false,
+  canWrite: false,
+}
+
+const selfEducate = (person) => ({
+  ...person,
+  canRead: true,
+  canWrite: true
+});
+
+console.log(selfEducate(chiabi)) 
+// { name: 'Chihye Park', canRead: true, canWrite: true }
+console.log(chiabi)
+// { name: 'Chihye Park', canRead: false, canWrite: false }
+```
+
+DOM을 변경하는 순수하지 않은 함수
+```js
+const Header = text => {
+  let h1 = document.createElement('h1')
+  h1.innerText = text;
+  document.body.appendChild(h1);
+}
+
+Header("Header() caused side effects");
+```
+`Header`함수는 인자로 받은 텍스트를 머리글에 넣는다.  
+- 함수나 값을 반환하지 않는다.
+- DOM을 변경하는 부수 효과를 발생시킨다.
+
+리액트에서는 UI를 다음과 같이 순수 함수로 표현한다.
+```jsx
+const Header = (props) => <h1>{props.title}</h1>
+```
+- DOM을 변경하는 부수 효과 없이 엘리먼트를 반환한다.
+- DOM을 변경하는 책임은 애플리케이션의 다른 부분이 담당한다.
+
+#### 순수 함수를 만드는 3가지 규칙
+
+1. 파라미터를 최소 하나 이상 받아야 한다.
+2. 값이나 다른 함수를 반환해야 한다.
+3. 인자나 함수 밖에 있는 다른 변수를 변경하거나 입출력을 수행해서는 안된다.
+
+#### 순수 함수는 테스트하기 쉽다.
+
+자신의 환경 또는 어떤 것도 변화시키지 않으므로 복잡한 테스트 준비과정이나 정리과정이 필요치 않다.  
+함수에 전달되는 인자만 제어하면 되며, 인자에 따른 결과값을 예상할 수 있다.
+
+#### 순수 함수에서는 로그/출력도 허용해선 안된다.
+
+(특히 병렬/동시성 프로그래밍에서) 콘솔에 로그나, 파일 출력등 디버깅을 위한 행위에 의해 함수와 외부 환경과의 상호작용이 바뀔 수도 있다.  
+- [하이젠버그](https://ko.wikipedia.org/wiki/%ED%95%98%EC%9D%B4%EC%A0%A0%EB%B2%84%EA%B7%B8): 디버깅을 위해 추가한 코드로 인해 프로그램의 동작이 바뀌는 형태의 버그
+
+### 3.3. 데이터 변환
+
+한 유형의 데이터를 다른 유형으로 변형
+
+### 3.4. 고차 함수
+
+### 3.5. 재귀
+
