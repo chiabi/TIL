@@ -662,18 +662,21 @@ const clockTime = template.replace('hh', '03')
 
 단순한 함수를 조합해 고차함수로 만드는 합성 방법도 있다.
 ```js
-const both = date => appendAMPM(civilianHours(data));
+const greet = (name) => `Hello, ${name}`
+const exclaim = (statement) => `${statement.toUpperCase()}!!!`
+
+exclaim(greet('chiabi')); // 'HELLO, CHIABI!!!'
 
 // 아래와 같이 compose라는 고차 함수를 이용해 합성할 수도 있다.
 const compose = (...fns) => 
   arg => fns.reduce((composed, f) => f(composed), arg)
 
-const both = compose(
-  civilianHours,
-  appendAMPM
+const welcome = compose(
+  greet,
+  exclaim
 )
 
-both(new Data())
+welcome('chiabi');  // 'HELLO, CHIABI!!!'
 ```
 
 ### 3.7. 하나로 합치기
@@ -682,3 +685,94 @@ both(new Data())
 1. 데이터를 변경 불가능하게 유지한다.
 2. 함수를 순수 함수로 만든다. 인자는 적어도 하나 이상을 받게 한다. 데이터나 다른 함수를 반환해야 한다.
 3. 가능하면 루프보단 재귀를 사용한다.
+
+정상 동작하는 시계를 만들자.
+- 시계는 시, 분, 초, 오전/오후를 상용시를 사용해 표시
+- 각 필드에는 숫자가 2개, 따라서 숫자가 하나뿐인 경우 앞에 0을 추가
+- 시간 표시를 매초 갱신
+
+```js
+const compose = (...fns) => arg => fns.reduce((composed, f) => f(composed), arg)
+
+// 1. 콘솔을 관리하거나 값을 돌려주는 함수들
+const oneSecond = () => 1000
+const getCurrentTime = () => new Date()
+const clear = () => console.clear()
+const log = message => console.log(message)
+
+// 2. 데이터를 변환하는 함수들
+//    - 원본 객체를 변화시키지 않고 새 객체를 반환한다.
+//    - 인자를 불변 객체로 다룬다.
+
+// date 객체를 받아 시, 분, 초가 들어 있는 24시간제 시각을 반환
+const abstractClockTime = date => ({
+  hours: date.getHours(),
+  minutes: date.getMinutes(),
+  seconds: date.getSeconds()
+})
+
+// 24시간제 시각을 받아 상용시 시각으로 변환
+const civilianHours = clockTime => ({
+  ...clockTime,
+  hours: (clockTime.hours > 12) ? 
+    clockTime.hours - 12 : 
+    clockTime.hours
+})
+
+// 24시간제 시각을 받아 시각에 맞는 AM, PM을 붙여준다.
+const appendAMPM = clockTime => ({
+  ...clockTime,
+  ampm: (clockTime.hours >= 12) ? 'PM' : 'AM'
+})
+
+// 고차함수들
+// 대상 함수를 인자로 받아 그 함수에 시각을 전달하는 함수를 반환
+const display = target => time => target(time)
+
+// 템플릿 문자열을 받아 그 문자열이 지정하는 형식대로 시각을 표현한는 문자열 반환
+const formatClock = format => time =>
+  format.replace('hh', time.hours)
+    .replace('mm', time.minutes)
+    .replace('ss', time.seconds)
+    .replace('tt', time.ampm)
+
+// 키와 객체를 인자로 받아 객체에서 키에 해당하는 프로퍼티 값이 9 이하인 경우 앞에 0을 붙인 문자열 반환
+const prependZero = key => clockTime => ({
+  ...clockTime,
+  [key]: (clockTime[key] < 10) ?
+    `0${clockTime[key]}` :
+    clockTime[key]
+})
+
+// 24시간제 시각을 받아 상용시로 변환하는 함수
+const convertToCivilianTime = clockTime => 
+  compose(
+    appendAMPM,
+    civilianHours
+  )(clockTime)
+
+// 상용시 객체를 받아 시, 분, 초가 두자리 숫자로 이루어졌는지 확인하고 필요하면 앞에 0을 붙인다.
+const doubleDigits = civilianTime => 
+  compose (
+    prependZero('hours'),
+    prependZero('minutes'),
+    prependZero('seconds'),
+  )(civilianTime)
+
+// 매초 호출되는 인터벌 타이머를 설정, 시계를 시작한다. 
+const startTicking = () => 
+  setInterval(
+    compose(
+      clear,
+      getCurrentTime,
+      abstractClockTime,
+      convertToCivilianTime,
+      doubleDigits,
+      formatClock('hh:mm:ss tt'),
+      display(log)
+    ),
+    oneSecond()
+  )
+
+startTicking()
+```
