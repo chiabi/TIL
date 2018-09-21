@@ -1,14 +1,9 @@
-import { getMovies, getById, addMovie, deleteMovie } from './db'
+import { getMovies } from './db'
 
 const resolvers = {
   Query: {
-    movies: () => getMovies(),
-    movie: (_, {id}) => getById(id)
+    movies: (_, {limit, rating}) => getMovies(limit, rating),
   },
-  Mutation: {
-    addMovie: (_, {name, score}) => addMovie(name, score),
-    deleteMovie: (_, {id}) => deleteMovie(id)
-  }
 };
 
 export default resolvers;
