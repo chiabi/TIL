@@ -5,8 +5,8 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "graphql-yoga": "^1.16.2",
-    "node-fetch": "^2.2.0"
+    "axios": "^0.18.0",
+    "graphql-yoga": "^1.16.2"
   },
   "scripts": {
     "start": "nodemon --exec babel-node index.js"
