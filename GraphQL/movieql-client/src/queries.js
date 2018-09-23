@@ -23,9 +23,10 @@ export const MOVIE_DETAILS = gql`
       genres
     }
     suggestions(id: $movieId) {
-      medium_cover_image
+      id
       title
       rating
+      medium_cover_image
     }
   }
 `;
