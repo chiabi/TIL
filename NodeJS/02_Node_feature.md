@@ -75,7 +75,7 @@ module.exports = checkOddOrEven;
 ```js
 // index.js
 const { odd, even } = require("./var");
-// checkOddOrEven를 checkNumber라는 이르으로 사용한다.
+// checkOddOrEven를 checkNumber라는 이름으로 사용한다.
 const checkNumber = require("./func");
 
 function checkStringOddOrEven(str) {
@@ -127,7 +127,7 @@ const { odd, even } = require("./var");
 console.log(odd);
 ```
 
-노드 버전에 따라 콘솔 내용이 다르 수 있다.
+노드 버전에 따라 콘솔 내용이 다를 수 있다.
 
 ```sh
 $ node
@@ -163,7 +163,7 @@ $ node
   - 옵션:
     - color - 콘솔에 색 추가
     - depth - 객체 안 몇 단계까지 보여줄 지 결정(기본값 2)
-- `console.trace(레이블)`: 에러가 어디에서 발생했는지 추적할 수 있게 함. 보통은 에러 발생 시 에러위치를 알려주므로 자주 사용하지는 않는다.
+- `console.trace(레이블)`: 에러가 어디에서 발생했는지 추적할 수 있게 함. 보통은 에러 발생 시 에러 위치를 알려주므로 자주 사용하지는 않는다.
 
 ### 4.2. 타이머
 
@@ -183,7 +183,7 @@ $ node
 
 ※ `setImmediate()`과 `setTimeout(콜백, 0)`에 담긴 콜백 함수는 이벤트 루프를 거친 뒤 즉시 실행된다. 파일 시스템 접근, 네트워킹 같은 I/O 작업의 콜백 함수 안에서 타이머를 호출하는 것과 같은 특수한 경우 `setImmediate()`이 보다 먼저 실행되지만 항상 그런 것은 아니므로 혼동되지 않게, `setTimeout(콜백, 0)`은 사용하지 않는 것이 좋다.
 
-### 4.3. **filename, **dirname
+### 4.3. `__filename`, `__dirname`
 
 `__filename`, `__dirname` 키워드는 경로에 대한 정보를 제공한다.  
 현재 파일의 경로나 파일명을 알아야할 때 사용
@@ -279,7 +279,7 @@ resolve 된 `Promise`도 `nextTick`처럼 다른 콜백들보다 우선시 되�
 
 단, 마이크로태스크를 재귀 호출할 경우, 이벤트 루프틑 다른 콜백함수보다 마이크로태스크를 우선하여 처리하기 때문에 콜백함수들이 실행되지 않을 수 있다.
 
-![태스크와 마이크로 태스크](../asset/the-Node-js-event-loop.png)
+![태스크와 마이크로 태스크](../asset/the-Node-js-event-loop.png)  
 <sub>(이미지 출처: https://blog.risingstack.com/node-js-at-scale-understanding-node-js-event-loop//)<sub>
 
 ### 4.7. [process.exit([code])](https://nodejs.org/api/process.html#process_process_exit_code)
