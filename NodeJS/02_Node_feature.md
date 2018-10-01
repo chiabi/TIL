@@ -291,3 +291,86 @@ resolve 된 `Promise`도 `nextTick`처럼 다른 콜백들보다 우선시 되�
 
 - 없거나 0: 정상 종료
 - 1: 비정상 종료
+
+## 5. 노드 내장 모듈
+
+노드에서 제공하는 모듈을 사용하면 다음과 같은 기능들을 사용할 수 있다.
+
+- 운영체제 정보에 접근
+- 클라이언트가 요청한 주소에 대한 정보 가져오기
+
+※ 노드 모듈은 버전마다 차이가 있다.
+
+## os
+
+노드는 os 모듈에 정보가 담겨 있어 운영체제의 정보를 가져올 수 있다.  
+주로 컴퓨터 내부 자원에 빈번하게 접근하는 경우 사용된다.  
+일반적인 웹 서비스를 제작할 때는 사용 빈도가 높지 않지만 운영체제 별로 다른 서비스를 제공하고 싶을때 유용하다.
+
+- 운영체제 정보
+  - `os.arch()` : `process.arch`와 동일, 프로세서 아키텍처 정보
+  - `os.platform()` : `process.platform`과 동일, 운영체제 플랫폼 정보
+  - `os.type()` : 운영제체 종류
+  - `os.uptime()` : 운영체제 부팅 이후 흐른 시간(초)
+  - `os.hostname()` : 컴퓨터 이름
+  - `os.release()` : 운영체제 버전
+- 경로 정보
+  - `os.homedir()` : 홈 디렉터리 경로
+  - `os.tmpdir()` : 임시 파일 저장 경로
+- cpu 정보
+  - `os.cpus()` : 컴퓨터의 코어 정보
+  - `os.cpus().length`로 코어의 개수를 알 수 있다. 단, 노드는 싱글 스레드라 코어가 몇 개이든 대부분의 경우 코어 하나밖에 사용하지 않는다.
+- 메모리(RAM) 정보
+  - `os.freemem()` : 사용 가능한 메모리(RAM)
+  - `os.totalmem()` : 전체 메모리 용량
+- 에러와 신호에 대한 정보
+  - `os.constants`: 에러 발생 시 `EADDRINUSE`나 `ECONNRESET`같은 에러 코드를 함께 보여주는데, 이러한 코드들이 `os.constants`객체 안에 들어있다.
+
+```sh
+> console.dir(os.constants);
+{ UV_UDP_REUSEADDR: 4,
+  errno:
+   { E2BIG: 7,
+     EACCES: 13,
+     EADDRINUSE: 100,
+     # ...중략
+     WSA_E_CANCELLED: 10111,
+     WSAEREFUSED: 10112 },
+  signals:
+   { SIGHUP: 1,
+     SIGINT: 2,
+     # ...중략
+     SIGBREAK: 21,
+     SIGWINCH: 28 } }
+```
+
+## path
+
+폴더와 파일 경로를 쉽게 조작하도록 도와주는 모듈.  
+운영체제별로 경로 구분자가 다르기 때문에 필요한 모듈이다.  
+파일 경로에서 파일명이나 확장자만 따로 떼어주는 기능도 구현되어있다.
+
+- Windows: `\` 로 구분 - `C:\Users\chiabi\Documents`
+- POSIX: `/`로 구분 `/home/chiabi`
+
+※ POSIX: 유닉스 기반 운영체제들(maxOS, 리눅스)
+
+- `path.sep`: 경로의 구분자. Windows(`\`), POSIX(`/`)
+- `path.delimiter`: 환경변수의 구분자. `process.env.PATH`를 입력하면 여러 개의 경로가 이 구분자로 구분되어 있다. Windows(`;`), POSIX(`:`)
+- `path.dirname(path)`: 파일이 위치한 폴더 경로
+- `path.extname(path)`: 파일 확장자
+- `path.basename(path[, ext])`: 파일의 이름(확장자 포함), 파일 이름만 표시하고 싶을 때 두번째 인자에 확장자를 넣어주면 됨
+- `path.parse(path)`: 파일 경로를 `root`, `dir`, `base`, `ext`, `name`으로 분리해서 객체를 반환
+- `path.format(pathObject)`: `path.parse()`한 객체를 파일 경로로 합친다.
+- `path.normalize(path)`: `\`나 `/` 혼용/여러번 사용 시 정상적인 경로로 변환
+- `path.isAbsolute(path)`: 파일 경로가 절대경로인지 상대경로인지 `true`, `false`반환
+- `path.relative(from, to)`: 경로를 두 개 넣으면 첫번째 경로에서 두번째 경로로 가는 방법을 알려줌
+- `path.join([...paths])`: 여러 인자를 넣으면 하나의 경로로 합침. 상대경로(`..`)와 현 위치(`.`)도 알아서 처리
+- `path.resolve([...paths])`: `path.join`과 비슷하지만 동작 방식이 다르다. `/`를 만나면 절대경로로 인식해서 앞의 경로를 무시한다.(`path.join`은 상대 경로로 처리한다.)
+
+```js
+path.join("/a", "/b", "c");
+// '\\a\\b\\c'
+path.resolve("/a", "/b", "c");
+// 'C:\\b\\c'
+```
