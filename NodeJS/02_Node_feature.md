@@ -301,7 +301,7 @@ resolve 된 `Promise`도 `nextTick`처럼 다른 콜백들보다 우선시 되�
 
 ※ 노드 모듈은 버전마다 차이가 있다.
 
-## os
+## 5.1. os
 
 노드는 os 모듈에 정보가 담겨 있어 운영체제의 정보를 가져올 수 있다.  
 주로 컴퓨터 내부 자원에 빈번하게 접근하는 경우 사용된다.  
@@ -344,7 +344,7 @@ resolve 된 `Promise`도 `nextTick`처럼 다른 콜백들보다 우선시 되�
      SIGWINCH: 28 } }
 ```
 
-## path
+## 5.2. path 🌟
 
 폴더와 파일 경로를 쉽게 조작하도록 도와주는 모듈.  
 운영체제별로 경로 구분자가 다르기 때문에 필요한 모듈이다.  
@@ -373,4 +373,257 @@ path.join("/a", "/b", "c");
 // '\\a\\b\\c'
 path.resolve("/a", "/b", "c");
 // 'C:\\b\\c'
+```
+
+※ 기본적으로 Windows 경로는 `\`하나만 사용해 표시한다. 단, 자바스크립트 문자열에서는 `\`가 특수문자이기 때문에 `\\`를 붙여(이스케이프) 경로를 표시해야한다. (Ex, `C:\\Users`)
+
+- 절대경로: 루트폴더(Windows - `C:\` | POSIX - `/`)나 노드 프로세스가 실행되는 위치 기준
+- 상대경로: 현재 파일 기준
+
+※ [path.posix](https://nodejs.org/api/path.html#path_path_posix), [path.win32](https://nodejs.org/api/path.html#path_path_win32)
+Windows 에서 POSIX 스타일 path 를 사용할 때나 그 반대의 경우
+
+- Windows: `path.posix.sep`, `path.posix.join()`
+- POSIX: `path.win32.sep`, `path.win32.join()`
+
+## 5.3. url
+
+인터넷 주소를 쉽게 조작하도록 도와주는 모듈
+
+url 처리 방법 2 가지
+
+- The WHATWG URL API - WHATWG 방식의 url(node 버전 7)
+
+  ```js
+  const url = require("url");
+
+  const URL = url.URL;
+  const myURL = new URL("https://github.com/chiabi");
+  console.log(myURL);
+  ```
+
+  `urername`, `password`, `origin`, `searchParams` 는 WHATWG 에만 있다.
+
+  ```sh
+  URL {
+    href: 'https://github.com/chiabi',
+    origin: 'https://github.com',
+    protocol: 'https:',
+    username: '',
+    password: '',
+    host: 'github.com',
+    hostname: 'github.com',
+    port: '',
+    pathname: '/chiabi',
+    search: '',
+    searchParams: URLSearchParams {},
+    hash: '' }
+  ```
+
+  [WHATWG URL standard](https://url.spec.whatwg.org/)
+
+- Legacy URL API
+
+  ```js
+  const url = require("url");
+
+  const parsedUrl = url.parse("https://github.com/chiabi");
+  console.log(parsedUrl);
+  ```
+
+  ```sh
+  Url {
+    protocol: 'https:',
+    slashes: true,
+    auth: null,
+    host: 'github.com',
+    port: null,
+    hostname: 'github.com',
+    hash: null,
+    search: null,
+    query: null,
+    pathname: '/chiabi',
+    path: '/chiabi',
+    href: 'https://github.com/chiabi' }
+  ```
+
+### 기존 노드 방식
+
+기존 노드 방식에서는 다음 두 메서드를 주로 사용한다.
+
+- `url.parse()`: 주소를 분해
+  - `username`, `password`: `auth`
+  - `searchParmas`: `query`
+- `url.format()`: 분해된 주소를 다시 조립. 2 가지 방식의 url 모두 사용할 수 있다.
+
+※ WHATWG 방식은 주소가 `host` 없이 `pathname` 부분만 오는 경우 이 주소를 처리할 수 없음 (Ex. `/book/bookList.aspx`);
+
+### WHATWG 방식
+
+WHATWG 방식은 `search` 부분을 `searchParams` 라는 특수한 객체로 반환할 수 있어 유용하다.
+
+`search` 부분은 보통 주소를 통해 데이터를 전달할 때 사용한다.  
+물음표(?)로 시작하고, 그 뒤 **키=값** 형식으로 데이터를 전달한다.  
+여러 키는 `&`로 구분한다.
+
+```sh
+http://www.gilbut.co.kr/?page=3&limit=10&category=nodejs
+                        └───────────search 부분─────────┘
+```
+
+```js
+const { URL } = require("url");
+
+const myURL = new URL(
+  "http://www.gilbut.co.kr/?page=3&limit=10&category=nodejs&category=javascript"
+);
+console.log(myURL.searchParams);
+```
+
+```sh
+URLSearchParams {
+  'page' => '3',
+  'limit' => '10',
+  'category' => 'nodejs',
+  'ategory' => 'javascript' }
+```
+
+- `getAll(key)`: 키에 해당하는 모든 값을 가져옴
+- `get(key)`: 키에 해당하는 첫번 째 값만 가져옴
+- `has(key)`: 해당 키가 있는지 없는지 검사
+- `keys()`: `searchParams`의 모든 키를 iterator 객체로 가져옴
+- `values()`: `searchParams`의 모든 값을 iterator 객체로 가져옴
+- `append(key, value)`: 해당 키를 추가. 같은 키의 값이 있다면 유지하고 하나 더 추가
+- `set(key, value)`: `append` 와 비슷하지만 같은 키의 값들을 모두 지우고 새로 추가
+- `delete(key)`: 해당 키 제거
+- `toString()`: 조작한 `searchParams` 객체를 다시 문자열화, 이 문자열을 `search`에 대입하면 주소 객체에 반영된다.
+
+## 5.4. querystring
+
+기존 노드의 `url` 을 사용할 때 `search` 부분을 사용하기 쉽게 객체로 만드는 모듈
+
+- `querystring.parse(str[, sep[, eq[, options]]])`: url 의 query 부분을 자바스크립트 객체로 분해
+  - `str`: The URL query string to parse
+- `querystring.stringify(obj[, sep[, eq[, options]]])`: 분해된 query 객체를 문자열로 다시 조립
+
+## 5.5. crypto
+
+다양한 방식의 암호화를 도와주는 모듈
+
+### 5.5.1. 단방향 암호화
+
+복호화할 수 없는 암호화 방식(원래 문자열로 되돌릴 수 없음)  
+비밀번호는 보통 단방향 암호화 알고리즘을 사용해 암호화한다.
+
+주로 해시 기법 사용  
+※ 해시기법: 어떤 문자열을 고정된 길이의 다른 문자열로 바꾸는 방법  
+※ [SHA(Secure Hash Algorithm, 안전한 해시 알고리즘)](https://ko.wikipedia.org/wiki/SHA)
+
+```
+[SHA256 해시 생성]
+abcdefg
+=> C1D5FCA36C2B83E30A9834DBCF3597CD253AA2695358AB027F2612B4D5A81601
+```
+
+```js
+const crypto = require("crypto");
+crypto
+  .createHash("sha512")
+  .update("비밀번호")
+  .digest("hex");
+```
+
+- `crypto.createHash(algorithm[, options])`: 사용할 해시 알고리즘을 넣는다.
+  - `md5`(취약), `sha1`(취약), `sha256`, `sha512`
+  - 현재는 sha512 정도로 충분하지만 취약해지면 더 강화된 알고리즘으로 바꿔야한다.
+- `hash.update(data[, inputEncoding])`: 변환할 문자열을 넣는다.
+- `hash.digest([encoding])`: 인코딩할 알고리즘을 넣으면, 결과물로 변환된 문자열을 반환한다.
+  - `base64`(가장 짧아 애용), `hex`, `latin`
+
+#### pbkdf2
+
+※ [해시충돌](https://ko.wikipedia.org/wiki/%ED%95%B4%EC%8B%9C_%EC%B6%A9%EB%8F%8C)  
+해시 함수가 서로 다른 두 개의 입력값에 대해 동일한 출력값을 내는 상황
+
+현재는 주로 **pbkdf2**, **bcrypt**, **scrypt** 라는 알고리즘으로 비밀번호를 암호화한다.
+
+- [참고: Naver d2 - 안전한 패스워드 저장](https://d2.naver.com/helloworld/318732)
+
+pbkdf2 는 노드에서 지원한다. 기존 문자열에 `salt`라고 불리는 문자열을 붙인 후 해시 알고리즘을 반복해서 적용하는 것
+
+**salt**: 다이제스트를 생성할 때 추가되는 바이트 단위의 임의의 문자열
+
+```js
+// pbkdf2
+const crypto = require("crypto");
+
+crypto.randomBytes(64, (err, buf) => {
+  // randomBytes() : 64 바이트 길이의 문자열을 만들어 salt에 저장
+  const salt = buf.toString("base64");
+  console.log("salt: ", salt);
+  // pbkdf2(암호화할 비빌먼호, salt, 반복횟수, 출력 바이트, 해시 알고리즘)
+  crypto.pbkdf2("비밀번호", salt, 100000, 64, "sha512", (err, key) => {
+    console.log("password: ", key.toString("base64"));
+  });
+});
+```
+
+sha512 로 변환될 결과값으 10 만 번 반복 후 다시 변환 과정을 10 만 번 반복  
+간단하지만 bcrypt, scrypt 보다는 취약하다.
+
+### 5.5.2. 양방향 암호화
+
+crypto 모듈은 양방향 대칭형 암호화, 양방향 비대칭형 암호화, HMAC 등의 다양한 암호화를 제공한다.
+
+- [참고: 대칭형/비대칭형 암호 알고리즘](https://sungjk.github.io/2016/09/30/Security.html)
+
+#### 5.5.2.1. 양방향 대칭형 암호화
+
+암호화할 때 사용한 키(열쇠, 패스워드)를 사용해 암호화된 문자열을 복호화할 수 있다.  
+웹에서는 클라이언트에 키를 보내야 하는데 클라이언트에서 어떤 일이 벌어질 지 알 수 없으니 잘 사용하지 않는다고 한다.
+
+```js
+const crypto = require("crypto");
+
+const cipher = crypto.createCipher("aes-256-cbc", "열쇠");
+let result = cipher.update("암호화할 문장", "utf8", "base64");
+result += cipher.final("base64");
+console.log("암호화: ", result);
+// 암호화:  ooogp/vac4l26/ezEglCluFn9vjfixVtCUCaqiaMr28=
+
+const decipher = crypto.createDecipher("aes-256-cbc", "열쇠");
+let result2 = decipher.update(result, "base64", "utf8");
+result2 += decipher.final("utf8");
+console.log("복호화: ", result2);
+// 복호화:  암호화할 문장
+```
+
+- `crypto.createCipher(algorithm, password[, options])`: 암호화 알고리즘과 키(비밀번호)를 넣어준다. 사용 가능한 알고리즘 목록은 `crypto.getCiphers()`를 통해 조회할 수 있다.
+- `cipher.update(data[, inputEncoding][, outputEncoding])`: 암호화할 대상, 대상의 인코딩, 출력 결과물의 인코딩을 인자로 받는다.  
+  보통 문자열은 utf8 인코딩, 암호는 base64 를 사용한다.
+- `cipher.final([outputEncoding])`: 출력 결과물의 인코딩을 넣어주면 암호화가 완료된다.
+- `crypto.createDecipher(algorithm, password[, options])`: 복호화할 때 사용. 암호화할 때 사용한 알고리즘과 키(비밀번호)를 그대로 넣어줘야 한다.
+- `decipher.update(data[, inputEncoding][, outputEncoding])`: 암호화돈 문장, 그 문장의 인코딩, 복호화할 인코딩을 인자로 받는다.
+- `decipher.final([outputEncoding])`: 복호화 결과물의 인코딩을 넣어주면 복호화된 결과물을 반환한다.
+
+※ [`crypto.createCipher`](https://nodejs.org/api/crypto.html#crypto_crypto_createcipher_algorithm_password_options)와, [`crypto.createDecipher`](https://nodejs.org/api/crypto.html#crypto_crypto_createdecipher_algorithm_password_options)는 v10.0.0 이후로 Deprecated 되었다.
+
+> Stability: 0 - Deprecated: Use [`crypto.createCipheriv()`](https://nodejs.org/api/crypto.html#crypto_crypto_createcipheriv_algorithm_key_iv_options) instead.  
+> Stability: 0 - Deprecated: Use [`crypto.createDecipheriv()`](https://nodejs.org/api/crypto.html#crypto_crypto_createdecipheriv_algorithm_key_iv_options) instead..
+
+#### `openssl list -cipher-algorithms`
+
+알고리즘은 OpenSSL 에 의존하며, 예로 `aes192`등이 있다. 최근 OpenSSL 릴리스에서는 `openssl list -cipher-algorithms` (OpenSSL 의 이전 버전 - `openssl list-cipher-algorithms`)에 사용 가능한 암호 알고리즘이 표시된다.
+
+```sh
+$ openssl list -cipher-algorithms
+# older version은 아래 것
+$ openssl list-cipher-algorithms
+AES-128-CBC
+AES-128-CBC-HMAC-SHA1
+AES-128-CBC-HMAC-SHA256
+# ...중략
+SEED-CFB
+SEED-ECB
+SEED-OFB
 ```
