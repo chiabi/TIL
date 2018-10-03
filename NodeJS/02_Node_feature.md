@@ -301,7 +301,7 @@ resolve 된 `Promise`도 `nextTick`처럼 다른 콜백들보다 우선시 되�
 
 ※ 노드 모듈은 버전마다 차이가 있다.
 
-## 5.1. os
+### 5.1. os
 
 노드는 os 모듈에 정보가 담겨 있어 운영체제의 정보를 가져올 수 있다.  
 주로 컴퓨터 내부 자원에 빈번하게 접근하는 경우 사용된다.  
@@ -344,7 +344,7 @@ resolve 된 `Promise`도 `nextTick`처럼 다른 콜백들보다 우선시 되�
      SIGWINCH: 28 } }
 ```
 
-## 5.2. path 🌟
+### 5.2. path 🌟
 
 폴더와 파일 경로를 쉽게 조작하도록 도와주는 모듈.  
 운영체제별로 경로 구분자가 다르기 때문에 필요한 모듈이다.  
@@ -386,7 +386,7 @@ Windows 에서 POSIX 스타일 path 를 사용할 때나 그 반대의 경우
 - Windows: `path.posix.sep`, `path.posix.join()`
 - POSIX: `path.win32.sep`, `path.win32.join()`
 
-## 5.3. url
+### 5.3. url
 
 인터넷 주소를 쉽게 조작하도록 도와주는 모듈
 
@@ -447,7 +447,7 @@ url 처리 방법 2 가지
     href: 'https://github.com/chiabi' }
   ```
 
-### 기존 노드 방식
+#### 5.3.1. 기존 노드 방식
 
 기존 노드 방식에서는 다음 두 메서드를 주로 사용한다.
 
@@ -458,7 +458,7 @@ url 처리 방법 2 가지
 
 ※ WHATWG 방식은 주소가 `host` 없이 `pathname` 부분만 오는 경우 이 주소를 처리할 수 없음 (Ex. `/book/bookList.aspx`);
 
-### WHATWG 방식
+#### 5.3.2. WHATWG 방식
 
 WHATWG 방식은 `search` 부분을 `searchParams` 라는 특수한 객체로 반환할 수 있어 유용하다.
 
@@ -498,7 +498,7 @@ URLSearchParams {
 - `delete(key)`: 해당 키 제거
 - `toString()`: 조작한 `searchParams` 객체를 다시 문자열화, 이 문자열을 `search`에 대입하면 주소 객체에 반영된다.
 
-## 5.4. querystring
+### 5.4. querystring
 
 기존 노드의 `url` 을 사용할 때 `search` 부분을 사용하기 쉽게 객체로 만드는 모듈
 
@@ -506,11 +506,11 @@ URLSearchParams {
   - `str`: The URL query string to parse
 - `querystring.stringify(obj[, sep[, eq[, options]]])`: 분해된 query 객체를 문자열로 다시 조립
 
-## 5.5. crypto
+### 5.5. crypto
 
 다양한 방식의 암호화를 도와주는 모듈
 
-### 5.5.1. 단방향 암호화
+#### 5.5.1. 단방향 암호화
 
 복호화할 수 없는 암호화 방식(원래 문자열로 되돌릴 수 없음)  
 비밀번호는 보통 단방향 암호화 알고리즘을 사용해 암호화한다.
@@ -571,7 +571,7 @@ crypto.randomBytes(64, (err, buf) => {
 sha512 로 변환될 결과값으 10 만 번 반복 후 다시 변환 과정을 10 만 번 반복  
 간단하지만 bcrypt, scrypt 보다는 취약하다.
 
-### 5.5.2. 양방향 암호화
+#### 5.5.2. 양방향 암호화
 
 crypto 모듈은 양방향 대칭형 암호화, 양방향 비대칭형 암호화, HMAC 등의 다양한 암호화를 제공한다.
 
@@ -627,3 +627,102 @@ SEED-CFB
 SEED-ECB
 SEED-OFB
 ```
+
+### 5.6. util
+
+각종 편의 기능을 모아둔 모듈, 계속 API 가 추가되고 있다.  
+(deprecated 되는 경우도 있다.)
+
+- `util.deprecate(fn, msg[, code])`: 함수가 deprecated 처리되었음을 알림.
+  - 첫번째 인자로 넣은 함수 사용시
+  - 두번째 인자로 넣은 경고 메시지 출력
+  - 함수가 조만간 사라지거나 변경될 예정일 때 알리는 용으로 유용
+- `util.promisify(original)`: 콜백 패턴을 프로미스 패턴으로 바꿔준다. 바꿀 함수를 인자로 제공한다.
+  - `asnyc/await`패턴도 사용할 수 있다.
+  - `util.callbackify`: 프로미스를 콜백으로 바꾼다.(자주 사용되지는 않는다.)
+
+## 6. 파일 시스템 접근
+
+### 6.1. fs 모듈
+
+파일 시스템에 접근하는 모듈  
+파일 생성/삭제/읽기/쓰기, 폴더 생성/삭제가 가능하다.  
+(웹 브라우저에서는 자바스크립트를 사용할 때 파일 다운로드와 파일 시스템 접근이 금지되어 있다.)
+
+- `fs.readFile(path[, options], callback)`: 비동기적으로 파일의 모든 내용을 읽는다. 결과물로 Buffer 라는 형식으로 문자열이 출력된다. 문자열화 하려면 `toString()`을 이용한다.
+
+  - path: 읽을 파일 경로를 지정
+  - callback: 콜백 함수의 매개변수로 에러(err) 또는 데이터(data)를 받는다.
+  - readme.txt
+
+  ```txt
+  README
+  ```
+
+  ```js
+  const fs = require("fs");
+  fs.readFile("./readme.txt", (err, data) => {
+    if (err) {
+      throw err;
+    }
+    console.log(data); // <Buffer 52 45 41 44 4d 45>
+
+    console.log(data.toString()); // README
+  });
+  ```
+
+- `fs.writeFile(file, data[, options], callback)`: 비동기적으로 데이터를 파일에 쓴다. 파일이 이미 있다면 대체한다.
+  - data: 문자열 또는 버퍼일 수 있다.
+  - 다음은 `writeme.txt`파일을 생성하고 파일에 `WRITEME`라는 문자열을 입력한 뒤 파일을 읽어 결과를 출력한다.
+  ```js
+  const fs = require("fs");
+  fs.writeFile("./writeme.txt", "WRITEME", err => {
+    if (err) {
+      throw err;
+    }
+    fs.readFile("./writeme.txt", (err, data) => {
+      if (err) {
+        throw err;
+      }
+      console.log(data.toString()); // WRITEME
+    });
+  });
+  ```
+
+### 6.2. 동기 메서드 / 비동기 메서드
+
+노드는 대부분의 메서드를 비동기 방식으로 처리하지만, 몇몇 메서드는 동기 방식으로 사용할 수 있다.
+
+비동기 메서드를 사용하면 메인스레드는 백그라운드에 요청을 위임하고 다음 작업으로 넘어간다.  
+백그라운드는 이러한 요청을 얼마든지 받을 수 있고, 나중에 각각의 요청 처리가 완료되면 메인스레드에 알림을 준다.
+메인 스레드는 알림을 받으면 등록된 콜백함수를 실행한다.
+
+- 동기/비동기: 함수가 바로 return 되는지 여부
+- 블로킹/논블로킹: 백그라운드 작업 완료 여부
+
+노드에서는 동기-블로킹/비동기-논블로킹 방식이 대부분이다.
+
+- 동기-블로킹: 백그라운드 작업 완료 여부를 계속 확인한다. 호출한 함수가 바로 return 되지 않고 백그라운드 작업이 끝나야 return 된다.
+- 비동기-논블로킹:백그라운드 작업 완료 여부는 신경 쓰지 않고 호출한 함수가 바로 return 되어 다음 작업으로 넘어간다. 나중에 백그라운드가 작업이 완료되어 알림을 주면 그 때 콜백함수를 처리한다.
+
+#### 동기 메서드
+
+동기 메서드들은 이름 위에 `Sync`가 붙어있다.
+
+- `fs.readFileSync(path[, options])`: `fs.readFile()`과 같이 파일을 읽는 작업을 동기적으로 처리한다. 콜백 함수 대신 직접 `return` 값을 받아온다.
+
+  -
+
+  ```js
+  console.log("시작");
+  let data = fs.readFileSync("./readme2.txt");
+  console.log("1번", data.toString());
+
+  data = fs.readFileSync("./readme2.txt");
+  console.log("2 번", data.toString());
+  console.log("끝");
+  ```
+
+- `fs.writeFileSync(file, data[, options])`
+
+이러한 동기 메서드들은 요청이 수백 개 이상 들어오면 이전 작업이 완료될 때까지 다음 작업이 대기하고 있어야 하므로 성능상 비효율 적이며, 사용해야 하는 경우도 극히 드물다. 비동기 방식으로 하되 순서를 유지하고 싶다면, 콜백에 다음 비동기 작업을 넣으면 된다.(콜백지옥) 또는 이러한 콜백 지옥을 `Promise`나 `async/await`로 해결할 수 있다.
