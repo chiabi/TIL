@@ -1,21 +1,20 @@
 const fs = require("fs");
 const util = require("util");
 
+const readFilePromise = util.promisify(fs.readFile);
+
 console.log("시작");
-const readFile2 = util.promisify(fs.readFile);
-readFile2("./readme2.txt")
-  .then(data => {
+const readFile2 = async () => {
+  try {
+    let data = await readFilePromise("./readme2.txt");
     console.log("1번", data.toString());
-    return readFile2("./readme2.txt");
-  })
-  .then(data => {
+    data = await readFilePromise("./readme2.txt");
     console.log("2번", data.toString());
-    return readFile2("./readme2.txt");
-  })
-  .then(data => {
+    data = await readFilePromise("./readme2.txt");
     console.log("3번", data.toString());
-  })
-  .catch(err => {
+  } catch (err) {
     throw err;
-  });
+  }
+};
+readFile2();
 console.log("끝");
