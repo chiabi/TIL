@@ -1,22 +1,21 @@
 const fs = require("fs");
+const util = require("util");
 
 console.log("시작");
-fs.readFile("./readme2.txt", (err, data) => {
-  if (err) {
-    throw err;
-  }
-  console.log("1번", data.toString());
-  fs.readFile("./readme2.txt", (err, data) => {
-    if (err) {
-      throw err;
-    }
+const readFile2 = util.promisify(fs.readFile);
+readFile2("./readme2.txt")
+  .then(data => {
+    console.log("1번", data.toString());
+    return readFile2("./readme2.txt");
+  })
+  .then(data => {
     console.log("2번", data.toString());
-    fs.readFile("./readme2.txt", (err, data) => {
-      if (err) {
-        throw err;
-      }
-      console.log("3번", data.toString());
-    });
+    return readFile2("./readme2.txt");
+  })
+  .then(data => {
+    console.log("3번", data.toString());
+  })
+  .catch(err => {
+    throw err;
   });
-});
 console.log("끝");
