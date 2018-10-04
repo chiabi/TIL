@@ -643,7 +643,7 @@ SEED-OFB
 
 ## 6. 파일 시스템 접근
 
-### 6.1. fs 모듈
+### 6.1. fs(File Sysytem) 모듈
 
 파일 시스템에 접근(조작)하는 모듈  
 파일 생성/삭제/읽기/쓰기, 폴더 생성/삭제가 가능하다.  
@@ -837,5 +837,26 @@ readStream.pipe(zlibStream).pipe(writeStream);
 ```
 
 ### 6.4. 기타 fs 메서드
+
+- `fs.access(path[, mode], callback)`: 폴더나 파일에 접근할 수 있는 지 여부 체크.
+  - 두번째 인자로 상수들을 넣는다. (`fs.constants.F_OK`(파일 존재 여부) | `fs_constants.R_OK`(읽기 권한 여부) | `fs.constants.W_OK`(쓰기 권한 여부))
+  - 파일/폴더나 권한이 없으면 에러가 발생. (파일/폴더 없을 때 에러코드 - `ENOENT`)
+- `fs.mkdir(path[, mode], callback)`: 폴더를 생성하는 메서드, 이미 폴더가 있으면 에러가 발생한다.(access 선행 필요)
+- `fs.open(path, flags[, mode], callback)`: 파일의 아이디(fd 변수)를 가져오는 메서드, 파일이 없으면 파일을 생성한 뒤 그 아이디를 가져옴
+  - 가져온 아이디(`fd`)는 `fs.read()`, `fs.write()`로 읽거나 쓸 수 있다.
+  - [`flags`](https://nodejs.org/dist/latest-v10.x/docs/api/fs.html#fs_file_system_flags)에 어떤 동작을 할 것인지 설정할 수 있다. `w`(쓰기), `r`(읽기), `a`(기존 파일에 추가)
+- `fs.rename(oldPath, newPath, callback)`: 파일 이름을 바꾸는 메서드. 반드시 같은 폴더를 지정할 필요가 없어서 잘라내기 같은 기능이 가능하다.
+- `fs.readdir(path[, options], callback)`: 폴더 안의 내용물을 확인할 수 있다. 내부 파일/폴더 명의 배열을 반환
+- `fs.unlink(path, callback)`: 파일을 지운다. 파일이 없다면 에러가 발생한다.
+- `fs.rmdir(path, callback)`: 폴더를 지운다. 폴더 안에 파일이 있다면 에러가 발생하므로 먼저 내부 파일을 모두 지워야한다.
+- `fs.copyFile(src, dest[, flags], callback)`: 파일을 복사한다. (v8.5 이전에는 `createReadStream`, `createWriteStream`을 pipe 해서 구현했었다.)
+
+※ fs 프로미스  
+노드 10 버전에 fs 모듈을 프로미스 형식으로 사용하는 방법이 추가되었으나, 아직 실험적인 기능이다.
+
+```js
+// fs모듈로부터 promise 객체를 불러와 사용한다.
+const fsPromise = require("fs").promises;
+```
 
 ## 7. 이벤트
