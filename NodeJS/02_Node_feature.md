@@ -645,7 +645,7 @@ SEED-OFB
 
 ### 6.1. fs 모듈
 
-파일 시스템에 접근하는 모듈  
+파일 시스템에 접근(조작)하는 모듈  
 파일 생성/삭제/읽기/쓰기, 폴더 생성/삭제가 가능하다.  
 (웹 브라우저에서는 자바스크립트를 사용할 때 파일 다운로드와 파일 시스템 접근이 금지되어 있다.)
 
@@ -705,7 +705,7 @@ SEED-OFB
 - 동기-블로킹: 백그라운드 작업 완료 여부를 계속 확인한다. 호출한 함수가 바로 return 되지 않고 백그라운드 작업이 끝나야 return 된다.
 - 비동기-논블로킹:백그라운드 작업 완료 여부는 신경 쓰지 않고 호출한 함수가 바로 return 되어 다음 작업으로 넘어간다. 나중에 백그라운드가 작업이 완료되어 알림을 주면 그 때 콜백함수를 처리한다.
 
-#### 동기 메서드
+#### 6.2.1. 동기 메서드
 
 동기 메서드들은 이름 위에 `Sync`가 붙어있다.
 
@@ -726,3 +726,116 @@ SEED-OFB
 - `fs.writeFileSync(file, data[, options])`
 
 이러한 동기 메서드들은 요청이 수백 개 이상 들어오면 이전 작업이 완료될 때까지 다음 작업이 대기하고 있어야 하므로 성능상 비효율 적이며, 사용해야 하는 경우도 극히 드물다. 비동기 방식으로 하되 순서를 유지하고 싶다면, 콜백에 다음 비동기 작업을 넣으면 된다.(콜백지옥) 또는 이러한 콜백 지옥을 `Promise`나 `async/await`로 해결할 수 있다.
+
+### 6.3. 버퍼 / 스트림
+
+파일을 읽거나 쓰는 두가지 방식
+
+- 버퍼를 이용하는 방식: `readFile()` - 전체 파일을 모두 버퍼에 저장하여 읽는 메서드
+- 스트림을 이용하는 방식: `createReadStream()` - 부분으로 나눠 읽는 메서드
+
+#### 6.3.1. 버퍼
+
+파일을 읽을 때 **메모리에 파일 크기만큼 공간을 마련해두며, 파일 데이터를 메모리에 저장한 뒤** 사용자가 조작할 수 있도록 해준다.  
+메모리에 저장된 데이터가 버퍼이다. 노드에서 `Buffer` 클래스를 통해 버퍼를 직접 다룰 수 있다.
+
+![버퍼](../asset/node_buffer.webp)  
+<sub>(이미지 출처: https://www.youtube.com/watch?v=GlybFFMXXmQ)</sub>
+
+`Buffer`객체가 제공하는 메서드
+
+- `Buffer.from(string[, encoding])`: 문자열을 버퍼로 바꾼다.
+- `buf.length`: `length` 속성은 버퍼의 크기를 알려준다.(바이트 단위)
+- `buf.toString([encoding[, start[, end]]])`: 버퍼를 다시 문자열로 바꿀 수 있다.
+  - 변환할 인코딩을 인자로 받는다.(base64, hex)
+- `Buffer.concat(list[, totalLength])`: 배열 안에 든 버퍼들을 하나로 합친다.
+- `Buffer.alloc(size[, fill[, encoding]])`: 빈 버퍼를 생성한다. 바이트를 인자로 지정해주면 해당 크기의 버퍼가 생성된다.
+
+※ [Buffer.from](https://nodejs.org/api/buffer.html#buffer_class_method_buffer_from_string_encoding)
+
+#### 6.3.2. 스트림
+
+버퍼의 크기를 작게 만들어 여러번에 나눠서 보내는 방식  
+버퍼 1MB 를 만든 후 100MB 파일을 백 번에 걸쳐 보내는 식.(메모리 1MB 로 100MB 파일 전송)  
+파일을 읽는 스트림 메서드로 `createReadStream`을 사용
+
+![스트림](../asset/node_stream.webp)  
+<sub>(이미지 출처: https://www.youtube.com/watch?v=GlybFFMXXmQ)</sub>
+
+- `fs.createReadStream(path[, options])`
+
+  - path: 읽을 파일 경로
+  - options: 옵션 객체
+    - `highWaterMark` 옵션은 버퍼의 크기(byte 단위)를 정할 수 있는 옵션, 기본값은 64KB 이다.
+  - readme3.txt -> `저는 조금씩 나눠서 전달됩니다. 나눠진 조각을 chunk라고 부릅니다.`
+
+  ```js
+  const fs = require("fs");
+
+  // 읽기 스트림을 만든다.
+  const readStream = fs.createReadStream("./readme3.txt", {
+    highWaterMark: 16
+  });
+  const data = [];
+
+  // 이벤트 리스너를 붙여 사용한다. (data, end, error 이벤트)
+  readStream.on("data", chunk => {
+    data.push(chunk);
+    console.log("data: ", chunk, chunk.length);
+  });
+
+  readStream.on("end", () => {
+    console.log("end: ", Buffer.concat(data).toString());
+  });
+
+  readStream.on("error", err => {
+    console.log("error: ", err);
+  });
+  ```
+
+- `fs.createWriteStream(path[, options])`
+
+  - path: 출력 파일명
+  - options: 옵션 객체
+  - `writable.write(chunk[, encoding][, callback])`: 넣을 데이터를 쓴다. 여러번 호출할 수 있다.
+  - `writable.end([chunk][, encoding][, callback])`: 종료를 알린다.(`finish`이벤트가 발생)
+
+  ```js
+  const fs = require("fs");
+
+  const writeStream = fs.createWriteStream("./writeme2.txt");
+  writeStream.on("finish", () => {
+    console.log("파일 쓰기 완료");
+  });
+
+  writeStream.write("이 글을 쓴다. \n");
+  writeStream.write("한 번 더 쓴다.");
+  writeStream.end();
+  ```
+
+#### pipe
+
+파이핑 - 스트림끼리 연결  
+엑체가 흐르는 관(pipe)처럼 데이터가 흐른다고 해서 지어진 이름
+
+- `readable.pipe(destination[, options])`
+
+#### gzip
+
+노드에는 파일을 압축하는 zlib 이라는 모듈을 제공하며, zlib 의 `createGzip()`이라는 메서드가 스트림을 지원해 `readStream`, `writeStream`중간에서 파이핑할 수 있다.
+
+gzip 압축을 거친 후 파일로 쓰여진다.
+
+```js
+const zlib = require("zlib");
+const fs = require("fs");
+
+const readStream = fs.createReadStream("./readme4.txt");
+const zlibStream = zlib.createGzip();
+const writeStream = fs.createWriteStream("./readme4.txt.gz");
+readStream.pipe(zlibStream).pipe(writeStream);
+```
+
+### 6.4. 기타 fs 메서드
+
+## 7. 이벤트
