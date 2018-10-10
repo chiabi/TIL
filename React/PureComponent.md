@@ -16,3 +16,4 @@
 또한, `React.PureComponent`의 `shouldComponent()`는 전체 컴포넌트 하위 트리에 대한 prop 업데이트를 건너뛰므로 모든 자식 컴포넌트가 순수한지 확인하라.
 
 - [리액트(React) 이해 기초 - Component vs PureComponent vs Functional Component](https://www.vobour.com/%EB%A6%AC%EC%95%A1%ED%8A%B8-react-%EC%9D%B4%ED%95%B4-%EA%B8%B0%EC%B4%88-component-vs-purecomp)
+- [리액트 라이프 사이클 (번역)](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)

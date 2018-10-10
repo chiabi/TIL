@@ -22,3 +22,7 @@
 ## Error Handling
 
 - componentDidCatch()
+
+---
+
+- [리액트 라이프 사이클 (번역)](http://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)
