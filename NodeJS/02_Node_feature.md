@@ -773,17 +773,20 @@ SEED-OFB
   const fs = require("fs");
 
   // 읽기 스트림을 만든다.
+  // createReadStream()은 내부적으로 data와 end 이벤트를 호출한다.
   const readStream = fs.createReadStream("./readme3.txt", {
     highWaterMark: 16
   });
   const data = [];
 
   // 이벤트 리스너를 붙여 사용한다. (data, end, error 이벤트)
+  // 내부적으로 data이벤트를 emit하고 있다.
   readStream.on("data", chunk => {
     data.push(chunk);
     console.log("data: ", chunk, chunk.length);
   });
 
+  // 완료될 경우 end 이벤트를 emit하고 있다.
   readStream.on("end", () => {
     console.log("end: ", Buffer.concat(data).toString());
   });
@@ -860,3 +863,114 @@ const fsPromise = require("fs").promises;
 ```
 
 ## 7. 이벤트
+
+직접 이벤트를 만들어 호출하고 삭제할 수 있다.
+
+- `emmiter.on(eventName, listener)`: 이벤트 이름과 이벤트 발생 시 콜백을 연결한다.(이벤트 리스닝)
+  - 이벤트 하나에 이벤트 여러 개를 달아줄 수 있다.
+- `emitter.addListener(eventName, listener)`: `on`과 같은 기능
+- `emitter.emit(eventName[, ...args])`: 이벤트를 호출하는 메서드. 이벤트 이름을 인자로 넣으면 미리 등록해둔 이벤트 콜백일 실행된다.
+- `emitter.once(eventName, listener)`: 한 번만 실행되는 이벤트(호출을 여러번 해도 콜백은 한 번만 실행 됨)
+- `emitter.removeAllListeners([eventName])`: 이벤트에 연결된 모든 이벤트 리스너를 제거
+- `emitter.removeListener(eventName, listener)`: 이벤트에 연결된 리스너를 하나씩 제거
+- `emitter.off(eventName, listener)`: (v10.0.0 추가), `removeListener`와 같은 기능
+- `emitter.listenerCount(eventName)`: 현재 리스너가 몇 개 연결되어 있는지 확인한다.
+
+## 8. 예외 처리
+
+예외란 보통 처리하지 못한 에러를 말하며(에디터와 문법 검사 툴을 통해 배포용에는 문법 에러를 미리 제거하기 때문에 문법상의 오류를 의미하지 않는다.), 실행 중인 노드 프로세스를 멈춘다. 노드는 스레드가 하나이기 때문에 에러로 인해 스레드가 멈추면 전체 서버가 멈춘다는 걸 의미한다.
+
+이러한 예기치 못한 에러를 에러 로그로 기록하면서 작업은 계속 진행되도록 처리해줘야 한다.
+
+### 8.1. `try catch`
+
+`try catch`문을 이용한다.
+
+```js
+setInterval(() => {
+  console.log("시작");
+  try {
+    // 에러를 강제로 내보자
+    throw new Error("서버를 고장낸다");
+  } catch (err) {
+    console.log(err);
+  }
+}, 1000);
+```
+
+```sh
+시작
+Error: 서버를 고장낸다
+    at Timeout.setInterval [as _onTimeout] (C:\Users\chiabi\Documents\study\TIL\NodeJS\hello\07_error\error1.js:5:11)
+    at ontimeout (timers.js:482:11)
+    at tryOnTimeout (timers.js:317:5)
+    at Timer.listOnTimeout (timers.js:277:5)
+# 계속 반복
+
+# 에러가 발생하지만 try catch로 잡히고
+# setInterval는 계속 실행된다.
+```
+
+※ `throw`를 하면 노드 프로세스가 멈추기 때문에, `throw`를 사용하는 경우에는 **반드시 `try catch`문으로 `throw`한 에러**를 잡아야 한다.
+
+### 8.2. 노드 자체에서 잡아주는 에러
+
+노드 내장 모듈의 에러는 실행 중인 프로세스를 멈추지 않으므로, 에러 로그를 기록해두고 나중에 원인을 찾아 수정하면 된다.
+
+```js
+const fs = require("fs");
+
+setInterval(() => {
+  // `fs.unlink(path, callback(err => ()))`: 파일을 지운다.
+  fs.unlink("./abcdefg.js", err => {
+    if (err) {
+      console.error(err);
+    }
+  });
+}, 1000);
+```
+
+```sh
+{ Error: ENOENT: no such file or directory, unlink 'C:\Users\chiabi\Documents\study\TIL\NodeJS\hello\07_error\abcdefg.js'
+  errno: -4058,
+  code: 'ENOENT',
+  syscall: 'unlink',
+  path: 'C:\\Users\\chiabi\\Documents\\study\\TIL\\NodeJS\\hello\\07_error\\abcdefg.js' }
+# 계속 반복
+```
+
+### 8.3. 예측 불가능한 에러 처리
+
+`process` 객체에 `uncaughtException` 이벤트 리스너를 달아준다.  
+처리하지 못한 에러가 발생했을 때 이벤트 리스너가 실행되고 프로세스가 유지된다.
+
+```js
+process.on("uncaughtException", err => {
+  console.error("예기치 못한 에러", err);
+});
+
+setInterval(() => {
+  throw new Error("서버를 고장내자!");
+}, 1000);
+
+setTimeout(() => {
+  console.log("실행된다.");
+}, 2000);
+```
+
+```sh
+예기치 못한 에러 Error: 서버를 고장내자!
+    at Timeout.setInterval [as _onTimeout] (C:\Users\chiabi\Documents\study\TIL\NodeJS\hello\07_error\error3.js:6:9)
+    at ontimeout (timers.js:482:11)
+    at tryOnTimeout (timers.js:317:5)
+    at Timer.listOnTimeout (timers.js:277:5)
+실행된다.
+```
+
+※ `uncaughtException` 이벤트 리스너로 모든 에러를 처리할 수 있을 것 같아 보이지만, `uncaughtException` 이벤트 발생 후 다음 동작이 제대로 동작하는지 보장하지 않기 때문에, 노드 공식 문서에서는 `uncaughtException` 이벤트를 최후의 수단으로 사용하라고 말한다.  
+단순히 에러 내용을 기록하는 정도로 사용하고 `process.exit()`로 프로세스를 종료하고 운영 중인 서버에서는 프로세스 종료 후 재시작하는 방법을 사용하는 것이 좋다.
+
+- [`uncaughtException` - "Using `'uncaughtException'` correctly" 를 참고하자](https://nodejs.org/api/process.html#process_event_uncaughtexception)
+
+> Note that 'uncaughtException' is a crude mechanism for exception handling intended to be used only as a last resort. The event should not be used as an equivalent to On Error Resume Next.
+
