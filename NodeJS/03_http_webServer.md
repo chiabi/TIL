@@ -228,8 +228,20 @@ Request Headers
 - `Secure`: HTTPS 일 경우에만 쿠키가 전송
 - `HttpOnly`: 설정 시 자바스크립트에서 쿠키에 접근할 수 없음. 쿠키 조작을 방지하기 위해 설정 권장
 
+### 2.2. 세션
+
+서버에 사용자 정보를 저장하고 클라이언트와는 세션 아이디로만 소통하는 방식
+
+쿠키 사용은 서버 상태를 요청과 연결하도록 해준다. 이는 HTTP 가 기본적으로 상태가 없는 프로토콜임에도 세션을 만들어주는 계기가 된다. e-커머스 쇼핑 바구니등에 유용하며 출력 구성을 허용하는 모든 사이트에서 유용하다.
+
+꼭 쿠키를 사용해 주고 받지 않아도 된다. 하지만 쿠키를 사용하는 방법이 제일 간단해서 많이 사용된다.
+
+배포용 서버에서는 세션을 보통 데이터베이스에 넣어둔다. 서버가 멈추거나 재시작하면 메모리에 저장된 변수가 초기화되기 때문이다.
+
 ---
 
 - [MDN - Cookie](https://developer.mozilla.org/ko/docs/Web/HTTP/Headers/Cookie)
 - [MDN - HTTP 쿠키](https://developer.mozilla.org/ko/docs/Web/HTTP/Cookies)
 - [zeroCho - 로컬스토리지, 세션스토리지](https://www.zerocho.com/category/HTML/post/5918515b1ed39f00182d3048)
+- [MDN - HTTP 개요](https://developer.mozilla.org/ko/docs/Web/HTTP/Overview)
+- [쿠키(Cookie) 그리고 세션(Sesssion)](https://nesoy.github.io/articles/2017-03/Session-Cookie)
