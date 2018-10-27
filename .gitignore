@@ -72,3 +72,11 @@ typings/
 
 # Serverless directories
 .serverless
+
+# functional-programming
+*-compiled*
+*.log
+node_modules
+.idea
+.DS_Store
+coverage
