@@ -1,0 +1,9 @@
+{
+  "name": "week02",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "ramda": "^0.25.0"
+  }
+}
