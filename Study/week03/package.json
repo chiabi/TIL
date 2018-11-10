@@ -1,0 +1,9 @@
+{
+  "name": "week03",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "node": "node --experimental-modules"
+  }
+}
