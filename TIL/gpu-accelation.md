@@ -171,6 +171,6 @@ layout이 발생하는 animation은 GPU로 그리지 않는다.
 - [(번역) CSS GPU 애니메이션 제대로 하기](https://wit.nts-corp.com/2017/08/31/4861)
 - [프론트엔드 개발자를 위한 크롬 렌더링 성능 인자 이해하기](https://medium.com/@cwdoh/%ED%94%84%EB%A1%A0%ED%8A%B8%EC%97%94%EB%93%9C-%EA%B0%9C%EB%B0%9C%EC%9E%90%EB%A5%BC-%EC%9C%84%ED%95%9C-%ED%81%AC%EB%A1%AC-%EB%A0%8C%EB%8D%94%EB%A7%81-%EC%84%B1%EB%8A%A5-%EC%9D%B8%EC%9E%90-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0-4c9e4d715638)
 - [모던 웹 브라우저의 내부 살펴보기 (Part 1)](https://medium.com/@euncho/%EB%AA%A8%EB%8D%98-%EC%9B%B9-%EB%B8%8C%EB%9D%BC%EC%9A%B0%EC%A0%80%EC%9D%98-%EB%82%B4%EB%B6%80-%EC%82%B4%ED%8E%B4%EB%B3%B4%EA%B8%B0-part-1-8650c5900974)
-  - [원문: Inside look at modern web browser (part 1)](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
+  - [원문: Inside look at modern web browser (part 3)](https://developers.google.com/web/updates/2018/09/inside-browser-part3)
 - [성능 좋은 웹 애니메이션과 인터렉션: 60 FPS 달성](https://github.com/codepink/codepink.github.com/wiki/%EC%84%B1%EB%8A%A5-%EC%A2%8B%EC%9D%80-%EC%9B%B9-%EC%95%A0%EB%8B%88%EB%A9%94%EC%9D%B4%EC%85%98%EA%B3%BC-%EC%9D%B8%ED%84%B0%EB%A0%89%EC%85%98:-60-FPS-%EB%8B%AC%EC%84%B1)
 - [CSS 애니메이션 성능 개선 방법(reflow 최소화, will-change 사용)](https://wit.nts-corp.com/2017/06/05/4571)
